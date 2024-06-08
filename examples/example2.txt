@@ -1,0 +1,6 @@
+os clear
+os load addr example2_adr.csv
+os load addrg example2_adrg.csv
+os load app example2_app.csv
+os load svc example2_svc.csv
+fw load example2_rules.csv

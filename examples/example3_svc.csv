@@ -1,0 +1,5 @@
+name,protoport
+https,tcp/443
+dns,udp/123;tcp/53
+ssh,tcp/22
+PostgreSQL,tcp/5432

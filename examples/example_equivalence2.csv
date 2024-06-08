@@ -1,0 +1,5 @@
+id,action,src.zone,dst.zone,src.addr,dst.addr,svc,src.negate
+1,allow,z1,z2,192.168.10.0/24,192.168.20.1,tcp/443;tcp/80,false
+2,allow,z1,z2,192.168.11.0/30,192.168.20.2,udp/123;tcp/123,false
+3,allow,z1,z2,192.168.12.5,192.168.20.2,tcp/445,true
+4,deny,any,any,any,any,any,false
