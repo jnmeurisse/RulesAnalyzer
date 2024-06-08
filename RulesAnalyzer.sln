@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rulesanalyzer", "src\visualc\rulesanalyzer.vcxproj", "{080AADF4-7172-4378-837E-28E8AAF3501E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C5BFD073-8340-445C-9804-483147E6A272} = {C5BFD073-8340-445C-9804-483147E6A272}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuDDy", "dep\buddy\visualc\BuDDy.vcxproj", "{C5BFD073-8340-445C-9804-483147E6A272}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\visualc\tests.vcxproj", "{E1B39E7E-999E-42B2-A79E-4FBB1F149470}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{080AADF4-7172-4378-837E-28E8AAF3501E}.Debug|x64.ActiveCfg = Debug|x64
+		{080AADF4-7172-4378-837E-28E8AAF3501E}.Debug|x64.Build.0 = Debug|x64
+		{080AADF4-7172-4378-837E-28E8AAF3501E}.Release|x64.ActiveCfg = Release|x64
+		{080AADF4-7172-4378-837E-28E8AAF3501E}.Release|x64.Build.0 = Release|x64
+		{C5BFD073-8340-445C-9804-483147E6A272}.Debug|x64.ActiveCfg = Debug|x64
+		{C5BFD073-8340-445C-9804-483147E6A272}.Debug|x64.Build.0 = Debug|x64
+		{C5BFD073-8340-445C-9804-483147E6A272}.Release|x64.ActiveCfg = Release|x64
+		{C5BFD073-8340-445C-9804-483147E6A272}.Release|x64.Build.0 = Release|x64
+		{E1B39E7E-999E-42B2-A79E-4FBB1F149470}.Debug|x64.ActiveCfg = Debug|x64
+		{E1B39E7E-999E-42B2-A79E-4FBB1F149470}.Debug|x64.Build.0 = Debug|x64
+		{E1B39E7E-999E-42B2-A79E-4FBB1F149470}.Release|x64.ActiveCfg = Release|x64
+		{E1B39E7E-999E-42B2-A79E-4FBB1F149470}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

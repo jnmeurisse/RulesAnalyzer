@@ -1,0 +1,616 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Sources\model">
+      <UniqueIdentifier>{1a59b4e8-3280-4440-a4fa-eaa9ab3b8bac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\tools">
+      <UniqueIdentifier>{4d4fa129-b415-4ba9-b137-54d3d7a69fbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\cli">
+      <UniqueIdentifier>{b81914d8-b3b2-4f6a-9a5d-61a05ab05ae4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\cli\nw">
+      <UniqueIdentifier>{66d959cf-be29-4bc0-90f7-3701189309de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\cli\os">
+      <UniqueIdentifier>{a9009f34-bbad-4fa8-b324-8380b8ddeb9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\cli\fw">
+      <UniqueIdentifier>{8027dd57-5499-4f04-9dd9-6ea7274d8065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\ostore">
+      <UniqueIdentifier>{001cb493-df42-4036-a7e9-809972a9785f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\model\interval.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\domain.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\address.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\domains.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tools\strutil.cpp">
+      <Filter>Sources\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\ports.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\predicate.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\protocol.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\state.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\analyzer.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\service.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\application.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\acl.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\zone.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\network.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\firewall.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tools\io.cpp">
+      <Filter>Sources\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\clicmd.cpp">
+      <Filter>Sources\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tools\match.cpp">
+      <Filter>Sources\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\anomaly.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\table.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\ipv4parser.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\nw\clinw.cpp">
+      <Filter>Sources\cli\nw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\os\clios.cpp">
+      <Filter>Sources\cli\os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\os\cliosload.cpp">
+      <Filter>Sources\cli\os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\os\cliosquery.cpp">
+      <Filter>Sources\cli\os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\fw\clifw.cpp">
+      <Filter>Sources\cli\fw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\fw\clifwcreate.cpp">
+      <Filter>Sources\cli\fw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\fw\clifwdelete.cpp">
+      <Filter>Sources\cli\fw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\fw\clifwselect.cpp">
+      <Filter>Sources\cli\fw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\fw\clifwload.cpp">
+      <Filter>Sources\cli\fw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\os\cliosclear.cpp">
+      <Filter>Sources\cli\os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\os\cliosinfo.cpp">
+      <Filter>Sources\cli\os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\serviceparser.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\clicmdmap.cpp">
+      <Filter>Sources\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\user.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\cliargs.cpp">
+      <Filter>Sources\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tools\yesno.cpp">
+      <Filter>Sources\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\nw\clinwduplicate.cpp">
+      <Filter>Sources\cli\nw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\fw\clifwcheck.cpp">
+      <Filter>Sources\cli\fw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tools\csvparser.cpp">
+      <Filter>Sources\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tools\csvreader.cpp">
+      <Filter>Sources\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\clibdd.cpp">
+      <Filter>Sources\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\fw\clifwoption.cpp">
+      <Filter>Sources\cli\fw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\fw\clifwshow.cpp">
+      <Filter>Sources\cli\fw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\cli.cpp">
+      <Filter>Sources\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\clictrlchandler.cpp">
+      <Filter>Sources\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\gbchandler.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\tablewriter.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\clicontext.cpp">
+      <Filter>Sources\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\fw\clifwcopy.cpp">
+      <Filter>Sources\cli\fw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\comparator.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\rule.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\rulelist.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\mnode.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\moptions.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tools\toml.c">
+      <Filter>Sources\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tools\tomlcpp.cpp">
+      <Filter>Sources\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tools\logger.cpp">
+      <Filter>Sources\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\addressobject.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\addressobjects.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\addresspool.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\addresspools.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\addressresolver.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\applicationobject.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\applicationobjects.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\applicationpool.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\applicationpools.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\applicationresolver.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\firewallfactory.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\firewallobject.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\fqdnresolver.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\objectstore.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\policyreader.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\poolobject.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\ruleobject.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\serviceobject.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\serviceobjects.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\servicepool.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\servicepools.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\serviceresolver.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\userobject.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\userobjects.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\userpool.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\userpools.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\userresolver.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\main.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ostore\ostoreconfig.cpp">
+      <Filter>Sources\ostore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\fw\clifwsave.cpp">
+      <Filter>Sources\cli\fw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\fw\clifwinfo.cpp">
+      <Filter>Sources\cli\fw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\clioptioncmd.cpp">
+      <Filter>Sources\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model\packettester.cpp">
+      <Filter>Sources\model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\model\interval.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\domain.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\address.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\domains.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\strutil.h">
+      <Filter>Sources\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\ports.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\predicate.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\protocol.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\acl.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\state.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\analyzer.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\service.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\addresscache.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\cache.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\servicecache.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\application.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\applicationcache.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\zone.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\zonecache.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\network.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\firewall.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\io.h">
+      <Filter>Sources\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\cli.h">
+      <Filter>Sources\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\clicmd.h">
+      <Filter>Sources\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\match.h">
+      <Filter>Sources\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\anomaly.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\table.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\ipv4parser.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\nw\clinw.h">
+      <Filter>Sources\cli\nw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\clicontext.h">
+      <Filter>Sources\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\os\clios.h">
+      <Filter>Sources\cli\os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\os\cliosload.h">
+      <Filter>Sources\cli\os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\os\cliosquery.h">
+      <Filter>Sources\cli\os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\fw\clifw.h">
+      <Filter>Sources\cli\fw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\fw\clifwcreate.h">
+      <Filter>Sources\cli\fw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\fw\clifwdelete.h">
+      <Filter>Sources\cli\fw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\fw\clifwselect.h">
+      <Filter>Sources\cli\fw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\fw\clifwload.h">
+      <Filter>Sources\cli\fw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\os\cliosclear.h">
+      <Filter>Sources\cli\os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\os\cliosinfo.h">
+      <Filter>Sources\cli\os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\serviceparser.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\clicmdmap.h">
+      <Filter>Sources\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\user.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\usercache.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\cliargs.h">
+      <Filter>Sources\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\yesno.h">
+      <Filter>Sources\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\nw\clinwduplicate.h">
+      <Filter>Sources\cli\nw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\fw\clifwcheck.h">
+      <Filter>Sources\cli\fw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\csvparser.h">
+      <Filter>Sources\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\csvreader.h">
+      <Filter>Sources\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\clibdd.h">
+      <Filter>Sources\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\fw\clifwoption.h">
+      <Filter>Sources\cli\fw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\fw\clifwshow.h">
+      <Filter>Sources\cli\fw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\clictrlchandler.h">
+      <Filter>Sources\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\interrupt.h">
+      <Filter>Sources\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\gbchandler.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\tablewriter.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\fw\clifwcopy.h">
+      <Filter>Sources\cli\fw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\comparator.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\rule.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\rulelist.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\group.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\mnode.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\moptions.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\toml.h">
+      <Filter>Sources\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\tomlcpp.h">
+      <Filter>Sources\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\logger.h">
+      <Filter>Sources\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\addressobject.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\addressobjects.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\addresspool.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\addresspools.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\addressresolver.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\applicationobject.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\applicationobjects.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\applicationpool.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\applicationpools.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\applicationresolver.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\firewallfactory.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\firewallobject.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\fqdnresolver.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\genericresolver.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\objectdictionary.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\objectstore.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\policyreader.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\poolobject.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\ruleobject.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\serviceobject.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\serviceobjects.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\servicepool.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\servicepools.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\serviceresolver.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\userobject.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\userobjects.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\userpool.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\userpools.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\userresolver.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ostore\ostoreconfig.h">
+      <Filter>Sources\ostore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\fw\clifwsave.h">
+      <Filter>Sources\cli\fw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\fw\clifwinfo.h">
+      <Filter>Sources\cli\fw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tools\options.h">
+      <Filter>Sources\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\clioptioncmd.h">
+      <Filter>Sources\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model\packettester.h">
+      <Filter>Sources\model</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

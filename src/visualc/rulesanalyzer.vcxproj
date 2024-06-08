@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{080AADF4-7172-4378-837E-28E8AAF3501E}</ProjectGuid>
+    <RootNamespace>firecan</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>rulesanalyzer</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)\dep\buddy\src;$(SolutionDir)\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)\dep\buddy\src;$(SolutionDir)\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\cli\cli.cpp" />
+    <ClCompile Include="..\cli\cliargs.cpp" />
+    <ClCompile Include="..\cli\clibdd.cpp" />
+    <ClCompile Include="..\cli\clicmd.cpp" />
+    <ClCompile Include="..\cli\clicmdmap.cpp" />
+    <ClCompile Include="..\cli\clicontext.cpp" />
+    <ClCompile Include="..\cli\clictrlchandler.cpp" />
+    <ClCompile Include="..\cli\clioptioncmd.cpp" />
+    <ClCompile Include="..\cli\fw\clifw.cpp" />
+    <ClCompile Include="..\cli\fw\clifwcheck.cpp" />
+    <ClCompile Include="..\cli\fw\clifwcopy.cpp" />
+    <ClCompile Include="..\cli\fw\clifwcreate.cpp" />
+    <ClCompile Include="..\cli\fw\clifwdelete.cpp" />
+    <ClCompile Include="..\cli\fw\clifwinfo.cpp" />
+    <ClCompile Include="..\cli\fw\clifwsave.cpp" />
+    <ClCompile Include="..\cli\fw\clifwload.cpp" />
+    <ClCompile Include="..\cli\fw\clifwoption.cpp" />
+    <ClCompile Include="..\cli\fw\clifwselect.cpp" />
+    <ClCompile Include="..\cli\fw\clifwshow.cpp" />
+    <ClCompile Include="..\cli\nw\clinw.cpp" />
+    <ClCompile Include="..\cli\nw\clinwduplicate.cpp" />
+    <ClCompile Include="..\cli\os\clios.cpp" />
+    <ClCompile Include="..\cli\os\cliosclear.cpp" />
+    <ClCompile Include="..\cli\os\cliosinfo.cpp" />
+    <ClCompile Include="..\cli\os\cliosload.cpp" />
+    <ClCompile Include="..\cli\os\cliosquery.cpp" />
+    <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\model\anomaly.cpp" />
+    <ClCompile Include="..\model\comparator.cpp" />
+    <ClCompile Include="..\model\gbchandler.cpp" />
+    <ClCompile Include="..\model\ipv4parser.cpp" />
+    <ClCompile Include="..\model\moptions.cpp" />
+    <ClCompile Include="..\model\packettester.cpp" />
+    <ClCompile Include="..\model\rulelist.cpp" />
+    <ClCompile Include="..\model\serviceparser.cpp" />
+    <ClCompile Include="..\model\table.cpp" />
+    <ClCompile Include="..\model\tablewriter.cpp" />
+    <ClCompile Include="..\model\user.cpp" />
+    <ClCompile Include="..\model\acl.cpp" />
+    <ClCompile Include="..\model\application.cpp" />
+    <ClCompile Include="..\model\firewall.cpp" />
+    <ClCompile Include="..\model\network.cpp" />
+    <ClCompile Include="..\model\zone.cpp" />
+    <ClCompile Include="..\model\address.cpp" />
+    <ClCompile Include="..\model\analyzer.cpp" />
+    <ClCompile Include="..\model\mnode.cpp" />
+    <ClCompile Include="..\model\domain.cpp" />
+    <ClCompile Include="..\model\domains.cpp" />
+    <ClCompile Include="..\model\interval.cpp" />
+    <ClCompile Include="..\model\rule.cpp" />
+    <ClCompile Include="..\model\ports.cpp" />
+    <ClCompile Include="..\model\predicate.cpp" />
+    <ClCompile Include="..\model\protocol.cpp" />
+    <ClCompile Include="..\model\service.cpp" />
+    <ClCompile Include="..\model\state.cpp" />
+    <ClCompile Include="..\ostore\firewallfactory.cpp" />
+    <ClCompile Include="..\ostore\addresspool.cpp" />
+    <ClCompile Include="..\ostore\addresspools.cpp" />
+    <ClCompile Include="..\ostore\addressobjects.cpp" />
+    <ClCompile Include="..\ostore\addressresolver.cpp" />
+    <ClCompile Include="..\ostore\applicationpool.cpp" />
+    <ClCompile Include="..\ostore\applicationpools.cpp" />
+    <ClCompile Include="..\ostore\applicationobject.cpp" />
+    <ClCompile Include="..\ostore\applicationobjects.cpp" />
+    <ClCompile Include="..\ostore\applicationresolver.cpp" />
+    <ClCompile Include="..\ostore\fqdnresolver.cpp" />
+    <ClCompile Include="..\ostore\poolobject.cpp" />
+    <ClCompile Include="..\ostore\ostoreconfig.cpp" />
+    <ClCompile Include="..\ostore\objectstore.cpp" />
+    <ClCompile Include="..\ostore\policyreader.cpp" />
+    <ClCompile Include="..\ostore\ruleobject.cpp" />
+    <ClCompile Include="..\ostore\servicepool.cpp" />
+    <ClCompile Include="..\ostore\servicepools.cpp" />
+    <ClCompile Include="..\ostore\serviceobject.cpp" />
+    <ClCompile Include="..\ostore\serviceobjects.cpp" />
+    <ClCompile Include="..\ostore\serviceresolver.cpp" />
+    <ClCompile Include="..\ostore\addressobject.cpp" />
+    <ClCompile Include="..\ostore\firewallobject.cpp" />
+    <ClCompile Include="..\ostore\userpool.cpp" />
+    <ClCompile Include="..\ostore\userobject.cpp" />
+    <ClCompile Include="..\ostore\userobjects.cpp" />
+    <ClCompile Include="..\ostore\userresolver.cpp" />
+    <ClCompile Include="..\ostore\userpools.cpp" />
+    <ClCompile Include="..\tools\csvparser.cpp" />
+    <ClCompile Include="..\tools\csvreader.cpp" />
+    <ClCompile Include="..\tools\logger.cpp" />
+    <ClCompile Include="..\tools\match.cpp" />
+    <ClCompile Include="..\tools\io.cpp" />
+    <ClCompile Include="..\tools\strutil.cpp" />
+    <ClCompile Include="..\tools\toml.c" />
+    <ClCompile Include="..\tools\tomlcpp.cpp" />
+    <ClCompile Include="..\tools\yesno.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\cli\cli.h" />
+    <ClInclude Include="..\cli\cliargs.h" />
+    <ClInclude Include="..\cli\clibdd.h" />
+    <ClInclude Include="..\cli\clicmd.h" />
+    <ClInclude Include="..\cli\clicmdmap.h" />
+    <ClInclude Include="..\cli\clicontext.h" />
+    <ClInclude Include="..\cli\clictrlchandler.h" />
+    <ClInclude Include="..\cli\clioptioncmd.h" />
+    <ClInclude Include="..\cli\fw\clifw.h" />
+    <ClInclude Include="..\cli\fw\clifwcheck.h" />
+    <ClInclude Include="..\cli\fw\clifwcopy.h" />
+    <ClInclude Include="..\cli\fw\clifwcreate.h" />
+    <ClInclude Include="..\cli\fw\clifwdelete.h" />
+    <ClInclude Include="..\cli\fw\clifwinfo.h" />
+    <ClInclude Include="..\cli\fw\clifwsave.h" />
+    <ClInclude Include="..\cli\fw\clifwload.h" />
+    <ClInclude Include="..\cli\fw\clifwoption.h" />
+    <ClInclude Include="..\cli\fw\clifwselect.h" />
+    <ClInclude Include="..\cli\fw\clifwshow.h" />
+    <ClInclude Include="..\cli\nw\clinw.h" />
+    <ClInclude Include="..\cli\nw\clinwduplicate.h" />
+    <ClInclude Include="..\cli\os\clios.h" />
+    <ClInclude Include="..\cli\os\cliosclear.h" />
+    <ClInclude Include="..\cli\os\cliosinfo.h" />
+    <ClInclude Include="..\cli\os\cliosload.h" />
+    <ClInclude Include="..\cli\os\cliosquery.h" />
+    <ClInclude Include="..\model\anomaly.h" />
+    <ClInclude Include="..\model\comparator.h" />
+    <ClInclude Include="..\model\gbchandler.h" />
+    <ClInclude Include="..\model\group.h" />
+    <ClInclude Include="..\model\ipv4parser.h" />
+    <ClInclude Include="..\model\moptions.h" />
+    <ClInclude Include="..\model\packettester.h" />
+    <ClInclude Include="..\model\rulelist.h" />
+    <ClInclude Include="..\model\serviceparser.h" />
+    <ClInclude Include="..\model\table.h" />
+    <ClInclude Include="..\model\tablewriter.h" />
+    <ClInclude Include="..\model\user.h" />
+    <ClInclude Include="..\model\usercache.h" />
+    <ClInclude Include="..\model\addresscache.h" />
+    <ClInclude Include="..\model\application.h" />
+    <ClInclude Include="..\model\applicationcache.h" />
+    <ClInclude Include="..\model\cache.h" />
+    <ClInclude Include="..\model\firewall.h" />
+    <ClInclude Include="..\model\network.h" />
+    <ClInclude Include="..\model\servicecache.h" />
+    <ClInclude Include="..\model\zone.h" />
+    <ClInclude Include="..\model\zonecache.h" />
+    <ClInclude Include="..\model\acl.h" />
+    <ClInclude Include="..\model\address.h" />
+    <ClInclude Include="..\model\analyzer.h" />
+    <ClInclude Include="..\model\mnode.h" />
+    <ClInclude Include="..\model\domain.h" />
+    <ClInclude Include="..\model\domains.h" />
+    <ClInclude Include="..\model\interval.h" />
+    <ClInclude Include="..\model\rule.h" />
+    <ClInclude Include="..\model\ports.h" />
+    <ClInclude Include="..\model\predicate.h" />
+    <ClInclude Include="..\model\protocol.h" />
+    <ClInclude Include="..\model\service.h" />
+    <ClInclude Include="..\model\state.h" />
+    <ClInclude Include="..\ostore\firewallfactory.h" />
+    <ClInclude Include="..\ostore\addresspool.h" />
+    <ClInclude Include="..\ostore\addresspools.h" />
+    <ClInclude Include="..\ostore\addressobjects.h" />
+    <ClInclude Include="..\ostore\addressresolver.h" />
+    <ClInclude Include="..\ostore\applicationpool.h" />
+    <ClInclude Include="..\ostore\applicationpools.h" />
+    <ClInclude Include="..\ostore\applicationobject.h" />
+    <ClInclude Include="..\ostore\applicationobjects.h" />
+    <ClInclude Include="..\ostore\applicationresolver.h" />
+    <ClInclude Include="..\ostore\fqdnresolver.h" />
+    <ClInclude Include="..\ostore\genericresolver.h" />
+    <ClInclude Include="..\ostore\poolobject.h" />
+    <ClInclude Include="..\ostore\objectstore.h" />
+    <ClInclude Include="..\ostore\ostoreconfig.h" />
+    <ClInclude Include="..\ostore\policyreader.h" />
+    <ClInclude Include="..\ostore\ruleobject.h" />
+    <ClInclude Include="..\ostore\servicepool.h" />
+    <ClInclude Include="..\ostore\servicepools.h" />
+    <ClInclude Include="..\ostore\serviceobject.h" />
+    <ClInclude Include="..\ostore\serviceobjects.h" />
+    <ClInclude Include="..\ostore\serviceresolver.h" />
+    <ClInclude Include="..\ostore\addressobject.h" />
+    <ClInclude Include="..\ostore\firewallobject.h" />
+    <ClInclude Include="..\ostore\objectdictionary.h" />
+    <ClInclude Include="..\ostore\userpool.h" />
+    <ClInclude Include="..\ostore\userobject.h" />
+    <ClInclude Include="..\ostore\userobjects.h" />
+    <ClInclude Include="..\ostore\userresolver.h" />
+    <ClInclude Include="..\ostore\userpools.h" />
+    <ClInclude Include="..\tools\csvparser.h" />
+    <ClInclude Include="..\tools\csvreader.h" />
+    <ClInclude Include="..\tools\interrupt.h" />
+    <ClInclude Include="..\tools\logger.h" />
+    <ClInclude Include="..\tools\match.h" />
+    <ClInclude Include="..\tools\io.h" />
+    <ClInclude Include="..\tools\options.h" />
+    <ClInclude Include="..\tools\strutil.h" />
+    <ClInclude Include="..\tools\toml.h" />
+    <ClInclude Include="..\tools\tomlcpp.h" />
+    <ClInclude Include="..\tools\yesno.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\dep\buddy\visualc\BuDDy.vcxproj">
+      <Project>{c5bfd073-8340-445c-9804-483147e6a272}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
