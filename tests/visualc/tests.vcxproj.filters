@@ -1,0 +1,305 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{0cda7ac1-8811-469e-a502-e9a703eddf37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\tests.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_address.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_domains.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_group.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_network.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test_analyzer.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\..\src\visualc\x64\Release\acl.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\address.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\addressobject.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\addressobjects.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\addresspool.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\addresspools.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\addressresolver.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\analyzer.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\anomaly.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\application.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\applicationobject.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\applicationobjects.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\applicationpool.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\applicationresolver.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\cli.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\cliargs.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clibdd.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clicmd.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clicmdmap.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clicontext.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clictrlchandler.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clifw.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clifwcheck.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clifwcopy.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clifwcreate.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clifwdelete.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clifwload.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clifwoption.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clifwselect.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clifwshow.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clifwtest.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clinw.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clinwduplicate.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clioption.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clios.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\cliosclear.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\cliosinfo.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\cliosload.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\cliosquery.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\comparator.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\csvparser.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\csvreader.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\domain.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\domains.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\firewall.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\firewallfactory.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\firewallobject.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\gbchandler.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\interval.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\io.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\ipv4parser.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\match.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\mnode.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\moptions.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\network.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\objectstore.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\policyreader.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\poolobject.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\ports.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\predicate.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\protocol.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\rule.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\rulelist.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\ruleobject.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\service.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\serviceobject.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\serviceobjects.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\serviceparser.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\servicepool.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\servicepools.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\serviceresolver.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\state.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\strutil.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\table.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\tablewriter.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\user.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\userobject.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\userobjects.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\userpool.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\userpools.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\userresolver.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\yesno.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\zone.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\toml.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\tomlcpp.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\applicationpools.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\logger.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\fqdnresolver.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clifwsave.obj">
+      <Filter>Objects</Filter>
+    </Object>
+  </ItemGroup>
+</Project>
