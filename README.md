@@ -2,7 +2,7 @@
 A firewall rules static analyzer.
 
 # Introduction
-RulesAnalyzer is a firewall rules static analyzer.  With this application, it is possible to identify misconfigured rules and rules that can be simplified.  It helps in finding and eliminating redundant, shadowed, or overly permissive firewall rules.
+RulesAnalyzer is a firewall rules static analyzer.  With this application, it is possible to identify mis-configured rules and rules that can be simplified.  It helps in finding and eliminating redundant, shadowed, or overly permissive firewall rules.
 
 The core algorithm used in this application is described in the paper from Yuan, Lihua, et al. "Fireman: A toolkit for firewall modeling and analysis." 2006 IEEE Symposium on Security and Privacy (S&P'06). IEEE, 2006.
 
@@ -33,7 +33,7 @@ Example :
 | id | action |source |destination | service |
 | -- | -- | -- | -- | -- |
 | 1  | allow | 192.168.10.0/24 |192.168.20.0/24 | tcp/80 |
-| 2  | allow | 192.168.10.0/24 |  192.168.20.0/24 | tcp/443 |
+| 2  | allow | 192.168.10.0/24 | 192.168.20.0/24 | tcp/443 |
 | 3  | deny  | 192.168.10.10 | 192.168.20.10 | tcp/80,tcp/443 |
 
 ```
