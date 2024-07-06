@@ -25,12 +25,12 @@ namespace fos {
 			bool is_pool;
 			union {
 				const O* object;
-				const P* group;
+				const P* pool;
 			};
 
 			PoolMember(const P* group) :
 				is_pool{ true },
-				group{ group }
+				pool{ group }
 			{}
 
 			PoolMember(const O* object) :
@@ -47,14 +47,14 @@ namespace fos {
 		{
 		}
 
-		PoolMembers resolve(const P* group, std::list<std::string>& unresolved) const
+		PoolMembers resolve(const P* pool, std::list<std::string>& unresolved) const
 		{
 			// The expanded list of members
 			PoolMembers expanded_list;
 
 			// A member in the pool hierarchy.
 			struct member {
-				const P* current_group;
+				const P* current_pool;
 				int member_index;
 			};
 
@@ -67,15 +67,15 @@ namespace fos {
 			std::set<const P*> visited;
 
 			// Initialize the chain stack.
-			chain.push(member{ group, 0 });
+			chain.push(member{ pool, 0 });
 
 			// Traverse the pool tree
 			while (!chain.empty()) {
 				member& top = chain.top();
 
-				if (top.member_index < top.current_group->members().size()) {
+				if (top.member_index < top.current_pool->members().size()) {
 					// next member at the same level
-					const std::string& node_name = top.current_group->members()[top.member_index];
+					const std::string& node_name = top.current_pool->members()[top.member_index];
 					top.member_index++;
 
 					const O* object{ _objects.get(node_name) };
@@ -87,7 +87,7 @@ namespace fos {
 						if (pool) {
 							// detect loops in nested pools
 							if (!visited.insert(pool).second)
-								throw std::runtime_error("group: " + _pools.name() + " loop in group '" + node_name + "'");
+								throw std::runtime_error("pool: " + _pools.name() + " loop in pool '" + node_name + "'");
 
 							// move down in the tree
 							chain.push(member{ pool, 0 });
@@ -100,8 +100,8 @@ namespace fos {
 				}
 				else {
 					// move up in the tree
-					expanded_list.push_back(PoolMember(top.current_group));
-					visited.erase(top.current_group);
+					expanded_list.push_back(PoolMember(top.current_pool));
+					visited.erase(top.current_pool);
 					chain.pop();
 				}
 			}

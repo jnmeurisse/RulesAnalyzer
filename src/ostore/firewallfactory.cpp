@@ -101,7 +101,7 @@ namespace fos {
 					if (address_pool) {
 						for (const auto& member : _object_store.resolve_address_pool(address_pool, status.unresolved_addresses)) {
 							if (member.is_pool) {
-								nw.register_src_address_group(member.group->name(), member.group->members());
+								nw.register_src_address_group(member.pool->name(), member.pool->members());
 							}
 							else if (member.object->is_multi()) {
 								nw.register_src_multi_address(member.object->name(), member.object->addresses());
@@ -151,7 +151,7 @@ namespace fos {
 					if (address_pool) {
 						for (const auto& member : _object_store.resolve_address_pool(address_pool, status.unresolved_addresses)) {
 							if (member.is_pool) {
-								nw.register_dst_address_group(member.group->name(), member.group->members());
+								nw.register_dst_address_group(member.pool->name(), member.pool->members());
 							} 
 							else if (member.object->is_multi()) {
 								nw.register_dst_multi_address(member.object->name(), member.object->addresses());
@@ -203,7 +203,7 @@ namespace fos {
 						if (service_pool) {
 							for (const auto& member : _object_store.resolve_service_pool(service_pool, status.unresolved_services)) {
 								if (member.is_pool) {
-									nw.register_service_group(member.group->name(), member.group->members());
+									nw.register_service_group(member.pool->name(), member.pool->members());
 								}
 								else if (member.object->is_multi()) {
 									nw.register_multi_service(member.object->name(), member.object->services());
@@ -250,8 +250,8 @@ namespace fos {
 					for (const auto& member : _object_store.resolve_application_pool(application_pool, status.unresolved_applications)) {
 						if (member.is_pool) {
 							nw.register_application_group(
-								member.group->name(),
-								member.group->members(),
+								member.pool->name(),
+								member.pool->members(),
 								rule.default_app_services()
 							);
 						}
@@ -318,7 +318,7 @@ namespace fos {
 				if (user_pool) {
 					for (const auto& member : _object_store.resolve_user_pool(user_pool, status.unresolved_users)) {
 						if (member.is_pool) {
-							nw.register_user_group(member.group->name(), member.group->members());
+							nw.register_user_group(member.pool->name(), member.pool->members());
 						}
 						else {
 							nw.register_user(member.object->name());
