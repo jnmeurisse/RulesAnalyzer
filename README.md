@@ -149,10 +149,10 @@ any service protocol types and destination ports.
 
 #### Example : rule1 allow any traffic
 
-| id | action  | source zone | source address | destination zone | destination address | service |
-|:--:|---------|-------------|----------------|------------------|---------------------|---------|
-| 1  | allow   | lan         | 10.0.3.31      | internet         | any                 | any     |
-| 2  | deny    | any         | any            | any              | any                 | any     |
+| id | action  | source<br/>zone | source<br/>address | destination<br/>zone | destination<br/>address | service   |
+|:--:|---------|-----------------|--------------------|----------------------|-------------------------|-----------|
+| 1  | allow   | lan             | 10.0.3.31          | internet             | any                     | any       |
+| 2  | deny    | any             | any                | any                  | any                     | any       |
 
 #### Output:
 ```
@@ -176,12 +176,12 @@ combined rules.
 
 #### Example : rule 1 and 3 are symmetrical
 
-| id | action | source zone | source address      | destination zone | destination address | service |
-|:--:|--------|-------------|---------------------|------------------|---------------------|---------|
-| 1  | allow  | dmz         | 192.168.100.23      | lan              | 10.0.3.31 10.0.3.32 | udp/123 |
-| 2  | allow  | dmz         | 192.168.100.23      | lan              | 10.0.3.31 10.0.3.32 | tcp/445 |
-| 3  | allow  | lan         | 10.0.3.31 10.0.3.32 | dmz              | 192.168.100.23      | udp/123 |
-| 4  | deny   | any         | any                 | any              | any                 | any     |
+| id | action | source<br/>zone | source<br/>address  | destination<br/>zone | destination<br/>address | service |
+|:--:|--------|-----------------|---------------------|----------------------|-------------------------|---------|
+| 1  | allow  | dmz             | 192.168.100.23      | lan                  | 10.0.3.31 10.0.3.32     | udp/123 |
+| 2  | allow  | dmz             | 192.168.100.23      | lan                  | 10.0.3.31 10.0.3.32     | tcp/445 |
+| 3  | allow  | lan             | 10.0.3.31 10.0.3.32 | dmz                  | 192.168.100.23          | udp/123 |
+| 4  | deny   | any             | any                 | any                  | any                     | any     |
 
 #### Output: shows symmetrical rules side by side
 ```
@@ -220,11 +220,11 @@ The command ```check deny``` checks if a *deny all* rule is positioned at the bo
 allowed by previous rules is denied by default. 
 
 #### Example
-| id | action | source zone | source address      | destination zone | destination address | service |
-|:--:|--------|-------------|---------------------|------------------|---------------------|---------|
-| 1  | allow  | dmz         | 192.168.100.23      | lan              | 10.0.3.31 10.0.3.32 | udp/123 |
-| 2  | allow  | dmz         | 192.168.100.23      | lan              | 10.0.3.31 10.0.3.32 | tcp/445 |
-| 3  | deny   | any         | any                 | any              | any                 | any     |
+| id | action | source<br/>zone | source<br/>address  | destination<br/>zone | destination<br/>address | service |
+|:--:|--------|-----------------|---------------------|----------------------|-------------------------|---------|
+| 1  | allow  | dmz             | 192.168.100.23      | lan                  | 10.0.3.31 10.0.3.32     | udp/123 |
+| 2  | allow  | dmz             | 192.168.100.23      | lan                  | 10.0.3.31 10.0.3.32     | tcp/445 |
+| 3  | deny   | any             | any                 | any                  | any                     | any     |
 
 ##### Output
 ```
@@ -244,25 +244,25 @@ of rules) from one firewall with a set of rule (or subset of rules) from a secon
 #### Example : two equivalent set of rules
 - firewall #1
 
-| id | action | source zone | source address   | destination zone | destination address | service        |
-|:--:|--------|-------------|------------------|------------------|---------------------|----------------|
-| 1  | allow  | z1          | 192.168.10.0/24  | z2               | 192.168.20.1        | tcp/80         |
-| 2  | allow  | z1          | 192.168.10.0/24  | z2               | 192.168.20.1        | tcp/443        |
-| 3  | allow  | z1          | 192.168.10.0/24  | z2               | 192.168.20.1        | tcp/80;tcp/443 |
-| 4  | allow  | z1          | 192.168.11.0/30  | z2               | 192.168.20.2        | udp/123        |
-| 5  | allow  | z1          | 192.168.11.0/30  | z2               | 192.168.20.2        | tcp/123        |
-| 6  | deny   | z1          | 192.168.12.5     | z2               | 192.168.20.2        | tcp/445        |
-| 7  | allow  | z1          | any              | z2               | 192.168.20.2        | tcp/445        |
-| 8  | deny   | any         | any              | any              | any                 | any            |
+| id | action | source<br/>zone | source<br/>address | destination<br/>zone | destination<br/>address | service        |
+|:--:|--------|-----------------|--------------------|----------------------|-------------------------|----------------|
+| 1  | allow  | z1              | 192.168.10.0/24    | z2                   | 192.168.20.1            | tcp/80         |
+| 2  | allow  | z1              | 192.168.10.0/24    | z2                   | 192.168.20.1            | tcp/443        |
+| 3  | allow  | z1              | 192.168.10.0/24    | z2                   | 192.168.20.1            | tcp/80;tcp/443 |
+| 4  | allow  | z1              | 192.168.11.0/30    | z2                   | 192.168.20.2            | udp/123        |
+| 5  | allow  | z1              | 192.168.11.0/30    | z2                   | 192.168.20.2            | tcp/123        |
+| 6  | deny   | z1              | 192.168.12.5       | z2                   | 192.168.20.2            | tcp/445        |
+| 7  | allow  | z1              | any                | z2                   | 192.168.20.2            | tcp/445        |
+| 8  | deny   | any             | any                | any                  | any                     | any            |
 
 - firewall #2
 
-| id | action | source zone | source address  | destination zone | destination address | service         |
-|:--:|--------|-------------|-----------------|------------------|---------------------|-----------------|
-| 1  | allow  | z1          | 192.168.10.0/24 | z2               | 192.168.20.1        | tcp/80;tcp/443  |
-| 2  | allow  | z1          | 192.168.11.0/30 | z2               | 192.168.20.2        | udp/123;tcp/123 |
-| 3  | allow  | z1          | !(192.168.12.5) | z2               | 192.168.20.2        | tcp/445         |
-| 4  | deny   | any         | any             | any              | any                 | any             |
+| id | action | source<br/>zone | source<br/>address | destination<br/>zone | destination<br/>address | service         |
+|:--:|--------|-----------------|--------------------|----------------------|-------------------------|-----------------|
+| 1  | allow  | z1              | 192.168.10.0/24    | z2                   | 192.168.20.1            | tcp/80;tcp/443  |
+| 2  | allow  | z1              | 192.168.11.0/30    | z2                   | 192.168.20.2            | udp/123;tcp/123 |
+| 3  | allow  | z1              | !(192.168.12.5)    | z2                   | 192.168.20.2            | tcp/445         |
+| 4  | deny   | any             | any                | any                  | any                     | any             |
 
 Note : ```!(192.168.12.5)``` denotes the negation of address 192.168.12.5
 #### Output:
@@ -288,13 +288,13 @@ The following table shows the policy of a hypothetical firewall protecting a Web
 servers in an internal zone.  Each rule is identified by a unique identifier.  The rule id is a unique positive number
 that is used by the RuleAnalyzer application when reporting anomalies. 
 
-| id | action | source zone | source address | destination zone | destination address     | service        |
-|:--:|--------|-------------|----------------|------------------|-------------------------|----------------|
-| 1  | allow  | Internet    | any            | DMZ              | 192.168.100.23          | TCP/443        |
-| 2  | allow  | DMZ         | 192.168.100.23 | Internet         | 8.8.8.8;8.8.4.4         | UDP/53;TCP/53  |
-| 3  | allow  | DMZ         | 192.168.100.23 | LAN              | 10.1.121.11;10.1.121.12 | TCP/5432       |
-| 4  | allow  | LAN         | 10.0.0.0/8     | DMZ              | 192.168.100.23          | TCP/443;TCP/22 |
-| 5  | deny   | any         | any            | any              | any                     | any            |
+| id | action | source<br/>zone | source<br/>address | destination<br/>zone | destination<br/>address | service        |
+|:--:|--------|-----------------|--------------------|----------------------|-------------------------|----------------|
+| 1  | allow  | Internet        | any                | DMZ                  | 192.168.100.23          | TCP/443        |
+| 2  | allow  | DMZ             | 192.168.100.23     | Internet             | 8.8.8.8;8.8.4.4         | UDP/53;TCP/53  |
+| 3  | allow  | DMZ             | 192.168.100.23     | LAN                  | 10.1.121.11;10.1.121.12 | TCP/5432       |
+| 4  | allow  | LAN             | 10.0.0.0/8         | DMZ                  | 192.168.100.23          | TCP/443;TCP/22 |
+| 5  | deny   | any             | any                | any                  | any                     | any            |
 
 The RuleAnalyzer application currently supports the loading of firewall rules exclusively from CSV  (Comma-Separated
 Values) files.  The structure of the CSV file and the required fields such as *id*, *action*, … are explained
@@ -327,13 +327,13 @@ traffic from/to multiple zones, the firewall rules .csv file specifies the list 
 
 The same hypothetical firewall can be configured with objects:
 
-| id | action | source zone | source address | destination zone | destination address | service    |
-|:--:|--------|-------------|----------------|------------------|---------------------|------------|
-| 1  | allow  | Internet    | any            | DMZ              | WEB_SERVER          | https      |
-| 2  | allow  | DMZ         | WEB_SERVER     | Internet         | GOOGLE_DNS          | dns        |
-| 3  | allow  | DMZ         | WEB_SERVER     | LAN              | DB_SERVERS          | PostgreSQL |
-| 4  | allow  | LAN         | LAN_NET        | DMZ              | WEB_SERVER          | https;ssh  |
-| 5  | deny   | any         | any            | any              | any                 | any        |
+| id | action | source<br/>zone | source<br/>address | destination<br/>zone | destination<br/>address | service    |
+|:--:|--------|-----------------|--------------------|----------------------|-------------------------|------------|
+| 1  | allow  | Internet        | any                | DMZ                  | WEB_SERVER              | https      |
+| 2  | allow  | DMZ             | WEB_SERVER         | Internet             | GOOGLE_DNS              | dns        |
+| 3  | allow  | DMZ             | WEB_SERVER         | LAN                  | DB_SERVERS              | PostgreSQL |
+| 4  | allow  | LAN             | LAN_NET            | DMZ                  | WEB_SERVER              | https;ssh  |
+| 5  | deny   | any             | any                | any                  | any                     | any        |
 
 This firewall can be modeled with the 4 following .csv files :
 
@@ -416,15 +416,14 @@ it to a single destination port (5432).  The DNS protocol is allowed on any port
 (udp/53, udp/5353 and tcp/53).
 
 
-| id | action | source zone | source address | destination zone | destination address | application | service     |
-|:--:|--------|-------------|----------------|------------------|---------------------|-------------|-------------|
-| 1  | allow  | Internet    | any            | DMZ              | WEB_SERVER          | any         | https       |
-| 2  | allow  | DMZ         | WEB_SERVER     | Internet         | GOOGLE_DNS          | dns         | app-default |
-| 3  | allow  | DMZ         | WEB_SERVER     | LAN              | DB_SERVERS          | postgres    | PostgreSQL  |
-| 4  | allow  | LAN         | LAN_NET        | DMZ              | WEB_SERVER          | any         | https;ssh   |
-| 5  | deny   | any         | any            | any              | any                 | any         | any         |
+| id | action | source<br/>zone | source<br/>address | destination<br/>zone | destination<br/>address | application | service     |
+|:--:|--------|-----------------|--------------------|----------------------|-------------------------|-------------|-------------|
+| 1  | allow  | Internet        | any                | DMZ                  | WEB_SERVER              | any         | https       |
+| 2  | allow  | DMZ             | WEB_SERVER         | Internet             | GOOGLE_DNS              | dns         | app-default |
+| 3  | allow  | DMZ             | WEB_SERVER         | LAN                  | DB_SERVERS              | postgres    | PostgreSQL  |
+| 4  | allow  | LAN             | LAN_NET            | DMZ                  | WEB_SERVER              | any         | https;ssh   |
+| 5  | deny   | any             | any                | any                  | any                     | any         | any         |
 
-________________________________________________________________________________________________
 The firewall can be modeled with the 5 following .csv files :
 1. Addresses .csv file ([example2_addr.csv](examples/example2_addr.csv))
     ```
@@ -505,13 +504,13 @@ When a firewall supports User control, it is also possible to describe which use
 In the following example, accessing the web server from the LAN network is restricted to users belonging to the admins
 group.   
 
-| id | action | source zone | source address | destination zone | destination address | application | service     | user    | 
-|:--:|--------|-------------|----------------|------------------|---------------------|-------------|-------------|---------|
-| 1  | allow  | Internet    | any            | DMZ              | WEB_SERVER          | any         | https       | any     |
-| 2  | allow  | DMZ         | WEB_SERVER     | Internet         | GOOGLE_DNS          | dns         | app-default | any     |
-| 3  | allow  | DMZ         | WEB_SERVER     | LAN              | DB_SERVERS          | postgres    | PostgreSQL  | any     |
-| 4  | allow  | LAN         | LAN_NET        | DMZ              | WEB_SERVER          | any         | https;ssh   | admins  |
-| 5  | deny   | any         | any            | any              | any                 | any         | any         | any     |
+| id | action | source<br/>zone | source<br/>address | destination<br/>zone | destination<br/>address | application | service     | user    | 
+|:--:|--------|-----------------|--------------------|----------------------|-------------------------|-------------|-------------|---------|
+| 1  | allow  | Internet        | any                | DMZ                  | WEB_SERVER              | any         | https       | any     |
+| 2  | allow  | DMZ             | WEB_SERVER         | Internet             | GOOGLE_DNS              | dns         | app-default | any     |
+| 3  | allow  | DMZ             | WEB_SERVER         | LAN                  | DB_SERVERS              | postgres    | PostgreSQL  | any     |
+| 4  | allow  | LAN             | LAN_NET            | DMZ                  | WEB_SERVER              | any         | https;ssh   | admins  |
+| 5  | deny   | any             | any                | any                  | any                     | any         | any         | any     |
 
 
 The users are modeled with two additional .csv files : 
@@ -713,20 +712,20 @@ It is possible to load rules from a CSV file that was created manually or export
 * ```firewall load csvfile``` *(short form: fw l csvfile)*  
 Loads firewall rules from the .csv file into the current firewall.  A firewall rule is loaded from the parameters :
 
-| Parameter  | Description                                                                                                                                                                                                                          | Multiple | Optional | Default | 
-|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|----------|---------| 
-| id         | The rule id is a unique identifier assigned to each firewall rule. It ensures that every rule can be individually referenced.                                                                                                        | No       | No       |         |
-| name       | The rule name is a descriptive label for the rule.                                                                                                                                                                                   | No       | Yes      |         |
-| status     |                                                                                                                                                                                                                                      | No       | Yes      | enable  |
-| action     | The action specifies what the firewall should do when a packet matches the criteria defined in the rule. The rule loader accepts the following values for the accept parameter: allow,  accept, deny, drop.                          | No       | No       |         |
-| src.zone   | Defines the origin points for traffic in the firewall rule.  A source zone refers to logical groupings of network interfaces or segments                                                                                             | Yes      | Yes      | any     |
-| src.addr   | Defines the source addresses from which incoming traffic is accepted (or denied).  A source address can be an address object or an address group object.  Multiple addresses can be specified separated by a semicolon.              | Yes      | No       |         |
-| src.negate | A boolean that is used to invert the source addresses criteria.  When true, the source address criteria is verified when the source traffic does not come from src.addr.                                                             | Yes      | Yes      | false   |
-| dst.addr   | Defines the destination addresses to which outgoing traffic is accepted (or denied).  A destination address can be an address object or an address group object.  Multiple address groups can be specified separated by a semicolon. | Yes      | No       |         |
-| dst.negate | A boolean that is used to invert the destination addresses criteria.  When true, the destination address criteria is verified when the destination traffic does not come from src.addr.                                              | Yes      | Yes      | false   |
-| svc        | Defines the services                                                                                                                                                                                                                 | Yes      | No       |         |
-| app        |                                                                                                                                                                                                                                      | Yes      | Yes      | any     |
-| user       |                                                                                                                                                                                                                                      | Yes      | Yes      | any     |
+| Parameter  | Description                                                                                                                                                                                                                             | Multiple | Optional | Default | 
+|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|----------|---------| 
+| id         | The rule id is a unique identifier assigned to each firewall rule.<br/>It ensures that every rule can be individually referenced.                                                                                                       | No       | No       |         |
+| name       | The rule name is a descriptive label for the rule.                                                                                                                                                                                      | No       | Yes      |         |
+| status     |                                                                                                                                                                                                                                         | No       | Yes      | enable  |
+| action     | The action specifies what the firewall should do when a packet matches the criteria defined in the rule.<br/>The rule loader accepts the following values for the accept parameter: allow,  accept, deny, drop.                         | No       | No       |         |
+| src.zone   | Defines the origin points for traffic in the firewall rule.<br/>A source zone refers to logical groupings of network interfaces or segments                                                                                             | Yes      | Yes      | any     |
+| src.addr   | Defines the source addresses from which incoming traffic is accepted (or denied).<br/>A source address can be an address object or an address group object.  Multiple addresses can be specified separated by a semicolon.              | Yes      | No       |         |
+| src.negate | A boolean that is used to invert the source addresses criteria.<br/>When true, the source address criteria is verified when the source traffic does not come from src.addr.                                                             | Yes      | Yes      | false   |
+| dst.addr   | Defines the destination addresses to which outgoing traffic is accepted (or denied).<br/>A destination address can be an address object or an address group object.  Multiple address groups can be specified separated by a semicolon. | Yes      | No       |         |
+| dst.negate | A boolean that is used to invert the destination addresses criteria.<br/>When true, the destination address criteria is verified when the destination traffic does not come from src.addr.                                              | Yes      | Yes      | false   |
+| svc        | Defines the services                                                                                                                                                                                                                    | Yes      | No       |         |
+| app        |                                                                                                                                                                                                                                         | Yes      | Yes      | any     |
+| user       |                                                                                                                                                                                                                                         | Yes      | Yes      | any     |
 
 
 If there is a failure while importing a rule, the reason will be given and the rule will be skipped.  For example, rules
