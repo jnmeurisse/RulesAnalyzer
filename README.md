@@ -31,7 +31,7 @@ The command syntax is described here after.
 
 ---
 # Anomalies
-The command ```check anomaly``` can detect different types of configuration anomalies :
+The command `check anomaly` can detect different types of configuration anomalies :
 
 ### Shadowing
 Shadowing refers to the case where all the packets one firewall rule intends to deny (allow) have been accepted (denied) by one or a combination of preceding rules.  This is considered as a configuration error.
@@ -45,7 +45,7 @@ Shadowing refers to the case where all the packets one firewall rule intends to 
 | 3  | deny   | 192.168.10.10   | 192.168.20.10   | tcp/80;tcp/443 |
 
 #### Output:
-```
+`
 > fw load example_shadowing.csv
 [info] loading rules from 'example_shadowing.csv'.
 [info] 3 rows out of 3 loaded.
@@ -58,7 +58,7 @@ Shadowing refers to the case where all the packets one firewall rule intends to 
     |  |        |        |            |     |packets are accepted by combined rules  |
     |  |        |        |            |     |1, 2                                    |
     +--+--------+--------+------------+-----+----------------------------------------+
-```
+`
 
 ### Redundancy
 Redundancy refers to the case where if a firewall rule is removed, the firewall does not change its action on any packets. 
@@ -73,7 +73,7 @@ This is considered as a configuration error.
 | 3  | allow  | 192.168.10.0/24 | 192.168.20.0/24 | tcp/80;tcp/443 |
 
 #### Output:
-```
+`
 > fw load example_redundancy.csv
 [info] loading rules from 'example_redundancy.csv'.
 [info] 3 rows out of 3 loaded.
@@ -87,7 +87,7 @@ This is considered as a configuration error.
     |  |        |        |            |     |1, 2                                    |
     +--+--------+--------+------------+-----+----------------------------------------+
 
-```
+`
 
 ### Generalization
 Generalization refers to the case where a subset of the packets matched to this rule has been excluded by preceding rules. 
@@ -103,7 +103,7 @@ Generalization is considered as an anomaly warning.  Rules with generalizations 
 | 3  | allow  | 192.168.10.20   | 192.168.20.0/24| tcp/80;tcp/443 |
 
 #### Output:
-```
+`
 > fw load example_generalization.csv
 [info] loading rules from 'example_generalization.csv'.
 [info] 3 rows out of 3 loaded.
@@ -114,7 +114,7 @@ Generalization is considered as an anomaly warning.  Rules with generalizations 
     +--+--------+--------+----------------+-------+----------------------------------------+
     |3 |any     |any     |Partially masked|warning|Generalization of rules 1, 2            |
     +--+--------+--------+----------------+-------+----------------------------------------+
-```
+`
 
 ### Correlation
 Correlation  refers to the case where the current rule intersects with preceding rules but specifies a different action.
@@ -127,7 +127,7 @@ Correlation is considered as an anomaly warning.  Rules with correlations can be
 | 2  | deny   | 10.1.1.0/24 | 192.168.0.0/16 | tcp/80   |
 
 #### Output:
-```
+`
 > fw load example_correlation.csv
 [info] loading rules from 'example_correlation.csv'.
 [info] 2 rows out of 2 loaded.
@@ -139,12 +139,12 @@ Correlation is considered as an anomaly warning.  Rules with correlations can be
     |2 |any     |any     |Partially masked|warning|Correlated rule                         |
     |  |        |        |                |       |part of packets are accepted by rule 1  |
     +--+--------+--------+----------------+-------+----------------------------------------+
-```
+`
 ---
 # Other deficiencies
 In addition to the previous detections, the RuleAnalyzer application can detect other deficiencies :
 ### any/any
-The command ```check any``` is capable of finding all firewall rules that allow network traffic to any destinations over
+The command `check any` is capable of finding all firewall rules that allow network traffic to any destinations over
 any service protocol types and destination ports.
 
 #### Example : rule1 allow any traffic
@@ -155,7 +155,7 @@ any service protocol types and destination ports.
 | 2  | deny    | any             | any                | any                  | any                     | any       |
 
 #### Output:
-```
+`
 > fw load example_any.csv
 [info] loading rules from 'example_any.csv'.
 [info] 2 rows out of 2 loaded.
@@ -166,11 +166,11 @@ any service protocol types and destination ports.
     +-------+---------+--------+-------------+--------+
     |1      |         |lan     |10.0.3.31    |internet|
     +-------+---------+--------+-------------+--------+
-```
+`
 
 ### Symmetry
 Symmetrical rules in a firewall refer to rules that allow the same traffic in both directions for a given connection.
-Modern firewalls are stateful,  symmetrical rules are most of the time not necessary.  The command ```check symmetry``` 
+Modern firewalls are stateful,  symmetrical rules are most of the time not necessary.  The command `check symmetry` 
 is currently restricted in finding single symmetrical rules.  It can not find a rule that is symmetrical to other
 combined rules.
 
@@ -184,7 +184,7 @@ combined rules.
 | 4  | deny   | any             | any                 | any                  | any                     | any     |
 
 #### Output: shows symmetrical rules side by side
-```
+`
 > fw load example_symmetry.csv
 [info] loading rules from 'example_symmetry.csv'.
 [info] 4 rows out of 4 loaded.
@@ -213,10 +213,10 @@ combined rules.
     +------------+--------------+--------------+-------------------+--------------+
     |users       |any           |0-1023        |any                |0-1023        |
     +------------+--------------+--------------+-------------------+--------------+
-```
+`
 
 ### Deny all
-The command ```check deny``` checks if a *deny all* rule is positioned at the bottom ensuring any traffic not explicitly
+The command `check deny` checks if a *deny all* rule is positioned at the bottom ensuring any traffic not explicitly
 allowed by previous rules is denied by default. 
 
 #### Example
@@ -227,13 +227,13 @@ allowed by previous rules is denied by default.
 | 3  | deny   | any             | any                 | any                  | any                     | any     |
 
 ##### Output
-```
+`
 > fw load example_deny_all.csv
 [info] loading rules from 'example_deny_all.csv'.
 [info] 3 rows out of 3 loaded.
 > fw check deny
 [info] deny all rule found, rule id = 3.
-```
+`
 
 ### Equivalence
 Two sets of firewall rules are equivalent when the accepted traffic and the denied traffic are equivalent, meaning they
@@ -264,9 +264,9 @@ of rules) from one firewall with a set of rule (or subset of rules) from a secon
 | 3  | allow  | z1              | !(192.168.12.5)    | z2                   | 192.168.20.2            | tcp/445         |
 | 4  | deny   | any             | any                | any                  | any                     | any             |
 
-Note : ```!(192.168.12.5)``` denotes the negation of address 192.168.12.5
+Note : `!(192.168.12.5)` denotes the negation of address 192.168.12.5
 #### Output:
-```
+`
 > fw create fw1
 [info] firewall 'fw1' created.
 > fw load example_equivalence1.csv
@@ -279,7 +279,7 @@ Note : ```!(192.168.12.5)``` denotes the negation of address 192.168.12.5
 [info] 4 rows out of 4 loaded.
 > fw check equivalence fw1
 Rules are equivalent.
-```
+`
 
 ---
 # Modeling a firewall
@@ -309,14 +309,14 @@ has an address translation mechanism configured that converts an IP address vali
 valid on the DMZ zone.
 
 The firewall can be modeled with the following .csv file :
-```
+`
 id,action,src.zone,src.addr,dst.zone,dst.addr,svc
 1,allow,internet,any,dmz,192.168.100.23,tcp/443
 2,allow,dmz,192.168.100.23,internet,8.8.8.8;8.8.4.4,udp/53;tcp/53
 3,allow,dmz,192.168.100.23,lan,10.1.121.11;10.1.121.12,tcp/5432
 4,allow,lan,10.0.0.0/8,dmz,192.168.100.23,tcp/443;tcp22
 5,deny,any,any,any,any,any
-```
+`
 Modern firewalls provide objects that simplify the construction of rules.  A firewall object is a single object
 (an address for example) or a group of objects.  The RuleAnalyzer application provides a dedicated object store
 tailored for the storage of IPv4 addresses, address groups, services, service groups, applications, application
@@ -339,43 +339,43 @@ This firewall can be modeled with the 4 following .csv files :
 
 1. Address .csv file ([example1_addr.csv](examples/example1_addr.csv))
 
-    ```
+    `
     name,address 
     WEB_SERVER,192.168.100.23
     GOOGLE_DNS,8.8.8.8;8.8.4.4
     DB_SERVER_1,10.1.121.11 
     DB_SERVER_2,10.1.121.12
     LAN_NET,10.0.0.0/8
-    ```
+    `
 
 2. Address groups .csv file ([example1_addrg.csv](examples/example1_addrg.csv))
-    ```
+    `
     name,members
     DB_SERVERS,DB_SERVER_1;DB_SERVER_2
-    ```
+    `
 
 3. Services .csv file ([example1_svc.csv](examples/example1_svc.csv))
-    ```
+    `
     name,protoport
     https,tcp/443
     dns,udp/123;tcp/53
     ssh,tcp/22
     PostgreSQL,tcp/5432
-    ```
+    `
 
 4. Security firewall rules .csv file ([example1_rules.csv](examples/example1_rules.csv))
-    ```
+    `
     id,action,src.zone,src.addr,dst.zone,dst.addr,svc
     1,allow,internet,any,dmz,WEB_SERVER,https
     2,allow,dmz,WEB_SERVER,internet,GOOGLE_DNS,dns
     3,allow,dmz,WEB_SERVER,lan,DB_SERVERS,PostgreSQL
     4,allow,lan,LAN_NET,dmz,WEB_SERVER,https;ssh
     5,deny,any,any,any,any,any
-    ```
+    `
 
 Example 1 : loading and showing the firewall rules
 
-```
+`
 [info] object store cleared.
 > os load addr example1_adr.csv
 [info] loading objects from 'example1_adr.csv'.
@@ -406,7 +406,7 @@ Example 1 : loading and showing the firewall rules
     +--+------+--------+--------+--------------+--------------+--------+---+----+
     |5 |deny  |any     |any     |0.0.0.0/0     |0.0.0.0/0     |any     |any|any |
     +--+------+--------+--------+--------------+--------------+--------+---+----+
-```
+`
 
 When a firewall supports Application control, it is possible to describe which applications are allowed in a rule
 in addition to the service ports.  Specifying “application-default” (or “app-default”) service in a firewall rule
@@ -426,45 +426,45 @@ it to a single destination port (5432).  The DNS protocol is allowed on any port
 
 The firewall can be modeled with the 5 following .csv files :
 1. Addresses .csv file ([example2_addr.csv](examples/example2_addr.csv))
-    ```
+    `
     name,address
     WEB_SERVER,192.168.100.23
     GOOGLE_DNS,8.8.8.8;8.8.4.4
     DB_SERVER_1,10.1.121.11
     DB_SERVER_2,10.1.121.12
     LAN_NET,10.0.0.0/8
-    ```
+    `
 2. Address groups .csv file ([example2_addrg.csv](examples/example2_addrg.csv))
-    ``` 
+    ` 
     name,members
     DB_SERVERS,DB_SERVER_1;DB_SERVER_2
-    ```
+    `
 3. Applications .csv file ([example2_app.csv](examples/example2_app.csv))
-    ```
+    `
     name,protoport
     postgres,tcp/5432;tcp/5434-5439
     dns,udp/53;udp/5353;tcp/53
-    ```
+    `
 4. Services .csv file ([example2_svc.csv](examples/example2_svc.csv))
-    ```
+    `
     name,protoport
     https,tcp/443
     dns,udp/123;tcp/53
     ssh,tcp/22
     PostgreSQL,tcp/5432
-    ```
+    `
 5. Firewall rules .csv file ([example2_rules.csv](examples/example2_rules.csv))
-    ```
+    `
     id,action,src.zone,src.addr,dst.zone,dst.addr,svc,app
     1,allow,internet,any,dmz,WEB_SERVER,https,any
     2,allow,dmz,WEB_SERVER,internet,GOOGLE_DNS,app-default,dns
     3,allow,dmz,WEB_SERVER,lan,DB_SERVERS,PostgreSQL,postgres
     4,allow,lan,LAN_NET,dmz,WEB_SERVER,https;ssh,any
     5,deny,any,any,any,any,any,any
-    ```
+    `
 
 Example 2 : loading and showing the firewall rules
-```
+`
 > os load addr example2_addr.csv
 [info] loading objects from 'example2_addr.csv'.
 [info] 5 objects loaded.
@@ -498,7 +498,7 @@ Example 2 : loading and showing the firewall rules
     +--+------+--------+--------+--------------+--------------+--------+--------+----+
     |5 |deny  |any     |any     |0.0.0.0/0     |0.0.0.0/0     |any     |any     |any |
     +--+------+--------+--------+--------------+--------------+--------+--------+----+
-```
+`
 
 When a firewall supports User control, it is also possible to describe which users are allowed in a firewall rule.
 In the following example, accessing the web server from the LAN network is restricted to users belonging to the admins
@@ -515,28 +515,28 @@ group.
 
 The users are modeled with two additional .csv files : 
 1. Users .csv file ([example3_usr.csv](examples/example3_usr.csv))
-    ```
+    `
    name
     John Doe
     Alice Smith
-    ```
+    `
 2. User groups csv file ([example3_usrg.csv](examples/example3_usrg.csv))
-    ```
+    `
     name,members
     admins,John Doe;Alice Smith
-    ```
+    `
 3. Firewall rules .csv file ([example3_rules.csv](examples/example3_rules.csv))
-    ```
+    `
     id,action,src.zone,src.addr,dst.zone,dst.addr,svc,app,user
     1,allow,internet,any,dmz,WEB_SERVER,https,any,any
     2,allow,dmz,WEB_SERVER,internet,GOOGLE_DNS,app-default,dns,any
     3,allow,dmz,WEB_SERVER,lan,DB_SERVERS,PostgreSQL,postgres,any
     4,allow,lan,LAN_NET,dmz,WEB_SERVER,https;ssh,any,admins
     5,deny,any,any,any,any,any,any,any
-    ```
+    `
 
 Example 3 : loading and showing the firewall rules
-```
+`
 > os load addr example3_addr.csv
 [info] loading objects from 'example3_addr.csv'.
 [info] 5 objects loaded.
@@ -576,7 +576,7 @@ Example 3 : loading and showing the firewall rules
     +--+------+--------+--------+--------------+--------------+--------+--------+-----------+
     |5 |deny  |any     |any     |0.0.0.0/0     |0.0.0.0/0     |any     |any     |any        |
     +--+------+--------+--------+--------------+--------------+--------+--------+-----------+
-```
+`
 
 # The command line interface
 RuleAnalyzer is an interactive application.  It enables you to type in commands and see the results.  Most of the
@@ -597,7 +597,7 @@ model.
 The first row of a .csv file must contain parameter names (column names). Each row below the first row contains
 parameter values.  Column names and parameter values must be separated by a coma (,).  
 #### Addresses
-* ```ostore load address csvfile``` *(short form: os l addr csvfile)*   
+* `ostore load address csvfile` *(short form: os l addr csvfile)*   
 Loads addresses from the .csv file into the address objects store.  An address is loaded from parameters *name*, *type* 
 and *address*.  The *name* is the object name.  The *type* represents the type of address stored in the address column.
 The accepted types are ipmask, iprange or fqdn :
@@ -617,13 +617,13 @@ maintains a cache of resolved fqdn addresses in a local file (by default, rulesa
 are not resolved are not stored in the cache.  It is possible to completely disable the cache but also customize
 the filename and file location.  
 
-* ```ostore load address-group csvfile``` *(short form: os l addrg csvfile)*  
+* `ostore load address-group csvfile` *(short form: os l addrg csvfile)*  
 Loads address groups from the .csv file into the address group objects store.  An address group is loaded from the
 parameters *name* and *members*.  The coherence of an address group object is validated only when a firewall rule
 referring to this group is imported into the application.
 
 #### Services
-* ````ostore load service csvfile````*(short form: os l svc csvfile)*  
+* `ostore load service csvfile` *(short form: os l svc csvfile)*  
 Loads services from the .csv file into the service objects store.  A service is loaded from parameters *name* and
 *protoport*.  The *name* is the object name and *protoport* is a list of protocol/port combinations separated
 by a semicolon.  A *protoport* in the list must conform to the following syntax :  
@@ -634,35 +634,35 @@ by a semicolon.  A *protoport* in the list must conform to the following syntax 
     * any service : any
 
     Examples : 
-    ````name,protoport
+    ``name,protoport
     UDP,udp
     SSH,tcp/22
     CUSTOM,tcp/32000-32002
     PING,icmp/8
-    ````
+    ``
 
-* ````ostore load service-group csvfile````*(short form: os l svcg csvfile)*    
+* `ostore load service-group csvfile` *(short form: os l svcg csvfile)*    
 Loads service groups from the .csv file into the service group objects store.  A service group is loaded from the
 parameters *name* and *members*.  The coherence of a service group object is validated only when a firewall rule
 referring to this group is imported into the application.
 
 #### Applications
-* ```ostore load application csvfile``` *(short form: os l app csvfile)*  
+* `ostore load application csvfile` *(short form: os l app csvfile)*  
 Loads applications from the .csv file into the application objects store.  An application is loaded from the parameters
 *name* and *protoport*.  The *name* is the object name and *protoport* is a list of standard protocol/port combinations
 separated by a semicolon.
 
-* ```ostore load application-group csvfile``` *(short form: os l appg csvfile)*  
+* `ostore load application-group csvfile` *(short form: os l appg csvfile)*  
 Loads application groups from the .csv file into the application group objects store.  An application group is loaded
 from the parameters *name* and *members*.  The coherence of an application group object is validated only when a firewall
 rule referring to this group is imported into the application.
 
 #### Users
-* ```ostore load user csvfile``` *(short form: os l usr csvfile)*  
+* `ostore load user csvfile` *(short form: os l usr csvfile)*  
 Loads users from the .csv file into the user objects store.  A user is loaded from the parameter *name*.  The name is 
 the object name.
 
-* ```ostore load user-group csvfile``` *(short form: os l usrg csvfile)*
+* `ostore load user-group csvfile` *(short form: os l usrg csvfile)*
 Loads user groups from the .csv file into the user group objects store.  An user group is loaded from the parameters
 *name* and *members*.  The coherence of an application group object is validated only when a firewall rule referring
 to this group is imported into the application.
@@ -671,18 +671,18 @@ to this group is imported into the application.
 The querying command may be applied to the miscellaneous object types.  The query command is case-insensitive and
 supports wildcards.  
   
-* ```ostore query address query-string``` *(short form: os q addr query-string)*
-* ```ostore query address-group query-string``` *(short form: os q addrg query-string)*
-* ```ostore query service query-string``` *(short form: os q svc query-string)*
-* ```ostore query service-group query-string``` *(short form: os q svcg query-string)*
-* ```ostore query application query-string``` *(short form: os q app query-string)*
-* ```ostore query application-group query-string``` *(short form: os q appg query-string)*
-* ```ostore query user query-string``` *(short form: os q usr query-string)*
-* ```ostore query user-group query-string``` *(short form: os q usrg query-string)*
+* `ostore query address query-string` *(short form: os q addr query-string)*
+* `ostore query address-group query-string` *(short form: os q addrg query-string)*
+* `ostore query service query-string` *(short form: os q svc query-string)*
+* `ostore query service-group query-string` *(short form: os q svcg query-string)*
+* `ostore query application query-string` *(short form: os q app query-string)*
+* `ostore query application-group query-string` *(short form: os q appg query-string)*
+* `ostore query user query-string` *(short form: os q usr query-string)*
+* `ostore query user-group query-string` *(short form: os q usrg query-string)*
 
 
 Example: 
-```
+`
 > os l addr example3_adr.csv
 [info] loading objects from 'example3_adr.csv'.
 [info] 5 objects loaded.
@@ -698,18 +698,18 @@ Example:
     +-----------+----------------------------------------+
     |DB_SERVER_1|10.1.121.11                             |
     +-----------+----------------------------------------+
-```
+`
 ### Other object store commands
-* ```ostore clear``` *(short form: os clear)*  
+* `ostore clear` *(short form: os clear)*  
 Clears the object store.  All objects are deleted from the object store.  
 
-* ```ostore info``` *(short form: os info)*
+* `ostore info` *(short form: os info)*
 Shows how many objects are stored in the object store.
 
 ## Firewall commands
 It is possible to load rules from a CSV file that was created manually or exported from a firewall supporting that functionality.  
 
-* ```firewall load csvfile``` *(short form: fw l csvfile)*  
+* `firewall load csvfile` *(short form: fw l csvfile)*  
 Loads firewall rules from the .csv file into the current firewall.  A firewall rule is loaded from the parameters :
 
 | Parameter  | Description                                                                                                                                                                                                                             | Multiple | Optional | Default | 
@@ -731,18 +731,18 @@ Loads firewall rules from the .csv file into the current firewall.  A firewall r
 If there is a failure while importing a rule, the reason will be given and the rule will be skipped.  For example, rules
 that make reference to objects (address, service, …) that are not available in the object store are skipped.
 
-* ```firewall save csvfile | txtfile```
-* ```firewall create name```
-* ```firewall delete name```
-* ```firewall select name```
-* ```firewall enable rule id```
-* ```firewall disable rule id```
-* ```firewall info```
+* `firewall save csvfile | txtfile`
+* `firewall create name`
+* `firewall delete name`
+* `firewall select name`
+* `firewall enable rule id`
+* `firewall disable rule id`
+* `firewall info`
 
 ### Show commands
 All show commands are applied to the current firewall and enabled rules.
 
-* ```firewall show zones``` *(short form: fw sh zones)*  
+* `firewall show zones` *(short form: fw sh zones)*  
 Displays all zones that are configured on the current firewall.  The output table shows how many allow and deny rules
 are configured between two zones.
 
@@ -754,45 +754,45 @@ Example :
 
 
 
-* ```firewall show rule id [id]```
+* `firewall show rule id [id]`
 (short form: fw sh rule  id [id])
 
-* ```firewall show rules [-z source-zone destination-zone] [-o filename]```
+* `firewall show rules [-z source-zone destination-zone] [-o filename]`
 (short form: fw sh rules [-z source-zone destination-zone] [-o filename])
 
-* ```Firewall show address [-z source-zone destination-zone] [-o filename]```
+* `Firewall show address [-z source-zone destination-zone] [-o filename]`
 (short form: fw sh addr [-z source-zone destination-zone] [-o filename])
 
-* ```firewall show service [-z source-zone destination-zone] [-o filename]```
+* `firewall show service [-z source-zone destination-zone] [-o filename]`
 (short form: fw sh svc [-z source-zone destination-zone] [-o filename])
 
-* ```firewall show application [-z source-zone destination-zone] [-o filename]```
+* `firewall show application [-z source-zone destination-zone] [-o filename]`
 (short form: fw sh app [-z source-zone destination-zone] [-o filename])
 
-* ```firewall show user [-z source-zone destination-zone] [-o filename]```
+* `firewall show user [-z source-zone destination-zone] [-o filename]`
 (short form: fw sh usr [-z source-zone destination-zone] [-o filename])
 
 ### Check commands
 All check commands are applied to the current firewall and enabled rules.
 
-* ```firewall check any [address] [-z source-zone destination-zone]```
+* `firewall check any [address] [-z source-zone destination-zone]`
 
-* ```firewall check deny [-z source-zone destination-zone]```
+* `firewall check deny [-z source-zone destination-zone]`
 
-* ```firewall check anomaly [-z source-zone destination-zone]```
+* `firewall check anomaly [-z source-zone destination-zone]`
 
-* ```firewall check symmetry [-z source-zone destination-zone] [-o filename]```
+* `firewall check symmetry [-z source-zone destination-zone] [-o filename]`
 
-* ```firewall check equivalence firewall [-z source-zone destination-zone]```
+* `firewall check equivalence firewall [-z source-zone destination-zone]`
 
-* ```Firewall check address address [-z source-zone destination-zone] [-o filename]```
+* `Firewall check address address [-z source-zone destination-zone] [-o filename]`
 (short form: fw ch addr address [-z source-zone destination-zone] [-o filename])
 
-* ```firewall check service service [-z source-zone destination-zone]```
+* `firewall check service service [-z source-zone destination-zone]`
 (short form: fw ch svc service [-z source-zone destination-zone])
 
-* ```firewall check application application [service] [-z source-zone destination-zone]```
+* `firewall check application application [service] [-z source-zone destination-zone]`
 (short form: fw ch app application [service] [-z source-zone destination-zone])
 
-* ```firewall check user user [-z source-zone destination-zone]```
+* `firewall check user user [-z source-zone destination-zone]`
 (short form: fw ch usr user [-z source-zone destination-zone])
