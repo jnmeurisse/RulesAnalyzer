@@ -21,10 +21,10 @@ The application currently supports the following set of criteria :
 * Applications : define the applications generating the traffic.
 * Users : define the users generating the traffic.
 
-Important notes :
-* RulesAnalyzer is a **static** analyzer.  RulesAnalyzer can only evaluate a criteria when all values are statically known.  RulesAnalyzer can only evaluate a criteria when all values are statically known.  This application supports addresses provided as a FQDN but can not take any decisions that are dynamically evaluated by a firewall such as URL wildcard filtering.
-* When using an Application criteria, it is assumed that the modeled firewall uses protocol decoders that can analyze network traffic to detect application traffic even if the traffic uses non standard port or is encrypted.  The same applies for the User criteria, it is assumed that the modeled firewall has a mechanism to know which IP addresses map to which users.
-* The RulesAnalyzer application supports only IPv4 addresses and TCP, UDP or ICMP protocol types.
+> [!NOTE]
+> * RulesAnalyzer is a **static** analyzer.  RulesAnalyzer can only evaluate a criteria when all values are statically known.  RulesAnalyzer can only evaluate a criteria when all values are statically known.  This application supports addresses provided as a FQDN but can not take any decisions that are dynamically evaluated by a firewall such as URL wildcard filtering.
+> * When using an Application criteria, it is assumed that the modeled firewall uses protocol decoders that can analyze network traffic to detect application traffic even if the traffic uses non standard port or is encrypted.  The same applies for the User criteria, it is assumed that the modeled firewall has a mechanism to know which IP addresses map to which users.
+> * The RulesAnalyzer application supports only IPv4 addresses and TCP, UDP or ICMP protocol types.
 
 RulesAnalyzer is an interactive application.  A basic command line interpreter allows you to interact with the application.
 The command syntax is described here after.
@@ -300,11 +300,11 @@ The RuleAnalyzer application currently supports the loading of firewall rules ex
 Values) files.  The structure of the CSV file and the required fields such as *id*, *action*, … are explained
 later.
 
-Notes :
-* *any* keyword is used in the context of universal quantification of a specific criteria.  It means that a specific
+> [!NOTE]
+> * *any* keyword is used in the context of universal quantification of a specific criteria.  It means that a specific
 criteria will be verified for all values of a set.  For example, using any as the source address, means that the source
 address criteria will be satisfied for all IPv4 addresses.
-* RuleAnalyzer assumes that a route exists between all zones.  In the previous example, we assume that the firewall
+> * RuleAnalyzer assumes that a route exists between all zones.  In the previous example, we assume that the firewall
 has an address translation mechanism configured that converts an IP address valid on the Internet zone to an address
 valid on the DMZ zone.
 
@@ -322,8 +322,8 @@ Modern firewalls provide objects that simplify the construction of rules.  A fir
 tailored for the storage of IPv4 addresses, address groups, services, service groups, applications, application
 groups, users and user groups.  RuleAnalyzer offers commands designed for loading objects into the object store.  
 
-Note : a zone is not considered as an object, it is not possible to create a group of zones.  If a policy allows
-traffic from/to multiple zones, the firewall rules .csv file specifies the list of zones separated by a semicolon.
+> [!TIP]
+> a zone is not considered as an object, it is not possible to create a group of zones.  If a policy allows  traffic from/to multiple zones, the firewall rules .csv file specifies the list of zones separated by a semicolon.
 
 The same hypothetical firewall can be configured with objects:
 
