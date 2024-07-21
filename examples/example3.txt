@@ -1,6 +1,6 @@
 os clear
-os load addr example3_adr.csv
-os load addrg example3_adrg.csv
+os load addr example3_addr.csv
+os load addrg example3_addrg.csv
 os load app example3_app.csv
 os load svc example3_svc.csv
 os load usr example3_usr.csv
