@@ -27,6 +27,8 @@ The application currently supports the following set of criteria :
 > * The RulesAnalyzer application supports only IPv4 addresses and TCP, UDP or ICMP protocol types.
 
 RulesAnalyzer is an interactive application.  A basic command line interpreter allows you to interact with the application.
+
+
 The command syntax is described here after.
 
 ---
@@ -34,7 +36,8 @@ The command syntax is described here after.
 The command `check anomaly` can detect different types of configuration anomalies :
 
 ### Shadowing
-Shadowing refers to the case where all the packets one firewall rule intends to deny (allow) have been accepted (denied) by one or a combination of preceding rules.  This is considered as a configuration error.
+Shadowing refers to the case where all the packets one firewall rule intends to deny (allow) have been accepted (denied) 
+by one or a combination of preceding rules.  This is considered as a configuration error.
 
 #### Example : rule 3 is shadowed by combined rules 1 and 2.
 
@@ -46,10 +49,10 @@ Shadowing refers to the case where all the packets one firewall rule intends to 
 
 #### Output:
 ```shell
-> fw load example_shadowing.csv
-[info] loading rules from 'example_shadowing.csv'.
+> firewall load example-shadowing.csv
+[info] loading rules from 'example-shadowing.csv'.
 [info] 3 rows out of 3 loaded.
-> fw check anomaly
+> firewall check anomaly
 [warning] a deny all rule is missing.
     +--+--------+--------+------------+-----+----------------------------------------+
     |id|src.zone|dst.zone|anomaly     |level|details                                 |
@@ -74,10 +77,10 @@ This is considered as a configuration error.
 
 #### Output:
 ```shell
-> fw load example_redundancy.csv
-[info] loading rules from 'example_redundancy.csv'.
+> firewall load example-redundancy.csv
+[info] loading rules from 'example-redundancy.csv'.
 [info] 3 rows out of 3 loaded.
-> fw check anomaly
+> firewall check anomaly
 [warning] a deny all rule is missing.
     +--+--------+--------+------------+-----+----------------------------------------+
     |id|src.zone|dst.zone|anomaly     |level|details                                 |
@@ -102,12 +105,12 @@ Generalization is considered as an anomaly warning.  Rules with generalizations 
 | 2  | deny   | 192.168.10.20 | 192.168.20.0/24 | tcp/443        |
 | 3  | allow  | 192.168.10.20 | 192.168.20.0/24 | tcp/80;tcp/443 |
 
-#### Output:@
+#### Output:
 ```shell
-> fw load example_generalization.csv
-[info] loading rules from 'example_generalization.csv'.
+> firewall load example-generalization.csv
+[info] loading rules from 'example-generalization.csv'.
 [info] 3 rows out of 3 loaded.
-> fw check anomaly
+> firewall check anomaly
 [warning] a deny all rule is missing.
     +--+--------+--------+----------------+-------+----------------------------------------+
     |id|src.zone|dst.zone|anomaly         |level  |details                                 |
@@ -128,10 +131,10 @@ Correlation is considered as an anomaly warning.  Rules with correlations can be
 
 #### Output:
 ```shell
-> fw load example_correlation.csv
-[info] loading rules from 'example_correlation.csv'.
+> firewall load example-correlation.csv
+[info] loading rules from 'example-correlation.csv'.
 [info] 2 rows out of 2 loaded.
-> fw check anomaly
+> firewall check anomaly
 [warning] a deny all rule is missing.
     +--+--------+--------+----------------+-------+----------------------------------------+
     |id|src.zone|dst.zone|anomaly         |level  |details                                 |
@@ -156,10 +159,10 @@ any service protocol types and destination ports.
 
 #### Output:
 ```shell
-> fw load example_any.csv
-[info] loading rules from 'example_any.csv'.
+> firewall load example-any.csv
+[info] loading rules from 'example-any.csv'.
 [info] 2 rows out of 2 loaded.
-> fw check any
+> firewall check any
 [info] 1 any/any rule found.
     +-------+---------+--------+-------------+--------+
     |rule id|rule name|src.zone|src.addr     |dst.zone|
@@ -185,10 +188,10 @@ combined rules.
 
 #### Output: shows symmetrical rules side by side
 ```shell
-> fw load example_symmetry.csv
-[info] loading rules from 'example_symmetry.csv'.
+> firewall load example-symmetry.csv
+[info] loading rules from 'example-symmetry.csv'.
 [info] 4 rows out of 4 loaded.
-> fw check symmetry
+> firewall check symmetry
     +------------+--------------+--------------+-------------------+--------------+
     |attribute   |name          |value         |name               |value         |
     +------------+--------------+--------------+-------------------+--------------+
@@ -228,10 +231,10 @@ allowed by previous rules is denied by default.
 
 ##### Output
 ```shell
-> fw load example_deny_all.csv
-[info] loading rules from 'example_deny_all.csv'.
+> firewall load example-deny-all.csv
+[info] loading rules from 'example-deny-all.csv'.
 [info] 3 rows out of 3 loaded.
-> fw check deny
+> firewall check deny
 [info] deny all rule found, rule id = 3.
 ```
 
@@ -267,17 +270,17 @@ of rules) from one firewall with a set of rule (or subset of rules) from a secon
 Note : `!(192.168.12.5)` denotes the negation of address 192.168.12.5
 #### Output:
 ```shell
-> fw create fw1
+> firewall create fw1
 [info] firewall 'fw1' created.
-> fw load example_equivalence1.csv
-[info] loading rules from 'example_equivalence1.csv'.
+> firewall load example-equivalence1.csv
+[info] loading rules from 'example-equivalence1.csv'.
 [info] 8 rows out of 8 loaded.
-> fw create fw2
+> firewall create fw2
 [info] firewall 'fw2' created.
-> fw load example_equivalence2.csv
-[info] loading rules from 'example_equivalence2.csv'.
+> fw load example-equivalence2.csv
+[info] loading rules from 'example-equivalence2.csv'.
 [info] 4 rows out of 4 loaded.
-> fw check equivalence fw1
+> firewall check equivalence fw1
 Rules are equivalent.
 ```
 
@@ -308,8 +311,8 @@ address criteria will be satisfied for all IPv4 addresses.
 has an address translation mechanism configured that converts an IP address valid on the Internet zone to an address
 valid on the DMZ zone.
 
-The firewall can be modeled with the following .csv file :
-```shell
+The firewall can be modeled with the following CSV file :
+```
 id,action,src.zone,src.addr,dst.zone,dst.addr,svc
 1,allow,internet,any,dmz,192.168.100.23,tcp/443
 2,allow,dmz,192.168.100.23,internet,8.8.8.8;8.8.4.4,udp/53;tcp/53
@@ -317,13 +320,16 @@ id,action,src.zone,src.addr,dst.zone,dst.addr,svc
 4,allow,lan,10.0.0.0/8,dmz,192.168.100.23,tcp/443;tcp22
 5,deny,any,any,any,any,any
 ```
+
 Modern firewalls provide objects that simplify the construction of rules.  A firewall object is a single object
 (an address for example) or a group of objects.  The RuleAnalyzer application provides a dedicated object store
 tailored for the storage of IPv4 addresses, address groups, services, service groups, applications, application
 groups, users and user groups.  RuleAnalyzer offers commands designed for loading objects into the object store.  
 
 > [!TIP]
-> a zone is not considered as an object, it is not possible to create a group of zones.  If a policy allows  traffic from/to multiple zones, the firewall rules .csv file specifies the list of zones separated by a semicolon.
+> a zone is not considered as an object, it is not possible to create a group of zones.
+> If a policy allows  traffic from/to multiple zones, the firewall rules .csv file specifies the list of zones separated
+> by a semicolon.
 
 The same hypothetical firewall can be configured with objects:
 
@@ -337,7 +343,7 @@ The same hypothetical firewall can be configured with objects:
 
 This firewall can be modeled with the 4 following .csv files :
 
-1. Address .csv file ([example1_addr.csv](examples/example1_addr.csv))
+1. Address CSV file ([example1-addr.csv](examples/example1-addr.csv))
 
     ```
     name,address 
@@ -348,13 +354,13 @@ This firewall can be modeled with the 4 following .csv files :
     LAN_NET,10.0.0.0/8
     ```
 
-2. Address groups .csv file ([example1_addrg.csv](examples/example1_addrg.csv))
+2. Address groups CSV file ([example1-addrg.csv](examples/example1-addrg.csv))
     ```
     name,members
     DB_SERVERS,DB_SERVER_1;DB_SERVER_2
     ```
 
-3. Services .csv file ([example1_svc.csv](examples/example1_svc.csv))
+3. Services CSV file ([example1-svc.csv](examples/example1-svc.csv))
     ```
     name,protoport
     https,tcp/443
@@ -363,7 +369,7 @@ This firewall can be modeled with the 4 following .csv files :
     PostgreSQL,tcp/5432
     ```
 
-4. Security firewall rules .csv file ([example1_rules.csv](examples/example1_rules.csv))
+4. Security firewall rules CSV file ([example1-rules.csv](examples/example1-rules.csv))
     ```
     id,action,src.zone,src.addr,dst.zone,dst.addr,svc
     1,allow,internet,any,dmz,WEB_SERVER,https
@@ -376,20 +382,19 @@ This firewall can be modeled with the 4 following .csv files :
 Example 1 : loading and showing the firewall rules
 
 ```shell
-[info] object store cleared.
-> os load addr example1_adr.csv
-[info] loading objects from 'example1_adr.csv'.
+> ostore load address example1-addr.csv
+[info] loading objects from 'example1-addr.csv'.
 [info] 5 objects loaded.
-> os load addrg example1_adrg.csv
-[info] loading objects from 'example1_adrg.csv'.
+> ostore load address-group example1-addrg.csv
+[info] loading objects from 'example1-addrg.csv'.
 [info] 1 object loaded.
-> os load svc example1_svc.csv
-[info] loading objects from 'example1_svc.csv'.
+> ostore load service example1-svc.csv
+[info] loading objects from 'example1-svc.csv'.
 [info] 4 objects loaded.
-> fw load example1_rules.csv
-[info] loading rules from 'example1_rules.csv'.
+> firewall load example1-rules.csv
+[info] loading rules from 'example1-rules.csv'.
 [info] 5 rows out of 5 loaded.
-> fw show rules
+> firewall show rules
     +--+------+--------+--------+--------------+--------------+--------+---+----+
     |id|action|src.zone|dst.zone|src.ip        |dst.ip        |svc     |app|user|
     +--+------+--------+--------+--------------+--------------+--------+---+----+
@@ -425,7 +430,7 @@ it to a single destination port (5432).  The DNS protocol is allowed on any port
 | 5  | deny   | any             | any                | any                  | any                     | any         | any         |
 
 The firewall can be modeled with the 5 following .csv files :
-1. Addresses .csv file ([example2_addr.csv](examples/example2_addr.csv))
+1. Addresses .csv file ([example2_addr.csv](examples/example2-addr.csv))
     ```
     name,address
     WEB_SERVER,192.168.100.23
@@ -434,18 +439,18 @@ The firewall can be modeled with the 5 following .csv files :
     DB_SERVER_2,10.1.121.12
     LAN_NET,10.0.0.0/8
     ```
-2. Address groups .csv file ([example2_addrg.csv](examples/example2_addrg.csv))
+2. Address groups .csv file ([example2_addrg.csv](examples/example2-addrg.csv))
     ```
     name,members
     DB_SERVERS,DB_SERVER_1;DB_SERVER_2
     ```
-3. Applications .csv file ([example2_app.csv](examples/example2_app.csv))
+3. Applications .csv file ([example2_app.csv](examples/example2-app.csv))
     ```
     name,protoport
     postgres,tcp/5432;tcp/5434-5439
     dns,udp/53;udp/5353;tcp/53
     ```
-4. Services .csv file ([example2_svc.csv](examples/example2_svc.csv))
+4. Services .csv file ([example2_svc.csv](examples/example2-svc.csv))
     ```
     name,protoport
     https,tcp/443
@@ -453,7 +458,7 @@ The firewall can be modeled with the 5 following .csv files :
     ssh,tcp/22
     PostgreSQL,tcp/5432
     ```
-5. Firewall rules .csv file ([example2_rules.csv](examples/example2_rules.csv))
+5. Firewall rules .csv file ([example2_rules.csv](examples/example2-rules.csv))
     ```
     id,action,src.zone,src.addr,dst.zone,dst.addr,svc,app
     1,allow,internet,any,dmz,WEB_SERVER,https,any
@@ -465,22 +470,22 @@ The firewall can be modeled with the 5 following .csv files :
 
 Example 2 : loading and showing the firewall rules
 ```shell
-> os load addr example2_addr.csv
-[info] loading objects from 'example2_addr.csv'.
+> ostore load address example2-addr.csv
+[info] loading objects from 'example2-addr.csv'.
 [info] 5 objects loaded.
-> os load addrg example2_addrg.csv
-[info] loading objects from 'example2_addrg.csv'.
+> ostore load address-group example2-addrg.csv
+[info] loading objects from 'example2-addrg.csv'.
 [info] 1 object loaded.
-> os load app example2_app.csv
-[info] loading objects from 'example2_app.csv'.
+> ostore load application example2-app.csv
+[info] loading objects from 'example2-app.csv'.
 [info] 2 objects loaded.
-> os load svc example2_svc.csv
-[info] loading objects from 'example2_svc.csv'.
+> ostore load service example2-svc.csv
+[info] loading objects from 'example2-svc.csv'.
 [info] 4 objects loaded.
-> fw load example2_rules.csv
-[info] loading rules from 'example2_rules.csv'.
+> firewall load example2-rules.csv
+[info] loading rules from 'example2-rules.csv'.
 [info] 5 rows out of 5 loaded.
-> fw show rules
+> firewall show rules
     +--+------+--------+--------+--------------+--------------+--------+--------+----+
     |id|action|src.zone|dst.zone|src.ip        |dst.ip        |svc     |app     |user|
     +--+------+--------+--------+--------------+--------------+--------+--------+----+
@@ -514,18 +519,18 @@ group.
 
 
 The users are modeled with two additional .csv files : 
-1. Users .csv file ([example3_usr.csv](examples/example3_usr.csv))
+1. Users .csv file ([example3_usr.csv](examples/example3-usr.csv))
     ```
-   name
+    name
     John Doe
     Alice Smith
     ```
-2. User groups csv file ([example3_usrg.csv](examples/example3_usrg.csv))
+2. User groups csv file ([example3_usrg.csv](examples/example3-usrg.csv))
     ```
     name,members
     admins,John Doe;Alice Smith
     ```
-3. Firewall rules .csv file ([example3_rules.csv](examples/example3_rules.csv))
+3. Firewall rules .csv file ([example3_rules.csv](examples/example3-rules.csv))
     ```
     id,action,src.zone,src.addr,dst.zone,dst.addr,svc,app,user
     1,allow,internet,any,dmz,WEB_SERVER,https,any,any
@@ -537,28 +542,28 @@ The users are modeled with two additional .csv files :
 
 Example 3 : loading and showing the firewall rules
 ```shell
-> os load addr example3_addr.csv
-[info] loading objects from 'example3_addr.csv'.
+> ostore load address example3-addr.csv
+[info] loading objects from 'example3-addr.csv'.
 [info] 5 objects loaded.
-> os load addrg example3_addrg.csv
-[info] loading objects from 'example3_addrg.csv'.
+> ostore load address-group example3-addrg.csv
+[info] loading objects from 'example3-addrg.csv'.
 [info] 1 object loaded.
-> os load app example3_app.csv
-[info] loading objects from 'example3_app.csv'.
+> ostore load application example3-app.csv
+[info] loading objects from 'example3-app.csv'.
 [info] 2 objects loaded.
-> os load svc example3_svc.csv
-[info] loading objects from 'example3_svc.csv'.
+> ostore load service example3-svc.csv
+[info] loading objects from 'example3-svc.csv'.
 [info] 4 objects loaded.
-> os load usr example3_usr.csv
-[info] loading objects from 'example3_usr.csv'.
+> ostore load user example3-usr.csv
+[info] loading objects from 'example3-usr.csv'.
 [info] 2 objects loaded.
-> os load usrg example3_usrg.csv
-[info] loading objects from 'example3_usrg.csv'.
+> ostore load user-group example3-usrg.csv
+[info] loading objects from 'example3-usrg.csv'.
 [info] 1 object loaded.
-> fw load example3_rules.csv
-[info] loading rules from 'example3_rules.csv'.
+> firewall load example3-rules.csv
+[info] loading rules from 'example3-rules.csv'.
 [info] 5 rows out of 5 loaded.
-> fw show rules
+> firewall show rules
     +--+------+--------+--------+--------------+--------------+--------+--------+-----------+
     |id|action|src.zone|dst.zone|src.ip        |dst.ip        |svc     |app     |user       |
     +--+------+--------+--------+--------------+--------------+--------+--------+-----------+
@@ -581,9 +586,10 @@ Example 3 : loading and showing the firewall rules
 # The command line interface
 RuleAnalyzer is an interactive application.  It enables you to type in commands and see the results.  Most of the
 commands have also a short form.  All results are presented in an ASCII-table format.  It is possible to save the
-result into a text file or a .CSV file when the command supports the -o option.
+result into a text file or a CSV file when the command supports the -o option.
 
 It is also possible to put RuleAnalyzer commands in a file and read its input from that file.
+
 ## Object store commands
 ### Importing objects from a CSV file.
 Importing firewall objects is only possible from a CSV file.  The RuleAnalyzer application always reports an error if
@@ -594,13 +600,14 @@ Object names stored in the RuleAnalyzer application are case-sensitive. This mea
 treated as two different object names. It's important to use the correct case for the object names to ensure a correct
 model.
 
-The first row of a .csv file must contain parameter names (column names). Each row below the first row contains
+The first row of a CSV file must contain parameter names (column names). Each row below the first row contains
 parameter values.  Column names and parameter values must be separated by a coma (,).  
+
 #### Addresses
-* `ostore load address <file>` *(short form: os l addr)*   
-Loads addresses from the .csv file into the address objects store.  An address is loaded from the parameters *name*, *type* 
-and *address*.  The *name* is the object name.  The *type* represents the type of the address stored in the address column.
-The accepted types are ipmask, iprange or fqdn :
+* `ostore load address <filename>` *(short form: os l addr)*   
+Loads addresses from the CSV file `filename` into the address objects store.  An address is loaded from the parameters
+*name*, *type* and *address*.  The *name* is the object name.  The *type* represents the type of the address stored
+in the address column.  The accepted types are ipmask, iprange or fqdn :
     * **ipmask** type — the address parameter contains a list of IPv4 addresses separated by a semicolon.  Each address
     must conform to the following syntax :  
         * a single IP address : 192.168.2.43 or 192.168.2.43/32
@@ -612,19 +619,19 @@ The accepted types are ipmask, iprange or fqdn :
     * **fqdn** type — the address parameter contains a single hostname.
   
     The *type* parameter is optional.  The application tries to detect the type when this parameter is missing in
-the .csv file.  A fqdn address is resolved to an IP address when loading a firewall rule that refers to this address. The application
+the CSV file.  A fqdn address is resolved to an IP address when loading a firewall rule that refers to this address. The application
 maintains a cache of resolved fqdn addresses in a local file (by default, rulesanalyzer.fqdn).  Fqdn addresses that
 are not resolved are not stored in the cache.  It is possible to completely disable the cache but also customize
 the filename and file location.  
 
-* `ostore load address-group <file>` *(short form: os l addrg)*  
-Loads address groups from the .csv file into the address group objects store.  An address group is loaded from the
+* `ostore load address-group <filename>` *(short form: os l addrg)*  
+Loads address groups from the CSV file `filename` into the address group objects store.  An address group is loaded from the
 parameters *name* and *members*.  The coherence of an address group object is validated only when a firewall rule
 referring to this group is imported into the application.
 
 #### Services
-* `ostore load service <file>` *(short form: os l svc)*  
-Loads services from the .csv file into the service objects store.  A service is loaded from parameters *name* and
+* `ostore load service <filename>` *(short form: os l svc)*  
+Loads services from the CSV file `filename` into the service objects store.  A service is loaded from parameters *name* and
 *protoport*.  The *name* is the object name and *protoport* is a list of protocol/port combinations separated
 by a semicolon.  A *protoport* in the list must conform to the following syntax :  
     * a specific protocol/port combination  : protocol{/range} with      
@@ -642,29 +649,29 @@ by a semicolon.  A *protoport* in the list must conform to the following syntax 
     PING,icmp/8
     ```
 
-* `ostore load service-group <file>` *(short form: os l svcg)*    
-Loads service groups from the .csv file into the service group objects store.  A service group is loaded from the
+* `ostore load service-group <filename>` *(short form: os l svcg)*    
+Loads service groups from the CSV file `filename` into the service group objects store.  A service group is loaded from the
 parameters *name* and *members*.  The coherence of a service group object is validated only when a firewall rule
 referring to this group is imported into the application.
 
 #### Applications
-* `ostore load application <file>` *(short form: os l app)*  
-Loads applications from the .csv file into the application objects store.  An application is loaded from the parameters
+* `ostore load application <filename>` *(short form: os l app)*  
+Loads applications from the CSV file `filename` into the application objects store.  An application is loaded from the parameters
 *name* and *protoport*.  The *name* is the object name and *protoport* is a list of standard protocol/port combinations
 separated by a semicolon.
 
-* `ostore load application-group <file>` *(short form: os l appg)*  
-Loads application groups from the .csv file into the application group objects store.  An application group is loaded
+* `ostore load application-group <filename>` *(short form: os l appg)*  
+Loads application groups from the .CSV file `filename` into the application group objects store.  An application group is loaded
 from the parameters *name* and *members*.  The coherence of an application group object is validated only when a firewall
 rule referring to this group is imported into the application.
 
 #### Users
-* `ostore load user <file>` *(short form: os l usr)*  
-Loads users from the .csv file into the user objects store.  A user is loaded from the parameter *name*.  The name is 
-the object name.
+* `ostore load user <filename>` *(short form: os l usr)*  
+Loads users from the CSV file `filename` into the user objects store.  A user is loaded from the parameter *name*.  The 
+*name* is the object name.
 
-* `ostore load user-group <file>` *(short form: os l usrg file)*
-Loads user groups from the .csv file into the user group objects store.  A user group is loaded from the parameters
+* `ostore load user-group <filename>` *(short form: os l usrg file)*
+Loads user groups from the CSV file `filename` into the user group objects store.  A user group is loaded from the parameters
 *name* and *members*.  The coherence of an application group object is validated only when a firewall rule referring
 to this group is imported into the application.
 
@@ -702,16 +709,44 @@ Example:
 ```
 ### Other object store commands
 * `ostore clear` *(short form: os clear)*  
-Clears the object store.  All objects are deleted from the object store.  
+Clears the object store.  All objects are deleted from the object store.
+
+> [!NOTE] 
+> Clearing the object store does not invalidate a firewall definition.  Objects are imported into the firewall definition
+> when the rules are loaded from a CSV file.
 
 * `ostore info` *(short form: os info)*  
 Shows how many objects are stored in the object store.
+Example:
+```
+> os info
+    +------------------+-------+
+    |store             |objects|
+    +------------------+-------+
+    |addresses         |12333  |
+    +------------------+-------+
+    |address groups    |845    |
+    +------------------+-------+
+    |services          |1283   |
+    +------------------+-------+
+    |service groups    |74     |
+    +------------------+-------+
+    |applications      |4330   |
+    +------------------+-------+
+    |application groups|426    |
+    +------------------+-------+
+    |users             |8      |
+    +------------------+-------+
+    |user groups       |5      |
+    +------------------+-------+
+```
 
 ## Firewall commands
-It is possible to load rules from a CSV file that was created manually or exported from a firewall supporting that functionality.  
+It is only possible to load rules from a CSV file that was created manually or exported from a firewall supporting that
+functionality.  
 
 * `firewall load <filename>` *(short form: fw l)*  
-Loads firewall rules from the .csv `filename` into the current firewall.  A firewall rule is loaded from the parameters :
+Loads firewall rules from the CSV file `filename` into the current firewall.  A firewall rule is loaded from the parameters :
 
 | Parameter  | Description                                                                                                                                                                                                                             | Multiple | Optional | Default | 
 |------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|----------|---------| 
@@ -732,7 +767,7 @@ Loads firewall rules from the .csv `filename` into the current firewall.  A fire
 If there is a failure while importing a rule, the reason will be given and the rule will be skipped.  For example, rules
 that make reference to objects (address, service, …) that are not available in the object store are skipped.
 
-* `firewall save <filename>`   
+* `firewall save <filename>` *(short form: fw save)*   
 Saves the firewall configuration to the file `filename`.  
 
 * `firewall create <name>`
@@ -757,8 +792,7 @@ Example :
 
 
 
-* `firewall show rule <id> [<id>]`
-(short form: fw sh rule)
+* `firewall show rule <id> [<id>]` *(short form: fw sh rule)*
 
 * `firewall show rules [-z <source-zone> <destination-zone>] [-o <filename>]`
 (short form: fw sh rules)
