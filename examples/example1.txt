@@ -1,5 +1,5 @@
-os clear
-os load addr example1_adr.csv
-os load addrg example1_adrg.csv
-os load svc example1_svc.csv
-fw load example1_rules.csv
+ostore clear
+ostore load address example1-adr.csv
+ostore load address-group example1-adrg.csv
+ostore load service example1-svc.csv
+firewall load example1-rules.csv
