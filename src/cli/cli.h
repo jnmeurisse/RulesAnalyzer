@@ -32,8 +32,10 @@ namespace cli {
 		*/
 		void run(std::istream& in);
 
-		/*
+		/* Splits the input line in multiple arguments.  The arguments are pushed
+		*  at the end of the `args` vector.  The number of arguments added to the
+		*  vector is returned by the function.
 		*/
-		size_t split_args(const std::string& line, std::vector<std::string>& tokens);
+		size_t split_args(const std::string& line, std::vector<std::string>& args);
 	};
 }
