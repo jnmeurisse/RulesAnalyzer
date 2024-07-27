@@ -11,7 +11,7 @@
 #include "cli/fw/clifwcreate.h"
 #include "cli/fw/clifwcopy.h"
 #include "cli/fw/clifwdelete.h"
-#include "cli/fw/clifwsave.h"
+#include "cli/fw/clifwexport.h"
 #include "cli/fw/clifwload.h"
 #include "cli/fw/clifwoption.h"
 #include "cli/fw/clifwshow.h"
@@ -26,12 +26,12 @@ namespace cli {
 		add(CommandKeys{ "ch", "check" },   new CliFwCheckCommand(context));
 		add(CommandKeys{ "cr", "create" },  new CliFwCreateCommand(context));
 		add(CommandKeys{ "d", "delete" },   new CliFwDeleteCommand(context));
-		add(CommandKeys{ "s", "save" },     new CliFwSaveCommand(context));
+		add(CommandKeys{ "ex", "export" },  new CliFwExportCommand(context));
 		add(CommandKeys{ "l", "load" },     new CliFwLoadCommand(context));
 		add(CommandKeys{ "cp", "copy" },    new CliFwCopyCommand(context));
 		add(CommandKeys{ "en", "enable" },  new CliFwEnableCommand(context));
 		add(CommandKeys{ "di", "disable" }, new CliFwDisableCommand(context));
-		add(CommandKeys{ "se", "select"},   new CliFwSelectCommand(context));
+		add(CommandKeys{ "s", "select"},    new CliFwSelectCommand(context));
 		add(CommandKeys{ "sh", "show" },    new CliFwShowCommand(context));
 		add(CommandKeys{ "i", "info" },     new CliFwInfoCommand(context));
 	};

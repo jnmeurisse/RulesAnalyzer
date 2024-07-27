@@ -5,7 +5,7 @@
 * SPDX-License-Identifier: GPL-3.0-only
 *
 */
-#include "clifwsave.h"
+#include "clifwexport.h"
 
 #include <string>
 
@@ -13,13 +13,13 @@
 
 namespace cli {
 
-	CliFwSaveCommand::CliFwSaveCommand(CliContext& context) :
+	CliFwExportCommand::CliFwExportCommand(CliContext& context) :
 		CliCommand(context, 1, 1, new CliCommandFlags())
 	{
 	};
 
 
-	void CliFwSaveCommand::do_execute(CliArgs& args, const CliCtrlcGuard& ctrlc_guard)
+	void CliFwExportCommand::do_execute(CliArgs& args, const CliCtrlcGuard& ctrlc_guard)
 	{
 		const Firewall* firewall = context.fw;
 		if (!firewall)
@@ -30,7 +30,7 @@ namespace cli {
 		const std::string output_file{ args.pop() };
 
 		if (write_table(output_file, rules_table, ctrlc_guard)) {
-			context.logger->info("rules saved to file '%s'", output_file.c_str());
+			context.logger->info("rules exported to file '%s'", output_file.c_str());
 		}
 	};
 

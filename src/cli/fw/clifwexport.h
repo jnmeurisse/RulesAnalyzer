@@ -12,10 +12,10 @@
 #include "cli/clicontext.h"
 
 namespace cli {
-	class CliFwSaveCommand : public CliCommand
+	class CliFwExportCommand : public CliCommand
 	{
 	public:
-		CliFwSaveCommand(CliContext& context);
+		CliFwExportCommand(CliContext& context);
 
 		virtual void do_execute(CliArgs& args, const CliCtrlcGuard& ctrlc_guard) override;
 	};
