@@ -864,7 +864,7 @@ All show commands are applied to the active firewall model and enabled rules.
   and deny rules are configured between two zones.
 
 Example :
-   ```
+   ```text
    ```
 
 * `firewall show rule <id> [<id>]` *(short form: fw sh rule)*
