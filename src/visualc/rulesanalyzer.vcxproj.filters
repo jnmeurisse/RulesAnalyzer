@@ -292,9 +292,6 @@
     <ClCompile Include="..\ostore\ostoreconfig.cpp">
       <Filter>Sources\ostore</Filter>
     </ClCompile>
-    <ClCompile Include="..\cli\fw\clifwsave.cpp">
-      <Filter>Sources\cli\fw</Filter>
-    </ClCompile>
     <ClCompile Include="..\cli\fw\clifwinfo.cpp">
       <Filter>Sources\cli\fw</Filter>
     </ClCompile>
@@ -303,6 +300,9 @@
     </ClCompile>
     <ClCompile Include="..\model\packettester.cpp">
       <Filter>Sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cli\fw\clifwexport.cpp">
+      <Filter>Sources\cli\fw</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -597,9 +597,6 @@
     <ClInclude Include="..\ostore\ostoreconfig.h">
       <Filter>Sources\ostore</Filter>
     </ClInclude>
-    <ClInclude Include="..\cli\fw\clifwsave.h">
-      <Filter>Sources\cli\fw</Filter>
-    </ClInclude>
     <ClInclude Include="..\cli\fw\clifwinfo.h">
       <Filter>Sources\cli\fw</Filter>
     </ClInclude>
@@ -611,6 +608,9 @@
     </ClInclude>
     <ClInclude Include="..\model\packettester.h">
       <Filter>Sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\fw\clifwexport.h">
+      <Filter>Sources\cli\fw</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

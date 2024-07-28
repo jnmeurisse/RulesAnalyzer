@@ -136,7 +136,7 @@
     <ClCompile Include="..\cli\fw\clifwcreate.cpp" />
     <ClCompile Include="..\cli\fw\clifwdelete.cpp" />
     <ClCompile Include="..\cli\fw\clifwinfo.cpp" />
-    <ClCompile Include="..\cli\fw\clifwsave.cpp" />
+    <ClCompile Include="..\cli\fw\clifwexport.cpp" />
     <ClCompile Include="..\cli\fw\clifwload.cpp" />
     <ClCompile Include="..\cli\fw\clifwoption.cpp" />
     <ClCompile Include="..\cli\fw\clifwselect.cpp" />
@@ -230,7 +230,7 @@
     <ClInclude Include="..\cli\fw\clifwcreate.h" />
     <ClInclude Include="..\cli\fw\clifwdelete.h" />
     <ClInclude Include="..\cli\fw\clifwinfo.h" />
-    <ClInclude Include="..\cli\fw\clifwsave.h" />
+    <ClInclude Include="..\cli\fw\clifwexport.h" />
     <ClInclude Include="..\cli\fw\clifwload.h" />
     <ClInclude Include="..\cli\fw\clifwoption.h" />
     <ClInclude Include="..\cli\fw\clifwselect.h" />
