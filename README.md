@@ -112,8 +112,10 @@ packets. This is considered as a configuration error.
 ### Generalization
 
 Generalization refers to the case where a subset of the packets matched to this rule has been excluded by preceding
-rules. It is the opposite of shadowing and happens when a preceding rule matches a subset of this rule but takes a different
-action. Generalization is considered as an anomaly warning. Rules with generalizations can be ambiguous and difficult to maintain.
+rules. It is the opposite of shadowing and happens when a preceding rule matches a subset of this rule but takes a
+different
+action. Generalization is considered as an anomaly warning. Rules with generalizations can be ambiguous and difficult to
+maintain.
 
 #### Example : rule 3 is a generalization of combined rules 1 and 2.
 
@@ -338,9 +340,10 @@ that is used by the RuleAnalyzer application when reporting anomalies.
 | 4  | allow  | LAN             | 10.0.0.0/8         | DMZ                  | 192.168.100.23          | TCP/443;TCP/22 |
 | 5  | deny   | any             | any                | any                  | any                     | any            |
 
-The RuleAnalyzer application currently supports the loading of firewall rules exclusively from CSV  (Comma-Separated
-Values) files. The structure of the CSV file and the required fields such as *id*, *action*, … are explained
-later.
+The RuleAnalyzer application currently supports the loading of firewall rules and objects exclusively from CSV  (
+Comma-Separated Values) files. The structure of the CSV file and the required fields such as *id*, *action*, … are
+explained later.  The number of columns delimited by a comma must match for each line.
+
 
 > [!NOTE]
 > * *any* keyword is used in the context of universal quantification of a specific criteria. It means that a specific
@@ -633,6 +636,9 @@ result into a text file or a CSV file when the command supports the -o option.
 
 It is also possible to put RuleAnalyzer commands in a file and read its input from that file.
 
+You can stop most interactive commands by entering the Ctrl-C key sequence. Type `quit` at the command prompt to exit
+the application.
+
 ## Object store commands
 
 ### Importing objects from a CSV file.
@@ -650,8 +656,8 @@ parameter values. Column names and parameter values must be separated by a coma 
 
 #### Addresses
 
-* `ostore load address <filename>` *(short form: os l addr)*   
-  This command will load addresses from the CSV file `filename` into the address objects store. An address is loaded
+* `ostore load address <filename>` *(short form: `os l addr`)*   
+  This command loads addresses from the CSV file `filename` into the address objects store. An address is loaded
   from the parameters *name*, *type* and *address*. The *name* is the object name. The *type* represents the type of the
   address stored in the address column. The accepted types are ipmask, iprange or fqdn :
     * **ipmask** type — the address parameter contains a list of IPv4 addresses separated by a semicolon. Each address
@@ -670,15 +676,15 @@ parameter values. Column names and parameter values must be separated by a coma 
   addresses that are not resolved are not stored in the cache. It is possible to completely disable the cache but also
   customize the filename and file location.
 
-* `ostore load address-group <filename>` *(short form: os l addrg)*  
-  This command will Load address groups from the CSV file `filename` into the address group objects store. An address
+* `ostore load address-group <filename>` *(short form: `os l addrg`)*  
+  This command loads address groups from the CSV file `filename` into the address group objects store. An address
   group is loaded from the parameters *name* and *members*. The coherence of an address group object is validated
   only when a firewall rule referring to this group is imported into the application.
 
 #### Services
 
-* `ostore load service <filename>` *(short form: os l svc)*  
-  This command will load services from the CSV file `filename` into the service objects store. A service is loaded from
+* `ostore load service <filename>` *(short form: `os l svc`)*  
+  This command loads services from the CSV file `filename` into the service objects store. A service is loaded from
   parameters *name* and *protoport*. The *name* is the object name and *protoport* is a list of protocol/port
   combinations separated by a semicolon. A *protoport* in the list must conform to the following syntax :
     * a specific protocol/port combination  : protocol{/range} with      
@@ -696,47 +702,47 @@ parameter values. Column names and parameter values must be separated by a coma 
     PING,icmp/8
     ```
 
-* `ostore load service-group <filename>` *(short form: os l svcg)*    
-  This command will load service groups from the CSV file `filename` into the service group objects store. A service
+* `ostore load service-group <filename>` *(short form: `os l svcg`)*    
+  This command loads service groups from the CSV file `filename` into the service group objects store. A service
   group is loaded from the parameters *name* and *members*. The coherence of a service group object is validated only
   when a firewall rule referring to this group is imported into the application.
 
 #### Applications
 
-* `ostore load application <filename>` *(short form: os l app)*  
-  This command will load applications from the CSV file `filename` into the application objects store. An application is
+* `ostore load application <filename>` *(short form: `os l app`)*  
+  This command loads applications from the CSV file `filename` into the application objects store. An application is
   loaded from the parameters *name* and *protoport*. The *name* is the object name and *protoport* is a list of standard
   protocol/port combinations separated by a semicolon.
 
-* `ostore load application-group <filename>` *(short form: os l appg)*  
-  This command will load application groups from the CSV file `filename` into the application group objects store. An
+* `ostore load application-group <filename>` *(short form: `os l appg`)*  
+  This command loads application groups from the CSV file `filename` into the application group objects store. An
   application group is loaded from the parameters *name* and *members*. The coherence of an application group object is
   validated only when a firewall rule referring to this group is imported into the application.
 
 #### Users
 
-* `ostore load user <filename>` *(short form: os l usr)*  
-  This command will load users from the CSV file `filename` into the user objects store. A user is loaded from the
+* `ostore load user <filename>` *(short form: `os l usr`)*  
+  This command loads users from the CSV file `filename` into the user objects store. A user is loaded from the
   parameter *name*. The *name* is the object name.
 
-* `ostore load user-group <filename>` *(short form: os l usrg file)*
-  This command will load user groups from the CSV file `filename` into the user group objects store. A user group is
+* `ostore load user-group <filename>` *(short form: `os l usrg file`)*
+  This command loads user groups from the CSV file `filename` into the user group objects store. A user group is
   loaded from the parameters *name* and *members*. The coherence of an application group object is validated only when
-  a firewall rule referring  to this group is imported into the application.
+  a firewall rule referring to this group is imported into the application.
 
 ### Querying the object store
 
-The querying command may be applied to the miscellaneous object types. The query command is case-insensitive and
+A `query` command may be applied to the miscellaneous object types. The query command is case-insensitive and
 supports wildcards.
 
-* `ostore query address <query-string>` *(short form: os q addr)*
-* `ostore query address-group <query-string>` *(short form: os q addrg)*
-* `ostore query service <query-string>` *(short form: os q svc)*
-* `ostore query service-group <query-string>` *(short form: os q svcg)*
-* `ostore query application <query-string>` *(short form: os q app)*
-* `ostore query application-group <query-string>` *(short form: os q appg)*
-* `ostore query user <query-string>` *(short form: os q usr)*
-* `ostore query user-group <query-string>` *(short form: os q usrg)*
+* `ostore query address <query-string>` *(short form: `os q addr`)*
+* `ostore query address-group <query-string>` *(short form: `os q addrg`)*
+* `ostore query service <query-string>` *(short form: `os q svc`)*
+* `ostore query service-group <query-string>` *(short form: `os q svcg`)*
+* `ostore query application <query-string>` *(short form: `os q app`)*
+* `ostore query application-group <query-string>` *(short form: `os q appg`)*
+* `ostore query user <query-string>` *(short form: `os q usr`)*
+* `ostore query user-group <query-string>` *(short form: `os q usrg`)*
 
 Example:
 
@@ -760,15 +766,15 @@ Example:
 
 ### Other object store commands
 
-* `ostore clear` *(short form: os clear)*  
-  This command will clear the object store. All objects are deleted from the object store.
+* `ostore clear` *(short form: `os clear`)*  
+  This command allows you to clear the object store. All objects are deleted from the object store.
 
 > [!NOTE]
 > Clearing the object store does not invalidate a firewall definition. Objects are imported into the firewall definition
 > when the rules are loaded from a CSV file.
 
-* `ostore info` *(short form: os info)*  
-  This command will show how many objects are stored in the object store.    
+* `ostore info` *(short form: `os i`)*  
+  This command show how many objects are stored in the object store.    
   Example:
 
     ```
@@ -796,19 +802,23 @@ Example:
 
 ## Firewall commands
 
-It is only possible to load rules from a CSV file that was created manually or exported from a firewall supporting that
-functionality.
+The RulesAnalyzer application let you load and manipulate multiple firewall models. An empty firewall model is create
+at startup. You can get the list of firewall models using the command `network list`. A `firewall` command always
+apply to the active firewall model. The command `firewall select` let you select the active firewall model.
 
-* `firewall load <filename>` *(short form: fw l)*  
-  This command will load firewall rules from the CSV file `filename` into the current firewall.    
-  A firewall rule is loaded from the parameters :
+* `firewall load <filename>` *(short form: `fw l`)*  
+  This command loads firewall rules from the CSV file `filename` into the active firewall. If there is a failure
+  while importing a rule, the reason will be given and the rule will be skipped. Rules that make reference to objects (
+  address, service, …) that are not available in the object store are skipped. The objects are copied from the object
+  store when a rule is loaded. Clearing the object store or replacing the definition
+  of an object in the object store does not change the rule. A firewall rule is loaded from the parameters :
 
 | Parameter  | Description                                                                                                                                                                                                                                                                                                | Multiple | Optional | Default | 
 |------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|----------|---------| 
 | id         | The rule id is a unique identifier assigned to each firewall rule.<br/>It ensures that every rule can be individually referenced.                                                                                                                                                                          | No       | No       |         |
 | name       | The rule name is a descriptive label for the rule.                                                                                                                                                                                                                                                         | No       | Yes      |         |
-| status     | The rule status indicates whether the policy is currently enabled or not.                                                                                                                                                                                                                                  | No       | Yes      | enable  |
-| action     | The action specifies what the firewall should do when a packet matches the criteria defined in the rule.<br/>The rule loader accepts the following values for the accept parameter: allow,  accept, deny, drop.                                                                                            | No       | No       |         |
+| status     | The rule status indicates whether the policy is currently enabled or not.<br/>The rule loader accepts the following values for the status parameter : *enabled*, *disabled*.                                                                                                                               | No       | Yes      | enabled |
+| action     | The action specifies what the firewall should do when a packet matches the criteria defined in the rule.<br/>The rule loader accepts the following values for the accept parameter: *allow*,  *accept*, *deny*, *drop*.                                                                                    | No       | No       |         |
 | src.zone   | Defines the origin points for traffic in the firewall rule.<br/>A source zone refers to logical groupings of network interfaces or segments                                                                                                                                                                | Yes      | Yes      | any     |
 | src.addr   | Defines the source addresses from which incoming traffic is accepted (or denied).<br/>A source address can be an address object or an address group object.  Multiple addresses can be specified separated by a semicolon.                                                                                 | Yes      | No       |         |
 | src.negate | A boolean that is used to invert the source addresses criteria.<br/>When true, the source address criteria is verified when the source traffic does not come from src.addr.                                                                                                                                | No       | Yes      | false   |
@@ -818,33 +828,36 @@ functionality.
 | app        | Defines the applications that are allowed by the rule.<br/>An application can be an application object or an application group object.  Multiple applications can be specified separated by a semicolon.                                                                                                   | Yes      | Yes      | any     |
 | user       | Defines the users for whom the rule applies.<br/>A user can be a user group or a user group object.  Multiple users can be specified separated by a semicolon.                                                                                                                                             | Yes      | Yes      | any     |
 
-If there is a failure while importing a rule, the reason will be given and the rule will be skipped. For example, rules
-that make reference to objects (address, service, …) that are not available in the object store are skipped. The objects
-are copied from the object store when a rule is loaded. Clearing the object store or replacing the definition
-of an object in the object store does not change the rule.
-
 Example:
 
 ```
 ```
 
-* `firewall save <filename>` *(short form: fw save)*   
-  This command will save the firewall configuration to the file `filename`.
+* `firewall export <filename>` *(short form: `fw ex`)*  
+  This command allows you to save the firewall model into the file `filename`. The firewall model can be saved as a text
+  table or as a CSV file depending on the filename extension (.txt or .csv). This command is useful if you want to
 
-* `firewall create <name>`
-  
+* `firewall create <name>` *(short form: `fw cr`)*  
+  This command creates a new empty firewall model named `name` and make it active.
 
-* `firewall copy <name>`
+* `firewall copy <name>` *(short form: `fw cp`)*   
+  This command allow you to copy all rules from the active firewall model to the firewall named `name`. If needed, the
+  application creates the destination firewall model. If the firewall model already exists, all existing rules are
+  deleted before copying.
 
-* `firewall delete <name>`
-* `firewall select <name>`
-* `firewall enable rule <id>`
-* `firewall disable rule <id>`
-* `firewall info`
+* `firewall delete <name>` *(short form: `fw de`)*  
+  This command deletes the firewall model `name`.
+
+* `firewall select <name>`  *(short form: `fw s`)*  
+  This command
+
+* `firewall enable rule <id>`  *(short form: `fw en rule`)*
+* `firewall disable rule <id>` *(short form: `fw di rule`)*
+* `firewall info` *(short form: `fw i`)*
 
 ### Show commands
 
-All show commands are applied to the current firewall and enabled rules.
+All show commands are applied to the active firewall model and enabled rules.
 
 * `firewall show zones` *(short form: fw sh zones)*  
   This command will display all zones that are configured on the current firewall. The output table shows how many allow
@@ -853,42 +866,38 @@ All show commands are applied to the current firewall and enabled rules.
 Example :
 
 * `firewall show rule <id> [<id>]` *(short form: fw sh rule)*
+  This command shows all parameters of the rule having the given `id`. The command can also be used to compare the
+  parameters of two rules side by side.
 
-* `firewall show rules [-z <source-zone> <destination-zone>] [-o <filename>]`
-  (short form: fw sh rules)
+* `firewall show rules [-z <zone-filter>]` *(short form: fw sh rules)*
+  This command shows all rules.
 
-* `Firewall show address [-z <source-zone> <destination-zone>] [-o <filename>]`
-  (short form: fw sh addr)
+* `Firewall show address [<query-string>] [-z <zone-filter>]` *(short form: fw sh addr)*
 
-* `firewall show service [-z <source-zone> <destination-zone>] [-o <filename>]`
-  (short form: fw sh svc)
+* `firewall show service [<query-string>] [-z <zone-filter>]` *(short form: fw sh svc)*
 
-* `firewall show application [-z <source-zone> <destination-zone>] [-o <filename>]`
-  (short form: fw sh app)
+* `firewall show application [<query-string>] [-z <zone-filter>]` *(short form: fw sh app)*
 
-* `firewall show user [-z <source-zone> <destination-zone>] [-o <filename>]`
+* `firewall show user [<query-string>] [-z <zone-filter>]`
 
 ### Check commands
 
 All check commands are applied to the current firewall and only to enabled rules.
 
-* `firewall check any [<address>] [-z <source-zone> <destination-zone>]`
+* `firewall check any [<address>] [-z <zone-filter>]`
 
-* `firewall check deny [-z <source-zone> <destination-zone>]`
+* `firewall check deny [-z <zone-filter>]`
 
-* `firewall check anomaly [-z <source-zone> <destination-zone>]`
+* `firewall check anomaly [-z <zone-filter>]`
 
-* `firewall check symmetry [-z <source-zone> <destination-zone>] [-o filename]`
+* `firewall check symmetry [-z <zone-filter>]`
 
-* `firewall check equivalence <firewall> [-z <source-zone> <destination-zone>]`
+* `firewall check equivalence <firewall> [-z <zone-filter>]`
 
-* `Firewall check address <address> [-z <source-zone> <destination-zone>] [-o filename]`
-  (short form: fw ch addr address)
+* `Firewall check address <address> [-z <zone-filter>]` *(short form: fw ch addr address)*
 
-* `firewall check service <service> [-z source-zone destination-zone]`
-  (short form: fw ch svc)
+* `firewall check service <service> [-z <zone-filter>]` *(short form: fw ch svc)*
 
-* `firewall check application <application> [<service>] [-z <source-zone> <destination-zone>]`
-  (short form: fw ch app)
+* `firewall check application <application> [<service>] [-z <zone-filter>]` *(short form: fw ch app)*
 
-* `firewall check user <user> [-z <source-zone> <destination-zone>]`
+* `firewall check user <user> [-z <zone-filter>]`
