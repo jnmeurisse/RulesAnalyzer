@@ -117,26 +117,27 @@ namespace fwm {
 	void Domains::init(int node_size, int cache_size)
 	{
 		int err;
-		std::vector<int64> size;
 
 		// Initialize the bdd library.
 		bdd_autoreorder(BDD_REORDER_NONE);
 		err = bdd_init(node_size, cache_size);
 		if (err < 0) goto error;
 
-		// Initialize the finite domain blocks.
+		// Allocate all variables.
+		int nvars = 0;
 		for (int dn = 0; dn < _domains.size(); dn++) {
-			size.push_back(_domains[dn]->size() - 1);
+			nvars += _domains[dn]->nbits();
 		}
-		err = ::fdd_extdomain(size.data(), (int)_domains.size());
+		err = ::bdd_setvarnum(nvars);
 		if (err < 0) goto error;
 
 		// Initialize all variables.  We create one binary vector variable
 		// for each finite domain block.
-		for (int dn = 0; dn < _domains.size(); dn++) {
-			_vecs.push_back(bvec_varfdd(dn));
+		//int offset = 0;
+		for (int dn = 0, offset = 0; dn < _domains.size(); dn++) {
+			_vecs.push_back(bvec_var(_domains[dn]->nbits(), offset, 1));
+			offset += _domains[dn]->nbits();
 		}
-
 		return;
 
 	error:
@@ -159,7 +160,6 @@ namespace fwm {
 		if (dn < 0 || dn >= _domains.size())
 			throw std::runtime_error("invalid domain number");
 	}
-
 
 
 	const Domain& Domains::get(DomainType dt)
