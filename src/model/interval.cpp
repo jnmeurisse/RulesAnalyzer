@@ -30,7 +30,7 @@ namespace fwm {
 
 		if (size() == 1) {
 			// lower and upper bounds are equal, we test var == lbound
-			const bvec v{ bvec_con(nb, _lower) };
+			const bvec v{ nb, _lower };
 			return bvec_equ(domain_var, v);
 		}
 		else if (size() == _domain.size()) {
@@ -38,8 +38,8 @@ namespace fwm {
 		}
 		else {
 			// we test lbound <= var <= ubound
-			const bvec l{ bvec_con(nb, _lower) };
-			const bvec u{ bvec_con(nb, _upper) };
+			const bvec l{ nb, _lower };
+			const bvec u{ nb, _upper };
 
 			const bdd condition1{ bvec_lte(l, domain_var) };
 			const bdd condition2{ bvec_lte(domain_var, u) };
