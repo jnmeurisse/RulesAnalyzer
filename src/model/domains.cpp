@@ -131,9 +131,7 @@ namespace fwm {
 		err = ::bdd_setvarnum(nvars);
 		if (err < 0) goto error;
 
-		// Initialize all variables.  We create one binary vector variable
-		// for each finite domain block.
-		//int offset = 0;
+		// Create a vector of variables for each domain.
 		for (int dn = 0, offset = 0; dn < _domains.size(); dn++) {
 			_vecs.push_back(bvec_var(_domains[dn]->nbits(), offset, 1));
 			offset += _domains[dn]->nbits();
