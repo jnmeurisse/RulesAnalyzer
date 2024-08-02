@@ -13,11 +13,12 @@
 #include "cli/os/cliosquery.h"
 
 namespace cli {
+
 	CliOsCommand::CliOsCommand(CliContext& context) :
 		CliCommandMap(context)
 	{
-		add("clear", new CliOsClearCommand(context));
-		add("info", new CliOsInfoCommand(context));
+		add(CommandKeys{ "c", "clear" }, new CliOsClearCommand(context));
+		add(CommandKeys{ "i", "info" }, new CliOsInfoCommand(context));
 		add(CommandKeys{ "l", "load" }, new CliOsLoadCommand(context));
 		add(CommandKeys{ "q", "query"}, new CliOsQueryCommand(context));
 	}
