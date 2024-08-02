@@ -8,7 +8,6 @@
 #include "domain.h"
 
 #include <cassert>
-#include "fdd.h"
 
 namespace fwm {
 
