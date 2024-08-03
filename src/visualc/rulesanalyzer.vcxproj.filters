@@ -304,6 +304,9 @@
     <ClCompile Include="..\cli\fw\clifwexport.cpp">
       <Filter>Sources\cli\fw</Filter>
     </ClCompile>
+    <ClCompile Include="..\cli\nw\clinwlist.cpp">
+      <Filter>Sources\cli\nw</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\model\interval.h">
@@ -611,6 +614,9 @@
     </ClInclude>
     <ClInclude Include="..\cli\fw\clifwexport.h">
       <Filter>Sources\cli\fw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cli\nw\clinwlist.h">
+      <Filter>Sources\cli\nw</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

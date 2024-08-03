@@ -18,6 +18,7 @@
 #include "rule.h"
 #include "service.h"
 #include "servicecache.h"
+#include "table.h"
 #include "user.h"
 #include "usercache.h"
 #include "zone.h"
@@ -41,8 +42,11 @@ namespace fwm {
 		/* Returns a firewall from this network.  The method returns
 		 * a null pointer if the firewall name does not exist.
 		 */
-		Firewall* get(const std::string& name);
+		Firewall* get(const std::string& name) const;
 
+		/* Returns a table showing the list of firewalls defined on this network.
+		*/
+		Table info() const;
 
 		const SrcZone* get_src_zone(const std::string& name) const;
 		const DstZone* get_dst_zone(const std::string& name) const;
@@ -111,7 +115,7 @@ namespace fwm {
 
 		// Applications caches.  An application that allows the traffic only on
 		// their default services is stored in _app_cache[1] while an application that 
-		// allows the traffic on any port is stored in _app_cache[0].  Same of groups
+		// allows the traffic on any port is stored in _app_cache[0].  Same for groups
 		// of applications.  The _appsvc_cache stores the service definition shared
 		// by all applications.
 		ApplicationCache _app_cache[2];
@@ -122,7 +126,7 @@ namespace fwm {
 		UserCache _user_cache;
 		UserGroupCache _user_group_cache;
 
-		// Zone names.  A zone id is the index+1 of the zone name in this vector.
+		// Zone names.  A zone id is equal to index+1 of the zone name in this vector.
 		std::vector<std::string> _zones;
 
 		// Dynamic id allocated to an application or new user when we create

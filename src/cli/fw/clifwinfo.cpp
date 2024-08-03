@@ -22,8 +22,6 @@ namespace cli {
 			report_firewall_not_selected();
 
 		write_table(firewall->info(), ctrlc_guard);
-
 	}
-
 
 }

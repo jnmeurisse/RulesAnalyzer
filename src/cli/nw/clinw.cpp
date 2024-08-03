@@ -7,9 +7,11 @@
 */
 #include "clinw.h"
 
-#include "model/firewall.h"
+#include "cli/nw/clinwlist.h"
 
+#include "model/firewall.h"
 #include "ostore/firewallfactory.h"
+
 
 namespace cli {
 
@@ -23,11 +25,8 @@ namespace cli {
 
 		context.nw.add(firewall);
 		context.fw = context.nw.get("default");
-	};
 
-
-	void CliNwCommand::do_execute(CliArgs& command, const CliCtrlcGuard& ctrlc_guard)
-	{
+		add(CommandKeys{ "l", "list" }, new CliNwListCommand(context));
 	};
 
 }

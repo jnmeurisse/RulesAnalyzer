@@ -7,16 +7,19 @@
 */
 #pragma once
 
-#include "cli/cliargs.h"
+#include "cli/clicmd.h"
 #include "cli/clicmdmap.h"
 #include "cli/clicontext.h"
 
 namespace cli {
 
-	class CliNwCommand : public CliCommandMap
+	class CliNwListCommand : public CliCommand
 	{
 	public:
-		CliNwCommand(CliContext& context);
+		explicit CliNwListCommand(CliContext& context);
+
+	protected:
+		virtual void do_execute(CliArgs& args, const CliCtrlcGuard& ctrlc_guard) override;
 	};
 
 }

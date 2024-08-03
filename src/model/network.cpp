@@ -59,7 +59,7 @@ namespace fwm {
 	}
 
 
-	Firewall* Network::get(const std::string& name)
+	Firewall* Network::get(const std::string& name) const
 	{
 		auto it = _firewalls.find(name);
 
@@ -67,6 +67,28 @@ namespace fwm {
 			return nullptr;
 		else
 			return it->second.get();
+	}
+
+
+	Table Network::info() const
+	{
+		std::vector<std::string> firewall_names;
+
+		for (auto iter = _firewalls.cbegin(); iter != _firewalls.cend(); iter++) {
+			firewall_names.push_back(iter->first);
+		}
+		std::sort(firewall_names.begin(), firewall_names.end());
+
+		Table table{ { "name", "rules" } };
+		Row *row;
+
+		for (const std::string& name : firewall_names) {
+			row = table.add_row();
+			row->cell(0).append(name);
+			row->cell(1).append(_firewalls.at(name)->acl().size());
+		}
+
+		return table;
 	}
 
 

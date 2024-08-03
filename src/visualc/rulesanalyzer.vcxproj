@@ -143,6 +143,7 @@
     <ClCompile Include="..\cli\fw\clifwshow.cpp" />
     <ClCompile Include="..\cli\nw\clinw.cpp" />
     <ClCompile Include="..\cli\nw\clinwduplicate.cpp" />
+    <ClCompile Include="..\cli\nw\clinwlist.cpp" />
     <ClCompile Include="..\cli\os\clios.cpp" />
     <ClCompile Include="..\cli\os\cliosclear.cpp" />
     <ClCompile Include="..\cli\os\cliosinfo.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="..\cli\fw\clifwshow.h" />
     <ClInclude Include="..\cli\nw\clinw.h" />
     <ClInclude Include="..\cli\nw\clinwduplicate.h" />
+    <ClInclude Include="..\cli\nw\clinwlist.h" />
     <ClInclude Include="..\cli\os\clios.h" />
     <ClInclude Include="..\cli\os\cliosclear.h" />
     <ClInclude Include="..\cli\os\cliosinfo.h" />
