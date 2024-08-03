@@ -151,15 +151,17 @@
     <Object Include="..\..\src\visualc\x64\Release\clifwcopy.obj" />
     <Object Include="..\..\src\visualc\x64\Release\clifwcreate.obj" />
     <Object Include="..\..\src\visualc\x64\Release\clifwdelete.obj" />
+    <Object Include="..\..\src\visualc\x64\Release\clifwexport.obj" />
+    <Object Include="..\..\src\visualc\x64\Release\clifwinfo.obj" />
     <Object Include="..\..\src\visualc\x64\Release\clifwload.obj" />
     <Object Include="..\..\src\visualc\x64\Release\clifwoption.obj" />
-    <Object Include="..\..\src\visualc\x64\Release\clifwsave.obj" />
     <Object Include="..\..\src\visualc\x64\Release\clifwselect.obj" />
     <Object Include="..\..\src\visualc\x64\Release\clifwshow.obj" />
     <Object Include="..\..\src\visualc\x64\Release\clifwtest.obj" />
     <Object Include="..\..\src\visualc\x64\Release\clinw.obj" />
     <Object Include="..\..\src\visualc\x64\Release\clinwduplicate.obj" />
-    <Object Include="..\..\src\visualc\x64\Release\clioption.obj" />
+    <Object Include="..\..\src\visualc\x64\Release\clinwlist.obj" />
+    <Object Include="..\..\src\visualc\x64\Release\clioptioncmd.obj" />
     <Object Include="..\..\src\visualc\x64\Release\clios.obj" />
     <Object Include="..\..\src\visualc\x64\Release\cliosclear.obj" />
     <Object Include="..\..\src\visualc\x64\Release\cliosinfo.obj" />
@@ -184,6 +186,7 @@
     <Object Include="..\..\src\visualc\x64\Release\moptions.obj" />
     <Object Include="..\..\src\visualc\x64\Release\network.obj" />
     <Object Include="..\..\src\visualc\x64\Release\objectstore.obj" />
+    <Object Include="..\..\src\visualc\x64\Release\packettester.obj" />
     <Object Include="..\..\src\visualc\x64\Release\policyreader.obj" />
     <Object Include="..\..\src\visualc\x64\Release\poolobject.obj" />
     <Object Include="..\..\src\visualc\x64\Release\ports.obj" />

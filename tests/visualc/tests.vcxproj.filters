@@ -133,9 +133,6 @@
     <Object Include="..\..\src\visualc\x64\Release\clinwduplicate.obj">
       <Filter>Objects</Filter>
     </Object>
-    <Object Include="..\..\src\visualc\x64\Release\clioption.obj">
-      <Filter>Objects</Filter>
-    </Object>
     <Object Include="..\..\src\visualc\x64\Release\clios.obj">
       <Filter>Objects</Filter>
     </Object>
@@ -298,7 +295,19 @@
     <Object Include="..\..\src\visualc\x64\Release\fqdnresolver.obj">
       <Filter>Objects</Filter>
     </Object>
-    <Object Include="..\..\src\visualc\x64\Release\clifwsave.obj">
+    <Object Include="..\..\src\visualc\x64\Release\clioptioncmd.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clifwexport.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clifwinfo.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\packettester.obj">
+      <Filter>Objects</Filter>
+    </Object>
+    <Object Include="..\..\src\visualc\x64\Release\clinwlist.obj">
       <Filter>Objects</Filter>
     </Object>
   </ItemGroup>
