@@ -57,11 +57,14 @@ static bvec bvec_build(int bitnum, int isTrue)
       return vec;
    }
 
-   for (n=0 ; n<bitnum ; n++)
-      if (isTrue)
-	 vec.bitvec[n] = BDDONE;
-      else
-	 vec.bitvec[n] = BDDZERO;
+   if (isTrue) {
+      for (n = 0; n < bitnum; n++)
+         vec.bitvec[n] = BDDONE;
+   }
+   else {
+      for (n = 0; n < bitnum; n++)
+         vec.bitvec[n] = BDDZERO;
+   }
 
    return vec;
 }
@@ -154,19 +157,69 @@ DESCR   {* Builds a boolean vector that represents the value {\tt val}
 RETURN  {* The boolean vector (which is already reference counted) *}
 ALSO    {* bvec\_true, bvec\_false, bvec\_var *}
 */
-bvec bvec_con(int bitnum, int64 val)
+bvec bvec_con(int bitnum, uint64_t val)
 {
-   bvec v = bvec_build(bitnum,0);
+	bvec v = bvec_build(bitnum, 0);
+
+	if (val != 0) {
+		int n;
+
+		for (n = 0; n < v.bitnum; n++)
+		{
+			if (val & 0x1)
+				v.bitvec[n] = bddtrue;
+			else
+				v.bitvec[n] = bddfalse;
+
+			val = val >> 1;
+		}
+	}
+
+	return v;
+}
+
+
+/*
+NAME    {* bvec\_con128 *}
+SECTION {* bvec *}
+SHORT   {* Build a boolean vector representing an integer value from a 128 bit integer *}
+PROTO   {* bvec bvec_con(int bitnum, const s_int128& val) *}
+DESCR   {* Builds a boolean vector that represents the value {\tt val}
+using {\tt bitnum} bits. The value will be represented with the
+LSB at the position 0 and the MSB at position {\tt bitnum}-1.*}
+RETURN  {* The boolean vector (which is already reference counted) *}
+ALSO    {* bvec\_true, bvec\_false, bvec\_var *}
+*/
+bvec bvec_con128(int bitnum, s_uint128 val)
+{
+   bvec v = bvec_build(bitnum, 0);
    int n;
 
-   for (n=0 ; n<v.bitnum ; n++)
-   {
-      if (val & 0x1)
-         v.bitvec[n] = bddtrue;
-      else
-         v.bitvec[n] = bddfalse;
+   if (val.low64 != 0) {
+      for (n = 0; n < MIN(64, v.bitnum); n++)
+      {
+         if (val.low64 & 0x1)
+            v.bitvec[n] = bddtrue;
+         else
+            v.bitvec[n] = bddfalse;
 
-      val = val >> 1;
+		 val.low64 = val.low64 >> 1;
+      }
+   }
+   else {
+      n = 64;
+   }
+
+   if (val.high64 != 0) {
+      for (; n < v.bitnum; n++)
+      {
+         if (val.high64 & 0x1)
+            v.bitvec[n] = bddtrue;
+         else
+            v.bitvec[n] = bddfalse;
+
+		 val.high64 = val.high64 >> 1;
+      }
    }
 
    return v;
@@ -314,10 +367,10 @@ DESCR   {* Calculates the value represented by the bits in {\tt v} assuming
 RETURN  {* The integer value represented by {\tt v}. *}
 ALSO    {* bvec\_isconst, bvec\_con *}
 */
-int64 bvec_val(bvec e)
+uint64_t bvec_val(bvec e)
 {
    int n;
-   int64 val = 0;
+   uint64_t val = 0;
 
    for (n=e.bitnum-1 ; n>=0 ; n--)
       if (ISONE(e.bitvec[n]))
@@ -330,6 +383,39 @@ int64 bvec_val(bvec e)
    return val;
 }
 
+
+/*
+NAME    {* bvec\_val128 *}
+SECTION {* bvec *}
+SHORT   {* calculate the integer value represented by a boolean vector *}
+PROTO   {* s_int128 bvec_val128(bvec v) *}
+DESCR   {* Calculates the value represented by the bits in {\tt v} assuming
+that the vector {\tt v} consists of only constant true
+or false BDDs. The LSB is assumed to be at position zero. *}
+RETURN  {* The integer value represented by {\tt v}. *}
+ALSO    {* bvec\_isconst, bvec\_con *}
+*/
+s_uint128 bvec_val128(BVEC e)
+{
+	int n;
+	s_uint128 val = { 0, 0 };
+
+	uint64_t mask = 1;
+	for (n = 0; n < MIN(e.bitnum, 64); n++) {
+		if (ISONE(e.bitvec[n]))
+			val.low64 |= mask;
+		mask <<= 1;
+	}
+
+	mask = 1;
+	for (n = 64; n < MIN(e.bitnum, 128); n++) {
+		if (ISONE(e.bitvec[n]))
+			val.high64 |= mask;
+		mask <<= 1;
+	}
+
+	return val;
+}
 
 /*======================================================================*/
 
