@@ -50,7 +50,10 @@
  *
  * Bloat:
  * - History search like Ctrl+r in readline?
- *
+ * 
+ * Update:
+ * - raise SIGINT signal if Ctrl+c are pressed.
+ * 
  * List of escape sequences used by this program, we do everything just
  * with three sequences. In order to be so cheap we may have some
  * flickering effect with some slow terminal, but the lesser sequences
@@ -110,6 +113,7 @@
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
+#include <signal.h>
 #include <ctype.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -963,6 +967,7 @@ char *linenoiseEditFeed(struct linenoiseState *l) {
         }
         return strdup(l->buf);
     case CTRL_C:     /* ctrl-c */
+        raise(SIGINT);
         errno = EAGAIN;
         return NULL;
     case BACKSPACE:   /* backspace */
