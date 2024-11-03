@@ -47,19 +47,19 @@ extern "C" {
 
 /* In file fdd.c */
    
-extern int    fdd_extdomain(int64*, int);
-extern int    fdd_overlapdomain(int, int);
-extern void   fdd_clearall(void);
-extern int    fdd_domainnum(void);
-extern int64  fdd_domainsize(int);
-extern int    fdd_varnum(int);
-extern int*   fdd_vars(int);
-extern BDD    fdd_ithvar(int, int64);
-extern int64  fdd_scanvar(BDD, int);
-extern int64* fdd_scanallvar(BDD);
-extern BDD    fdd_ithset(int);
-extern BDD    fdd_domain(int);
-extern BDD    fdd_equals(int, int);
+extern int       fdd_extdomain(uint64_t*, int);
+extern int       fdd_overlapdomain(int, int);
+extern void      fdd_clearall(void);
+extern int       fdd_domainnum(void);
+extern uint64_t  fdd_domainsize(int);
+extern int       fdd_varnum(int);
+extern int*      fdd_vars(int);
+extern BDD       fdd_ithvar(int, uint64_t);
+extern uint64_t  fdd_scanvar(BDD, int);
+extern uint64_t* fdd_scanallvar(BDD);
+extern BDD       fdd_ithset(int);
+extern BDD       fdd_domain(int);
+extern BDD       fdd_equals(int, int);
 extern bddfilehandler fdd_file_hook(bddfilehandler);
 #ifdef CPLUSPLUS
 extern bddstrmhandler fdd_strm_hook(bddstrmhandler);
@@ -84,7 +84,7 @@ extern int  fdd_setpairs(bddPair*, int*, int*, int);
 
    /* FDD extensions */
 
-inline bdd fdd_ithvarpp(int var, int64 val)
+inline bdd fdd_ithvarpp(int var, uint64_t val)
 { return fdd_ithvar(var, val); }
 
 inline bdd fdd_ithsetpp(int var)
@@ -93,10 +93,10 @@ inline bdd fdd_ithsetpp(int var)
 inline bdd fdd_domainpp(int var)
 { return fdd_domain(var); }
 
-inline int64 fdd_scanvar(const bdd &r, int var)
+inline uint64_t fdd_scanvar(const bdd &r, int var)
 { return fdd_scanvar(r.root, var); }
 
-inline int64* fdd_scanallvar(const bdd &r)
+inline uint64_t* fdd_scanallvar(const bdd &r)
 { return fdd_scanallvar(r.root); }
 
 inline bdd fdd_equalspp(int left, int right)

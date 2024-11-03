@@ -196,7 +196,7 @@ extern void   bdd_markcount(int, int*);
 extern void   bdd_unmark(int);
 extern void   bdd_unmark_upto(int, int);
 extern void   bdd_register_pair(bddPair*);
-extern int   *fdddec2bin(int, int64);
+extern int   *fdddec2bin(int, uint64_t);
 
 extern int    bdd_operator_init(int);
 extern void   bdd_operator_done(void);

@@ -419,7 +419,7 @@ static void bdd_printdot_rec(ostream& o, int r)
 static void fdd_printset_rec(ostream &o, int r, int *set)
 {
    int n,i;
-   int64 m;
+   uint64_t m;
    int used = 0;
    int *binval;
    int ok, first;

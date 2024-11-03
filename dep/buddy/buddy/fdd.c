@@ -51,14 +51,14 @@ static void fdd_printset_rec(FILE *, int, int *);
 
 typedef struct s_Domain
 {
-   int64 realsize;   /* The specified domain (0...N-1) */
-   int   binsize;    /* The number of BDD variables representing the domain */
-   int   *ivar;      /* Variable indices for the variable set */
-   BDD   var;        /* The BDD variable set */
+   uint64_t realsize;   /* The specified domain (0...N-1) */
+   int      binsize;    /* The number of BDD variables representing the domain */
+   int     *ivar;       /* Variable indices for the variable set */
+   BDD      var;        /* The BDD variable set */
 } Domain;
 
 
-static void Domain_allocate(Domain*, int64);
+static void Domain_allocate(Domain*, uint64_t);
 static void Domain_done(Domain*);
 
 static int    firstbddvar;
@@ -120,7 +120,7 @@ DESCR   {* Extends the set of finite domain blocks with the {\tt num}
 RETURN  {* The index of the first domain or a negative error code. *}
 ALSO    {* fdd\_ithvar, fdd\_equals, fdd\_overlapdomain *}
 */
-int fdd_extdomain(int64 *dom, int num)
+int fdd_extdomain(uint64_t *dom, int num)
 {
    int offset = fdvarnum;
    int binoffset;
@@ -290,7 +290,7 @@ DESCR   {* Returns the size of the domain for the finite domain
 RETURN  {* The size or a negative error code *}
 ALSO    {* fdd\_domainnum *}
 */
-int64 fdd_domainsize(int v)
+uint64_t fdd_domainsize(int v)
 {
    if (!bddrunning)
       return bdd_error(BDD_RUNNING);
@@ -374,7 +374,7 @@ DESCR   {* Returns the BDD that defines the value {\tt val} for the
 RETURN  {* The correct BDD or the constant false BDD on error. *}
 ALSO    {* fdd\_ithset *}
 */
-BDD fdd_ithvar(int var, int64 val)
+BDD fdd_ithvar(int var, uint64_t val)
 {
    int n;
    int v=1, tmp;
@@ -426,10 +426,10 @@ RETURN  {* The value of a satisfying assignment of {\tt var}. If {\tt r} is
            the trivially false BDD, then a negative value is returned. *}
 ALSO    {* fdd\_scanallvar *}
 */
-int64 fdd_scanvar(BDD r, int var)
+uint64_t fdd_scanvar(BDD r, int var)
 {
-   int64 *allvar;
-   int64 res;
+   uint64_t *allvar;
+   uint64_t res;
 
    CHECK(r);
    if (r == bddfalse)
@@ -459,11 +459,11 @@ RETURN  {* An array with all satisfying values. If {\tt r} is the trivially
            false BDD, then NULL is returned. *}
 ALSO    {* fdd\_scanvar *}
 */
-int64* fdd_scanallvar(BDD r)
+uint64_t* fdd_scanallvar(BDD r)
 {
    int n;
    char *store;
-   int64 *res;
+   uint64_t *res;
    BDD p = r;
    
    CHECKa(r,NULL);
@@ -488,12 +488,12 @@ int64* fdd_scanallvar(BDD r)
       }
    }
 
-   res = NEW(int64, fdvarnum);
+   res = NEW(uint64_t, fdvarnum);
 
    for (n=0 ; n<fdvarnum ; n++)
    {
       int m;
-      int64 val=0;
+      uint64_t val=0;
       
       for (m=domain[n].binsize-1 ; m>=0 ; m--)
          if ( store[domain[n].ivar[m]] )
@@ -551,7 +551,7 @@ RETURN  {* The encoding of the domain*}
 BDD fdd_domain(int var)
 {
    int n;
-   int64 val;
+   uint64_t val;
    Domain *dom;
    BDD d;
       
@@ -734,7 +734,7 @@ void fdd_fprintset(FILE *ofile, BDD r)
 static void fdd_printset_rec(FILE *ofile, int r, int *set)
 {
    int n,i;
-   int64 m;
+   uint64_t m;
    int used = 0;
    int *var;
    int *binval;
@@ -785,9 +785,9 @@ static void fdd_printset_rec(FILE *ofile, int r, int *set)
                if (ok)
                {
                   if (firstval)
-                     fprintf(ofile, "%lld", m);
+                     fprintf(ofile, "%lu", m);
                   else
-                     fprintf(ofile, "/%lld", m);
+                     fprintf(ofile, "/%lu", m);
                   firstval = 0;
                }
 
@@ -1032,9 +1032,9 @@ static void Domain_done(Domain* d)
 }
 
 
-static void Domain_allocate(Domain* d, int64 range)
+static void Domain_allocate(Domain* d, uint64_t range)
 {
-   int64 calcsize = 2;
+   uint64_t calcsize = 2;
    
    if (range <= 0  || range > LLONG_MAX/2)
    {
@@ -1056,7 +1056,7 @@ static void Domain_allocate(Domain* d, int64 range)
 }
 
 
-int *fdddec2bin(int var, int64 val)
+int *fdddec2bin(int var, uint64_t val)
 {
    int *res;
    int n = 0;

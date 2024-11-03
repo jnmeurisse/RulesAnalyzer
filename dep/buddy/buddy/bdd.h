@@ -38,7 +38,6 @@
 #ifndef _BDD_H
 #define _BDD_H
 
-typedef __int64 int64;
 
    /* Allow this headerfile to define C++ constructs if requested */
 #ifdef __cplusplus
@@ -46,6 +45,7 @@ typedef __int64 int64;
 #endif
 
 #include <stdio.h>
+#include "uint.h"
 
 /*=== Defined operators for apply calls ================================*/
 
@@ -511,31 +511,31 @@ private:
    friend int*     bdd_varprofile(const bdd &);
    friend double   bdd_pathcount(const bdd &);
    
-   friend void   bdd_fprinttable(FILE *, const bdd &);
-   friend void   bdd_printtable(const bdd &);
-   friend void   bdd_fprintset(FILE *, const bdd &);
-   friend void   bdd_printset(const bdd &);
-   friend void   bdd_printdot(const bdd &);
-   friend int    bdd_fnprintdot(char*, const bdd &);
-   friend void   bdd_fprintdot(FILE*, const bdd &);
+   friend void     bdd_fprinttable(FILE *, const bdd &);
+   friend void     bdd_printtable(const bdd &);
+   friend void     bdd_fprintset(FILE *, const bdd &);
+   friend void     bdd_printset(const bdd &);
+   friend void     bdd_printdot(const bdd &);
+   friend int      bdd_fnprintdot(char*, const bdd &);
+   friend void     bdd_fprintdot(FILE*, const bdd &);
    friend std::ostream &operator<<(std::ostream &, const bdd &);
-   friend int    bdd_fnsave(char*, const bdd &);
-   friend int    bdd_save(FILE*, const bdd &);
-   friend int    bdd_fnload(char*, bdd &);
-   friend int    bdd_load(FILE*, bdd &);
+   friend int      bdd_fnsave(char*, const bdd &);
+   friend int      bdd_save(FILE*, const bdd &);
+   friend int      bdd_fnload(char*, bdd &);
+   friend int      bdd_load(FILE*, bdd &);
    
-   friend bdd    fdd_ithvarpp(int, int64);
-   friend bdd    fdd_ithsetpp(int);
-   friend bdd    fdd_domainpp(int);
-   friend int64  fdd_scanvar(const bdd &, int);
-   friend int64* fdd_scanallvar(const bdd &);
-   friend bdd    fdd_equalspp(int, int);
-   friend void   fdd_printset(const bdd &);
-   friend void   fdd_fprintset(FILE*, const bdd &);
-   friend bdd    fdd_makesetpp(int*, int);
-   friend int    fdd_scanset(const bdd &, int *&, int &);
+   friend bdd       fdd_ithvarpp(int, uint64_t);
+   friend bdd       fdd_ithsetpp(int);
+   friend bdd       fdd_domainpp(int);
+   friend uint64_t  fdd_scanvar(const bdd &, int);
+   friend uint64_t* fdd_scanallvar(const bdd &);
+   friend bdd       fdd_equalspp(int, int);
+   friend void      fdd_printset(const bdd &);
+   friend void      fdd_fprintset(FILE*, const bdd &);
+   friend bdd       fdd_makesetpp(int*, int);
+   friend int       fdd_scanset(const bdd &, int *&, int &);
 
-   friend int    bdd_addvarblock(const bdd &, int);
+   friend int       bdd_addvarblock(const bdd &, int);
 
    friend class bvec;
    friend bvec bvec_ite(const bdd& a, const bvec& b, const bvec& c);
