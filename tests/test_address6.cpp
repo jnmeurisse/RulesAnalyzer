@@ -321,6 +321,7 @@ TEST(DstAddress6Test, bdd) {
 	EXPECT_EQ(a4->compare(*a5), MnodeRelationship::overlap);
 }
 
+
 TEST(DstAddress6Test, any) {
 	using namespace fwm;
 
