@@ -168,10 +168,11 @@ namespace fos {
 		hints.ai_socktype = SOCK_STREAM; // TCP socket
 
 		// Resolve the hostname.
-		std::cout << "resolve fqdn '" << hostname << "'" << std::endl;
-		std::vector<std::string> addresses;
+		_logger->info("resolving fqdn '%s'", hostname.c_str());
 
+		std::vector<std::string> addresses;
 		struct addrinfo* addr_info;
+
 		const int status = ::getaddrinfo(hostname.c_str(), NULL, &hints, &addr_info);
 		if (status == 0) {
 			// Iterate through the results to find IPv4 or IPv6 addresses.
