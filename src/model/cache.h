@@ -57,7 +57,7 @@ namespace fwm {
 	{
 		const std::string& name = item->name();
 
-		// insert the name-value pair into the map or rase an exception if the item is in the cache.
+		// insert the name-value pair into the map or raise an exception if the item is in the cache.
 		const auto it =_items.insert(std::make_pair(name, item));
 		if (!it.second)
 			throw std::runtime_error(fmt::format("internal error : item '{}' already in the cache", name));
