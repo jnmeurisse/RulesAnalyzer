@@ -491,12 +491,13 @@ namespace fos {
 			// Add an new rule to the firewall Access Control List.
 			fw.add_rule(
 				new Rule(
+					fw,
 					rule.name,
 					rule.id,
 					rule_status,
 					rule_action,
-					predicate.release(),
-					fw)
+					predicate.release()
+				)
 			);
 		}
 
@@ -535,12 +536,13 @@ namespace fos {
 		// Add a new deny rule to the firewall Access Control List.
 		fw.add_rule(
 			new Rule(
+				fw,
 				"",
 				0,
 				RuleStatus::ENABLED,
 				RuleAction::DENY,
-				Predicate::any(fw.network().config().ip_model),
-				fw)
+				Predicate::any(fw.network().config().ip_model)
+			)
 		);
 
 		return true;

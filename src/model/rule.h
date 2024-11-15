@@ -59,7 +59,7 @@ namespace fwm {
 	class Rule
 	{
 	public:
-		Rule(const std::string& name, int id, RuleStatus status, RuleAction action, const Predicate* predicate, Firewall& firewall);
+		Rule(Firewall& firewall, const std::string& name, int id, RuleStatus status, RuleAction action, const Predicate* predicate);
 		Rule(const Rule& other);
 
 		/* Writes a a representation of this rule to the given table row.
@@ -103,14 +103,14 @@ namespace fwm {
 		void set_rule_status(RuleStatus status);
 
 	private:
+		// The firewall owning this rule
+		Firewall& _firewall;
+
 		// The rule name
 		const std::string _name;
 
 		// The rule id
 		const int _id;
-
-		// The firewall owning this rule
-		Firewall& _firewall;
 
 		// Is this rule enabled or not
 		RuleStatus _status;

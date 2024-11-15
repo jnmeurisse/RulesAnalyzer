@@ -23,10 +23,10 @@ namespace fwm {
 	}
 
 
-	Rule::Rule(const std::string& name, int id, RuleStatus status, RuleAction action, const Predicate* predicate, Firewall& firewall) :
+	Rule::Rule(Firewall& firewall, const std::string& name, int id, RuleStatus status, RuleAction action, const Predicate* predicate) :
+		_firewall{ firewall },
 		_name{ name },
 		_id{ id },
-		_firewall{ firewall },
 		_status{ status },
 		_action{ action },
 		_predicate{ predicate }
