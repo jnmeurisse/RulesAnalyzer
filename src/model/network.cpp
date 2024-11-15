@@ -8,6 +8,7 @@
 #include "model/network.h"
 
 #include <cstdint>
+#include <cassert>
 #include <memory>
 #include <stdexcept>
 #include <utility>
@@ -83,9 +84,13 @@ namespace fwm {
 	}
 
 
-	void Network::add(Firewall* firewall)
+	Firewall& Network::add(Firewall* firewall)
 	{
+		assert(firewall);
+		assert(&firewall->network() == this);
+
 		_firewalls[firewall->name()] = std::unique_ptr<Firewall>(firewall);
+		return *_firewalls[firewall->name()];
 	}
 
 

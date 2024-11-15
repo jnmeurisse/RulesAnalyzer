@@ -39,9 +39,9 @@ namespace fwm {
 		*/
 		const ModelConfig& config() const;
 
-		/* Adds a new firewall to this network.
+		/* Adds a new firewall to this network and returns a reference to the added firewall.
 		*/
-		void add(Firewall* firewall);
+		Firewall& add(Firewall* firewall);
 
 		/* Deletes a firewall from this network.
 		*/
