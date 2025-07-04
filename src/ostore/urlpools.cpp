@@ -32,7 +32,7 @@ namespace fos {
 		}
 		else if (values[1].empty()) {
 			_logger->warning(
-				"skip url group '%s', users not defined",
+				"skip url group '%s', urls not defined",
 				values[0].c_str()
 			);
 		}
