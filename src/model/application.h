@@ -39,7 +39,7 @@ namespace fwm {
 		 *
 		 * @param name The name of the application.
 		 * @param app_id The application id.
-		 * @param services A group of default services for this application.  The grou must be
+		 * @param services A group of default services for this application.  The group must be
 		 *                 dynamically allocated.  The group is owned by this class.
 		 * @param options A set of model options.
 		 * @param use_app_svc A flag that indicates whether we are using default services when

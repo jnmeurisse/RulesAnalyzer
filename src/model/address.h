@@ -44,7 +44,7 @@ namespace fwm {
 		virtual bdd make_bdd() const override;
 
 		/**
-		 * Returns the addresse value.
+		 * Returns the address value.
 		*/
 		const Mvalue& value() const;
 
