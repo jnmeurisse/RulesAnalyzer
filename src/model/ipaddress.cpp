@@ -27,12 +27,12 @@ namespace fwm {
 
 
 	IPAddressError::IPAddressError(const std::string& address, const std::string& reason) :
-			std::runtime_error(
-				fmt::format("'{}' is not a valid IP address : '{}'", address, reason)
-			),
-			_address{ address },
-			_reason{ reason }
-		{
-		}
+		std::runtime_error(
+			fmt::format("'{}' is not a valid IP address : '{}'", address, reason)
+		),
+		_address{ address },
+		_reason{ reason }
+	{
+	}
 
 }
