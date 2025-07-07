@@ -18,6 +18,7 @@
 #include "tools/io.h"
 
 
+static const char* VERSION = "1.0";
 static const char* DEFAULT_CONFIG_FILENAME = "rulan.cfg";
 
 
@@ -46,6 +47,7 @@ int main(int ac, char** av)
 			}
 		}
 
+		logger->info("starting rulan v%s", VERSION);
 		if (!rat::file_exists(config_filename)) {
 			logger->warning("configuration file '%s' not found", config_filename);
 		}
