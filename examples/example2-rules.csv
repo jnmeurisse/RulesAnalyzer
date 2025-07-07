@@ -1,0 +1,6 @@
+id,action,src.zone,src.addr,dst.zone,dst.addr,svc,app
+1,allow,internet,any,dmz,WEB_SERVER,https,any
+2,allow,dmz,WEB_SERVER,internet,GOOGLE_DNS,app-default,dns
+3,allow,dmz,WEB_SERVER,lan,DB_SERVERS,PostgreSQL,postgres
+4,allow,lan,LAN_NET,dmz,WEB_SERVER,https;ssh,any
+5,deny,any,any,any,any,any,any

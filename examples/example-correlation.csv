@@ -1,0 +1,3 @@
+id,action,src.addr,dst.addr,svc
+1,allow,any,192.168.1.0/24,tcp/80
+2,deny,10.1.1.0/24,192.168.0.0/16,tcp/80

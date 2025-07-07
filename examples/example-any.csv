@@ -1,0 +1,3 @@
+id,action,src.zone,src.addr,dst.zone,dst.addr,svc
+1,allow,lan,10.0.3.31,internet,any,any
+2,deny,any,any,any,any,any

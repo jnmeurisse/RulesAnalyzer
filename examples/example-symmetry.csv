@@ -1,0 +1,5 @@
+id,action,src.zone,src.addr,dst.zone,dst.addr,svc
+1,allow,dmz,192.168.100.23,corporate,10.0.3.21;10.0.3.22,udp/53
+2,allow,corporate,10.0.3.21-10.0.3.22,dmz,192.168.100.23,tcp/445
+3,allow,corporate,10.0.3.21-10.0.3.22,dmz,192.168.100.23,udp/53
+5,deny,any,any,any,any,any

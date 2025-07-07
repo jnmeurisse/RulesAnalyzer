@@ -1,0 +1,3 @@
+name,protoport
+postgres,tcp/5432;tcp/5434-5439
+dns,udp/53;udp/5353;tcp/53

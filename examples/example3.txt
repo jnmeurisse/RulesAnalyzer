@@ -1,0 +1,8 @@
+ostore clear
+ostore load address example3-addr.csv
+ostore load address-group example3-addrg.csv
+ostore load application example3-app.csv
+ostore load service example3-svc.csv
+ostore load user example3-usr.csv
+ostore load user-group example3-usrg.csv
+firewall load example3-rules.csv
