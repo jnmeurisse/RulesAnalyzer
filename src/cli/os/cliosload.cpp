@@ -22,6 +22,8 @@ namespace cli {
 		add(CommandKeys{ "appg", "application-group" }, new CliLoadAppgCommand(context));
 		add(CommandKeys{ "usr", "user" },               new CliLoadUsrCommand(context));
 		add(CommandKeys{ "usrg", "user-group" },        new CliLoadUsrgCommand(context));
+		add(CommandKeys{ "url" },                       new CliLoadUrlCommand(context));
+		add(CommandKeys{ "urlg", "url-group" },         new CliLoadUrlgCommand(context));
 	}
 
 

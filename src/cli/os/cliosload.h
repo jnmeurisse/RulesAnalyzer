@@ -138,4 +138,28 @@ namespace cli {
 		}
 	};
 
+	class CliLoadUrlCommand : public CliOsLoadSubCommand
+	{
+	public:
+		using CliOsLoadSubCommand::CliOsLoadSubCommand;
+
+	private:
+		virtual int do_load_file(const std::string& filename, f_interrupt_cb interrupt_cb) override
+		{
+			return context.ostore.load_urls(filename, interrupt_cb);
+		}
+	};
+
+
+	class CliLoadUrlgCommand : public CliOsLoadSubCommand
+	{
+	public:
+		using CliOsLoadSubCommand::CliOsLoadSubCommand;
+
+	private:
+		virtual int do_load_file(const std::string& filename, f_interrupt_cb interrupt_cb) override
+		{
+			return context.ostore.load_url_groups(filename, interrupt_cb);
+		}
+	};
 }
