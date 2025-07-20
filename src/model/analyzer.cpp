@@ -60,18 +60,35 @@ namespace fwm {
 	{
 		std::list<RulePair> symmetrical_rules;
 
+		// this cache contains bdd of symmetrical predicates.
+		Bddcache cache{};
+		cache.reserve(_acl.size());
+
 		int rule_index{ 0 };
 		for (const Rule* rule : _acl) {
 			auto it = _acl.begin();
 			std::advance(it, ++rule_index);
 
 			for (; it != _acl.end(); ++it) {
+				const Rule* other_rule = *it;
+				Bddnode symmetrical_bdd;
+
+				auto pos = cache.find(other_rule->id());
+				if (pos == cache.end()) {
+					const PredicatePtr other_predicate{ other_rule->predicate().symmetrical() };
+					symmetrical_bdd = other_predicate->make_bdd();
+					cache[other_rule->id()] = symmetrical_bdd;
+				}
+				else {
+					symmetrical_bdd = pos->second;
+				}
+
 				if (interrupt_cb())
 					throw interrupt_error("** interrupted **");
 
-				if (rule->action() == (*it)->action() &&
-					rule->predicate().is_symmetrical((*it)->predicate(), strict)) {
-					symmetrical_rules.push_back(std::make_tuple(rule, *it));
+				// two rules are symmetrical if the action and the predicates are identical
+				if (rule->action() == other_rule->action() && rule->predicate().equal(symmetrical_bdd)) {
+					symmetrical_rules.push_back(std::make_tuple(rule, other_rule));
 				}
 			}
 		}
@@ -88,7 +105,7 @@ namespace fwm {
 		PredicatePtr any_predicate = std::unique_ptr<Predicate>(Predicate::any(_ip_model));
 		State state{ *any_predicate };
 
-		// The bdd cache is mostly used when searching for preceding rules that are
+		// The bdd cache is used when searching for preceding rules that are
 		// involved in an anomaly.  It avoids to rebuild the bdd over and over.
 		Bddcache cache{};
 		cache.reserve(_acl.size());

@@ -120,6 +120,11 @@ namespace fwm {
 		inline bool negate_src_addresses() const noexcept { return _negate_src_addresses; }
 
 		/**
+		 * Returns a bdd for source addresses
+		 */
+		bdd src_addresses_bdd() const;
+
+		/**
 		 * Returns a reference to all destination addresses configured on a rule.
 		*/
 		inline const DstAddressGroup& dst_addresses() const noexcept { return *_dst_addresses; }
@@ -128,6 +133,26 @@ namespace fwm {
 		 * Returns true if the destination addresses must be negated when computing a bdd.
 		*/
 		inline bool negate_dst_addresses() const noexcept { return _negate_dst_addresses; }
+
+		/**
+		 * Returns a bdd for destination addresses
+		 */
+		bdd dst_addresses_bdd() const;
+
+		/**
+		 * Allocates the symmetrical predicate of this predicate.
+		 *
+		 *         this                     return
+		 *      destination zones     => source zones
+		 *      destination addresses => source addresses
+		 *      source zones          => destination zones
+		 *      source addresses      => destination addresses
+		 *      services              == services
+		 *      applications          == applications
+		 *      users                 == users
+		 *      urls                  == urls
+		 */
+		Predicate* symmetrical() const;
 
 		/**
 		 * Returns a reference to all services configured on a rule.
@@ -148,23 +173,6 @@ namespace fwm {
 		 * Returns a reference to all urls configured on a rule.
 		*/
 		inline const UrlGroup& urls() const noexcept { return *_urls; }
-
-		/* Returns true if two predicates are symmetrical.  Two predicates A, B are
-		*  symmetrical when
-		*       Predicate A             Predicate B
-		*       destination zones     = source zones
-		*       destination addresses = source addresses
-		*       source zones          = destination zones
-		*       source addresses      = destination addresses
-		*       services              = services
-		*       applications          = applications
-		*       users                 = users
-		*       urls                  = urls
-		*
-		*  When strict is false, the method checks if groups are a subset of each other
-		*  instead of checking for equality.
-		*/
-		bool is_symmetrical(const Predicate& other, bool strict) const;
 
 	private:
 		const SrcZoneGroupPtr _src_zones;
