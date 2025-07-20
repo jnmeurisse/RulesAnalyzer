@@ -77,6 +77,17 @@ namespace fwm {
 	}
 
 
+	MnodeRelationship Rule::compare(const Rule& other) const
+	{
+		const Bddnode this_bdd{ predicate().make_bdd() };
+		const Bddnode other_bdd{ other.predicate().make_bdd() };
+
+		return this_bdd
+				.negate_if(action() == RuleAction::DENY)
+				.compare(other_bdd.negate_if(other.action() == RuleAction::DENY));
+	}
+
+
 	Table Rule::create_table(const RuleOutputOptions& options) const
 	{
 		Table rule_table{ { "attribute", "name", "value" } };

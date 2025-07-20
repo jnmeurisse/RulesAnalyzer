@@ -11,6 +11,7 @@
 #include <memory>
 #include <list>
 #include <string>
+#include "model/mnode.h"
 #include "model/table.h"
 #include "model/predicate.h"
 #include "tools/options.h"
@@ -69,6 +70,10 @@ namespace fwm {
 		/* Creates a table representing this rule.
 		*/
 		Table create_table(const RuleOutputOptions& options) const;
+
+		/* Compares two rules.
+		*/
+		MnodeRelationship compare(const Rule& other) const;
 
 		/* Returns the rule name.
 		*/

@@ -200,16 +200,20 @@ namespace cli {
 		}
 
 		const Rule* rule[2] = { nullptr, nullptr };
+		const Predicate* predicate[2] = {nullptr, nullptr};
+
 		if (rule_id[0] >= 0) {
 			rule[0] = firewall.get_rule(rule_id[0]);
 			if (rule[0] == nullptr)
 				report_rule_id_not_found(rule_id[0]);
+			predicate[0] = &rule[0]->predicate();
 		}
 
 		if (rule_id[1] >= 0) {
 			rule[1] = firewall.get_rule(rule_id[1]);
 			if (rule[1] == nullptr)
 				report_rule_id_not_found(rule_id[1]);
+			predicate[1] = &rule[1]->predicate();
 		}
 
 		const RuleOutputOptions options = firewall.make_output_options(true);
@@ -217,14 +221,11 @@ namespace cli {
 		if (rule[0]) {
 			Table rules_table{ rule[0]->create_table(options) };
 			if (rule[1]) {
-				const Predicate& predicate_0{ rule[0]->predicate() };
-				const Predicate& predicate_1{ rule[1]->predicate() };
-
 				// Initialize a table with two columns
 				Table comparison_table{ {"", "comparison"} };
 
 				comparison_table.add_row().cell(1).append(
-					relation_message(rule_id[0], predicate_0.compare(predicate_1), rule_id[1])
+					relation_message(rule_id[0], rule[0]->compare(*rule[1]), rule_id[1])
 				);
 
 				comparison_table.add_row().cell(1).append(
@@ -234,54 +235,40 @@ namespace cli {
 					rule[0]->action() == rule[1]->action() ? "equal" : "different"
 				);
 				comparison_table.add_row().cell(1).append(
-					to_string(predicate_0.src_zones().compare(predicate_1.src_zones()))
+					to_string(predicate[0]->src_zones().compare(predicate[1]->src_zones()))
 				);
 				comparison_table.add_row().cell(1).append(
-					to_string(predicate_0.dst_zones().compare(predicate_1.dst_zones()))
+					to_string(predicate[0]->dst_zones().compare(predicate[1]->dst_zones()))
 				);
 				comparison_table.add_row().cell(1).append(
 					to_string(
-						predicate_0
-							.src_addresses()
-							.negate_if(predicate_0.negate_src_addresses())
-							.compare(
-								predicate_1
-									.src_addresses()
-									.negate_if(predicate_1.negate_src_addresses())
-							)
+						Bddnode(predicate[0]->src_addresses_bdd()).compare(predicate[1]->src_addresses())
 					)
 				);
 				comparison_table.add_row().cell(1).append(
 					to_string(
-						predicate_0
-							.dst_addresses()
-							.negate_if(predicate_0.negate_dst_addresses())
-							.compare(
-								predicate_1
-									.dst_addresses()
-									.negate_if(predicate_1.negate_dst_addresses())
-							)
+						Bddnode(predicate[0]->dst_addresses_bdd()).compare(predicate[1]->dst_addresses())
 					)
 				);
 				comparison_table.add_row().cell(1).append(
-					to_string(predicate_0.services().compare(predicate_1.services()))
+					to_string(predicate[0]->services().compare(predicate[1]->services()))
 				);
 
 				if (options.contains(RuleOutputOption::APPLICATION_NAME)) {
 					comparison_table.add_row().cell(1).append(
-						to_string(predicate_0.applications().compare(predicate_1.applications()))
+						to_string(predicate[0]->applications().compare(predicate[1]->applications()))
 					);
 				}
 
 				if (options.contains(RuleOutputOption::USER_NAME)) {
 					comparison_table.add_row().cell(1).append(
-						to_string(predicate_0.users().compare(predicate_1.users()))
+						to_string(predicate[0]->users().compare(predicate[1]->users()))
 					);
 				}
 
 				if (options.contains(RuleOutputOption::URL)) {
 					comparison_table.add_row().cell(1).append(
-						to_string(predicate_0.urls().compare(predicate_1.urls()))
+						to_string(predicate[0]->urls().compare(predicate[1]->urls()))
 					);
 				}
 
