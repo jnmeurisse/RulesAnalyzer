@@ -24,6 +24,9 @@ namespace fwm {
 
 	using RulePair = std::tuple<const Rule*, const Rule*>;
 
+	// Progress callback (0-100 percent)
+	using f_progress_cb = std::function<void(size_t)>;
+
 	class Analyzer
 	{
 	public:
@@ -33,8 +36,8 @@ namespace fwm {
 
 		RuleList check_any(const DstAddressGroup& any_addresses) const;
 		RuleList check_deny() const;
-		std::list<RulePair> check_symmetry(bool strict, f_interrupt_cb interrupt_cb) const;
-		RuleAnomalies check_anomaly(f_interrupt_cb interrupt_cb) const;
+		std::list<RulePair> check_symmetry(bool strict, f_interrupt_cb interrupt_cb, f_progress_cb progress_cb) const;
+		RuleAnomalies check_anomaly(f_interrupt_cb interrupt_cb, f_progress_cb progress_cb) const;
 
 		inline const RuleList& acl() const noexcept { return _acl; }
 

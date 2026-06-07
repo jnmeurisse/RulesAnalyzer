@@ -180,7 +180,7 @@ TEST(Analyzer6, shadowing) {
 
 	{
 		Analyzer analyzer(firewall->acl(), network.config().ip_model);
-		RuleAnomalies anomalies = analyzer.check_anomaly(interrupt_cb);
+		RuleAnomalies anomalies = analyzer.check_anomaly(interrupt_cb, nullptr);
 		EXPECT_EQ(anomalies.size(), 0);
 	}
 
@@ -205,7 +205,7 @@ TEST(Analyzer6, shadowing) {
 
 	{
 		Analyzer analyzer(firewall->acl(), network.config().ip_model);
-		RuleAnomalies anomalies = analyzer.check_anomaly(interrupt_cb);
+		RuleAnomalies anomalies = analyzer.check_anomaly(interrupt_cb, nullptr);
 		EXPECT_EQ(anomalies.size(), 1);
 
 		if (anomalies.size() == 1) {

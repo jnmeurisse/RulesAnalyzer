@@ -56,7 +56,7 @@ namespace fwm {
 	}
 
 
-	std::list<RulePair> Analyzer::check_symmetry(bool strict, f_interrupt_cb interrupt_cb) const
+	std::list<RulePair> Analyzer::check_symmetry(bool strict, f_interrupt_cb interrupt_cb, f_progress_cb progress_cb) const
 	{
 		std::list<RulePair> symmetrical_rules;
 
@@ -64,7 +64,7 @@ namespace fwm {
 		Bddcache cache{};
 		cache.reserve(_acl.size());
 
-		int rule_index{ 0 };
+		size_t rule_index{ 0 };
 		for (const Rule* rule : _acl) {
 			auto it = _acl.begin();
 			std::advance(it, ++rule_index);
@@ -91,13 +91,16 @@ namespace fwm {
 					symmetrical_rules.push_back(std::make_tuple(rule, other_rule));
 				}
 			}
+
+			if (progress_cb)
+				progress_cb(rule_index * 100 / _acl.size());
 		}
 
 		return symmetrical_rules;
 	}
 
 
-	RuleAnomalies Analyzer::check_anomaly(f_interrupt_cb interrupt_cb) const
+	RuleAnomalies Analyzer::check_anomaly(f_interrupt_cb interrupt_cb, f_progress_cb progress_cb) const
 	{
 		RuleAnomalies anomalies{};
 
@@ -111,9 +114,7 @@ namespace fwm {
 		cache.reserve(_acl.size());
 
 		// Initialize the progress bar.
-		bool show_progress = _acl.size() > 20;
-		int loop_counter = 0;
-		GbcHandler gbc_handler(show_progress);
+		size_t loop_counter = 0;
 
 		for (const Rule* rule : _acl) {
 			if (interrupt_cb())
@@ -132,21 +133,13 @@ namespace fwm {
 			// Update the state of the analyzer.
 			state.update(rule->action(), cache.at(rule->id()));
 
-			if (show_progress) {
-				// Show progress
-				if ((++loop_counter % 100 == 0))
-					std::cout << '*' << std::flush;
-				else if (loop_counter % 10 == 0)
-					std::cout << '+' << std::flush;
-				else
-					std::cout << '.' << std::flush;
-			}
+			// Show progress
+			if (progress_cb)
+				progress_cb(loop_counter * 100 / _acl.size());
+			loop_counter++;
 		}
 
 		anomalies.missing_deny_all = !state.remaining().is_none();
-
-		if (show_progress)
-			std::cout << std::endl;
 
 		return anomalies;
 	}

@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 
+#include "cli/fw/gchandler.h"
 #include "model/analyzer.h"
 #include "model/anomaly.h"
 #include "model/comparator.h"
@@ -193,9 +194,21 @@ namespace cli {
 		// allocate the analyzer
 		const Analyzer analyzer{ filtered_rules, context.network.config().ip_model };
 
+		// declare a function that shows the analyzer progress
+		GcHandler gc_handler;
+		f_progress_cb progress_cb = [](const size_t progress) {
+			if (progress % 100 == 0)
+				std::cout << '*' << std::flush;
+			else if (progress % 10 == 0)
+				std::cout << '+' << std::flush;
+			else
+				std::cout << '.' << std::flush;
+		};
+
 		// search for anomalies
 		const auto start_time = std::chrono::steady_clock::now();
-		const RuleAnomalies anomalies = analyzer.check_anomaly(ctrlc_guard.get_interrupt_cb());
+		const RuleAnomalies anomalies = analyzer.check_anomaly(ctrlc_guard.get_interrupt_cb(), progress_cb);
+		std::cout << std::endl;
 
 		if (anomalies.empty()) {
 			context.logger->info("no anomalies found");
@@ -261,8 +274,20 @@ namespace cli {
 		// allocate the analyzer
 		const Analyzer analyzer{ filtered_rules, context.network.config().ip_model };
 
+		// declare a function that shows the analyzer progress
+		GcHandler gc_handler;
+		f_progress_cb progress_cb = [](const size_t progress) {
+			if (progress % 100 == 0)
+				std::cout << '*' << std::flush;
+			else if (progress % 10 == 0)
+				std::cout << '+' << std::flush;
+			else
+				std::cout << '.' << std::flush;
+			};
+
 		// search for symmetrical rules.
-		const std::list<RulePair> symmetrical_rules = analyzer.check_symmetry(true, ctrlc_guard.get_interrupt_cb());
+		const std::list<RulePair> symmetrical_rules = analyzer.check_symmetry(true, ctrlc_guard.get_interrupt_cb(), progress_cb);
+		std::cout << std::endl;
 
 		if (symmetrical_rules.empty()) {
 			context.logger->info("no symmetrical rules found");
