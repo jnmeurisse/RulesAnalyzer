@@ -246,7 +246,7 @@ namespace fwm {
 	{
 		const Bddnode& predicate_bdd{ cache.at(rule.id()) };
 
-		auto select_func = [action, &predicate_bdd, cache](const Rule& other) -> bool {
+		auto select_func = [action, &predicate_bdd, &cache](const Rule& other) -> bool {
 			return other.action() == action && predicate_bdd.is_subset(cache.at(other.id()));
 		};
 
@@ -258,7 +258,7 @@ namespace fwm {
 	{
 		const Bddnode& predicate_bdd{ cache.at(rule.id()) };
 
-		auto select_func = [action, &predicate_bdd, cache](const Rule& other) -> bool {
+		auto select_func = [action, &predicate_bdd, &cache](const Rule& other) -> bool {
 			return other.action() == action && cache.at(other.id()).is_subset(predicate_bdd);
 		};
 
@@ -270,7 +270,7 @@ namespace fwm {
 	{
 		const Bddnode& predicate_bdd{ cache.at(rule.id()) };
 
-		auto select_func = [action, &predicate_bdd, cache](const Rule& other) -> bool {
+		auto select_func = [action, &predicate_bdd, &cache](const Rule& other) -> bool {
 			return other.action() == action && predicate_bdd.overlaps(cache.at(other.id()));
 		};
 
