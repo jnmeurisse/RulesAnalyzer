@@ -59,6 +59,6 @@ namespace fwm {
 		/* Returns all rules having the specified action and where the other rule predicate
 		   intersects the given rule.
 		*/
-		RuleList find_overlaping(const Rule& rule, RuleAction action, const Bddcache& cache) const;
+		RuleList find_overlapping(const Rule& rule, RuleAction action, const Bddcache& cache) const;
 	};
 }

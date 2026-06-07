@@ -186,24 +186,24 @@ namespace fwm {
 			// Shadowed by preceding deny(/allow) rules. Find a deny(/allow) rule
 			// that completely hides this rule or a combination of deny(/allow) rules
 			// that globally hide this rule.
-			return new RuleAnomalyShadowed(find_overlaping(rule, !rule.action(), cache));
+			return new RuleAnomalyShadowed(find_overlapping(rule, !rule.action(), cache));
 		}
 
 		if (predicate_bdd.is_disjoint(state.processed(!rule.action()))) {
 			// Redundant by preceding allow(/deny) rules.
-			return new RuleAnomalyFullRedundant(find_overlaping(rule, rule.action(), cache));
+			return new RuleAnomalyFullRedundant(find_overlapping(rule, rule.action(), cache));
 		}
 
 		// Redundant or correlated rules.
 
 		// Part of the packets intended to be accepted by this rule have been
 		// denied(/allowed) by preceding rules.
-		RuleList correlated_rules = find_overlaping(rule, !rule.action(), cache);
+		RuleList correlated_rules = find_overlapping(rule, !rule.action(), cache);
 
 		// Other packets have been accepted.
 		// Find an allow(/deny) rule that completely hides this rule or a
 		// a combination of allow(/deny) rules that globally hide this rule.
-		RuleList redundant_rules = find_overlaping(rule, rule.action(), cache);
+		RuleList redundant_rules = find_overlapping(rule, rule.action(), cache);
 
 		return new RuleAnomalyRedundantOrCorrelated(
 				redundant_rules,
@@ -232,7 +232,7 @@ namespace fwm {
 
 		// Search for a correlated rule
 		if (predicate_bdd.overlaps(state.processed(!rule.action()))) {
-			matching_rules = find_overlaping(rule, !rule.action(), cache);
+			matching_rules = find_overlapping(rule, !rule.action(), cache);
 			if (matching_rules.size() > 0) {
 				return new RuleAnomalyCorrelated(matching_rules);
 			}
@@ -266,7 +266,7 @@ namespace fwm {
 	}
 
 
-	RuleList Analyzer::find_overlaping(const Rule& rule, RuleAction action, const Bddcache& cache) const
+	RuleList Analyzer::find_overlapping(const Rule& rule, RuleAction action, const Bddcache& cache) const
 	{
 		const Bddnode& predicate_bdd{ cache.at(rule.id()) };
 
