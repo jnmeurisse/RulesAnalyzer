@@ -209,7 +209,7 @@ namespace fwm {
 				redundant_rules,
 				correlated_rules
 			);
-	};
+	}
 
 
 	RuleAnomalyDetails* Analyzer::analyze_partially_masked_rule(const Rule& rule, const State& state, const Bddcache& cache) const
