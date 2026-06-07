@@ -71,21 +71,21 @@ TEST(Analyzer4, any) {
 	}
 
 	firewall->add_rule(new Rule(
+		*firewall,
 		"rule1",
 		1,
 		RuleStatus::ENABLED,
 		RuleAction::ALLOW,
-		create_predicate(network, "any", "corporate_net", "any"),
-		*firewall)
+		create_predicate(network, "any", "corporate_net", "any"))
 	);
 
 	firewall->add_rule(new Rule(
+		*firewall,
 		"rule2",
 		2,
 		RuleStatus::ENABLED,
 		RuleAction::ALLOW,
-		create_predicate(network, "any", "any", "any"),
-		*firewall)
+		create_predicate(network, "any", "any", "any"))
 	);
 
 	{
@@ -126,21 +126,21 @@ TEST(Analyzer4, deny)
 	}
 
 	firewall->add_rule(new Rule(
+		*firewall,
 		"rule1",
 		1,
 		RuleStatus::ENABLED,
 		RuleAction::ALLOW,
-		create_predicate(network, "any", "corporate_net", "any"),
-		*firewall)
+		create_predicate(network, "any", "corporate_net", "any"))
 	);
 
 	firewall->add_rule(new Rule(
+		*firewall,
 		"rule2",
 		2,
 		RuleStatus::ENABLED,
 		RuleAction::DENY,
-		create_predicate(network, "any", "any", "any"),
-		*firewall)
+		create_predicate(network, "any", "any", "any"))
 	);
 
 	Analyzer analyzer(firewall->acl(), network.config().ip_model);
@@ -179,21 +179,21 @@ TEST(Analyzer4, shadowing) {
 
 	// Add rules
 	firewall->add_rule(new Rule(
+		*firewall,
 		"rule1",
 		1,
 		RuleStatus::ENABLED,
 		RuleAction::DENY,
-		create_predicate(network, "R_10.1.1.0/25", "any", "any"),
-		*firewall)
+		create_predicate(network, "R_10.1.1.0/25", "any", "any"))
 	);
 
 	firewall->add_rule(new Rule(
+		*firewall,
 		"rule2",
 		2,
 		RuleStatus::ENABLED,
 		RuleAction::ALLOW,
-		create_predicate(network, "R_10.1.1.0/25", "R_192.168.1.0/24", "any"),
-		*firewall)
+		create_predicate(network, "R_10.1.1.0/25", "R_192.168.1.0/24", "any"))
 	);
 
 	{
