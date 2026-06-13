@@ -168,7 +168,7 @@ namespace fwm {
 		/**
 		 * Removes a named node from the list.
 		 *
-		 * The function returns true if the name was found in the list of named noteds.
+		 * The function returns true if the name was found in the list of named nodes.
 		 */
 		bool remove(const std::string& name)
 		{
