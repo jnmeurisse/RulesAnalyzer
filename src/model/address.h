@@ -56,7 +56,7 @@ namespace fwm {
 		/**
 		 * Returns the address type (single address, subnet or range)
 		*/
-		const IPAddressType at() const;
+		IPAddressType at() const;
 
 		/**
 		 * Returns the IP address version (4 or 6).
@@ -83,7 +83,7 @@ namespace fwm {
 	 * An AddressList represents a list of IP source and destination addresses.
 	*/
 	using AddressList = NamedMnodeList<IpAddress>;
-	using AddressListPtr = std::unique_ptr<AddressList>;
+	using AddressListPtr = std::shared_ptr<AddressList>;
 
 
 	/**
@@ -92,6 +92,8 @@ namespace fwm {
 	class SrcAddress final : public IpAddress
 	{
 	public:
+		using Ptr = std::shared_ptr<const SrcAddress>;
+
 		/**
 		 * Copy constructor.
 		 *
@@ -107,7 +109,7 @@ namespace fwm {
 		 *        address.
 		*/
 		SrcAddress(const std::string& name, const IpAddress& address);
-
+	
 		/**
 		 * Allocates a new source address
 		 *
@@ -119,17 +121,17 @@ namespace fwm {
 		 * @return A source address
 		 * @throws IPAddressError
 		 */
-		static const SrcAddress* create(const std::string& name, const std::string& addr, IPAddressModel ip_model, bool strict);
+		static Ptr create(const std::string& name, const std::string& addr, IPAddressModel ip_model, bool strict);
 
 		/**
 		 * Allocates a source address that represents all IPv4 addresses.
 		*/
-		static const SrcAddress* any4(IPAddressModel ip_model);
+		static Ptr any4(IPAddressModel ip_model);
 
 		/**
 		 * Allocates a source address that represents all IPv6 addresses.
 		*/
-		static const SrcAddress* any6(IPAddressModel ip_model);
+		static Ptr any6(IPAddressModel ip_model);
 
 	private:
 		/**
@@ -153,19 +155,20 @@ namespace fwm {
 		static DomainType dt(const Range* range);
 	};
 
+	using SrcAddressPtr = SrcAddress::Ptr;
+
 
 	/**
 	 * SrcAddressGroup represents a hierarchy of groups of source IP addresses.
 	*/
 	using SrcAddressGroup = Group<SrcAddress>;
-	using SrcAddressGroupPtr = std::unique_ptr<SrcAddressGroup>;
+	using SrcAddressGroupPtr = std::shared_ptr<const SrcAddressGroup>;
 
 
 	class SrcAnyAddressGroup abstract : public SrcAddressGroup
 	{
 	public:
 		using SrcAddressGroup::SrcAddressGroup;
-		virtual ~SrcAnyAddressGroup();
 
 		virtual bdd make_bdd() const override;
 	};
@@ -179,7 +182,6 @@ namespace fwm {
 	{
 	public:
 		SrcAny4AddressGroup();
-		virtual SrcAddressGroup* clone() const override;
 	};
 
 
@@ -191,7 +193,6 @@ namespace fwm {
 	{
 	public:
 		SrcAny6AddressGroup();
-		virtual SrcAddressGroup* clone() const override;
 	};
 
 
@@ -203,7 +204,6 @@ namespace fwm {
 	{
 	public:
 		SrcAny64AddressGroup();
-		virtual SrcAddressGroup* clone() const override;
 	};
 
 
@@ -213,6 +213,8 @@ namespace fwm {
 	class DstAddress final : public IpAddress
 	{
 	public:
+		using Ptr = std::shared_ptr<const DstAddress>;
+
 		/**
 		 * Copy constructor.
 		 *
@@ -240,17 +242,17 @@ namespace fwm {
 		 * @return A destination address
 		 * @throws IPAddressError
 		 */
-		static const DstAddress* create(const std::string& name, const std::string& addr, IPAddressModel ip_model, bool strict);
+		static Ptr create(const std::string& name, const std::string& addr, IPAddressModel ip_model, bool strict);
 
 		/**
 		 * Allocates a destination address that represents all IPv4 addresses.
 		*/
-		static const DstAddress* any4(IPAddressModel ip_model);
+		static Ptr any4(IPAddressModel ip_model);
 
 		/**
 		 * Allocates a destination address that represents all IPv6 addresses.
 		*/
-		static const DstAddress* any6(IPAddressModel ip_model);
+		static Ptr any6(IPAddressModel ip_model);
 
 	private:
 		/**
@@ -274,12 +276,14 @@ namespace fwm {
 		static DomainType dt(const Range* range);
 	};
 
+	using DstAddressPtr = DstAddress::Ptr;
+
 
 	/**
 	 * DstAddressGroup represents a hierarchy of groups of destination IP addresses.
 	*/
 	using DstAddressGroup = Group<DstAddress>;
-	using DstAddressGroupPtr = std::unique_ptr<DstAddressGroup>;
+	using DstAddressGroupPtr = std::shared_ptr<const DstAddressGroup>;
 
 
 	class DstAnyAddressGroup abstract : public DstAddressGroup
@@ -287,7 +291,6 @@ namespace fwm {
 	public:
 		using DstAddressGroup::DstAddressGroup;
 
-		virtual ~DstAnyAddressGroup();
 		virtual bdd make_bdd() const override;
 	};
 
@@ -300,7 +303,6 @@ namespace fwm {
 	{
 	public:
 		DstAny4AddressGroup();
-		virtual DstAddressGroup* clone() const override;
 	};
 
 
@@ -312,7 +314,6 @@ namespace fwm {
 	{
 	public:
 		DstAny6AddressGroup();
-		virtual DstAddressGroup* clone() const override;
 	};
 
 
@@ -324,7 +325,6 @@ namespace fwm {
 	{
 	public:
 		DstAny64AddressGroup();
-		virtual DstAddressGroup* clone() const override;
 	};
 
 }

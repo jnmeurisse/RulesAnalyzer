@@ -69,7 +69,7 @@ namespace fwm {
 	}
 
 
-	const IPAddressType IpAddress::at() const
+	IPAddressType IpAddress::at() const
 	{
 		const Range& range = _address_value->range();
 		if (range.is_singleton())
@@ -152,14 +152,19 @@ namespace fwm {
 	}
 
 
-	const SrcAddress* SrcAddress::create(const std::string& name, const std::string& addr, IPAddressModel ip_model, bool strict)
+	SrcAddress::Ptr SrcAddress::create(const std::string& name, const std::string& addr, IPAddressModel ip_model, bool strict)
 	{
 		switch (ip_model) {
 		case IPAddressModel::IP4Model:
 		{
 			// Only IPv4 syntax is accepted.
 			auto range_4{ decode_ipv4_network_address(addr, strict) };
-			return new SrcAddress(name, std::get<1>(range_4), std::get<2>(range_4), IPAddressFormat::IP4Format);
+			return SrcAddress::Ptr(new SrcAddress(
+				name,
+				std::get<1>(range_4),
+				std::get<2>(range_4),
+				IPAddressFormat::IP4Format)
+			);
 		}
 
 		case IPAddressModel::IP6Model:
@@ -167,19 +172,34 @@ namespace fwm {
 			if (strict) {
 				// Only IPv6 syntax is accepted.
 				auto range_6{ decode_ipv6_network_address(addr, strict) };
-				return new SrcAddress(name, std::get<1>(range_6), std::get<2>(range_6), IPAddressFormat::IP6Format);
+				return SrcAddress::Ptr(new SrcAddress(
+					name, 
+					std::get<1>(range_6), 
+					std::get<2>(range_6), 
+					IPAddressFormat::IP6Format)
+				);
 			}
 			else {
 				// IPv6 and IPv4 syntax are accepted.
 				try {
 					auto range{ decode_ipv6_network_address(addr, strict) };
-					return new SrcAddress(name, std::get<1>(range), std::get<2>(range), IPAddressFormat::IP6Format);
+					return SrcAddress::Ptr(new SrcAddress(
+						name, 
+						std::get<1>(range), 
+						std::get<2>(range), 
+						IPAddressFormat::IP6Format)
+					);
 				}
 				catch (IPAddressError e) {
 				}
 
 				auto range{ decode_ipv4_network_address(addr, strict) };
-				return new SrcAddress(name, uint128_t(std::get<1>(range)), uint128_t(std::get<2>(range)), IPAddressFormat::IP4Format);
+				return SrcAddress::Ptr(new SrcAddress(
+					name, 
+					uint128_t(std::get<1>(range)), 
+					uint128_t(std::get<2>(range)), 
+					IPAddressFormat::IP4Format)
+				);
 			}
 		}
 
@@ -188,40 +208,43 @@ namespace fwm {
 			// IPv6 and IPv4 syntax are accepted.
 			try {
 				auto range{ decode_ipv6_network_address(addr, strict) };
-				return new SrcAddress(name, std::get<1>(range), std::get<2>(range), IPAddressFormat::IP6Format);
+				return SrcAddress::Ptr(new SrcAddress(
+					name, 
+					std::get<1>(range), 
+					std::get<2>(range), 
+					IPAddressFormat::IP6Format)
+				);
 			}
 			catch (IPAddressError e) {
 			}
 
 			auto range{ decode_ipv4_network_address(addr, strict) };
-			return new SrcAddress(name, std::get<1>(range), std::get<2>(range), IPAddressFormat::IP4Format);
+			return SrcAddress::Ptr(new SrcAddress(
+				name,
+				std::get<1>(range), 
+				std::get<2>(range), 
+				IPAddressFormat::IP4Format)
+			);
 		}
 		}
 	}
 
 
-	const SrcAddress* SrcAddress::any4(IPAddressModel ip_model)
+	SrcAddress::Ptr SrcAddress::any4(IPAddressModel ip_model)
 	{
-		return new SrcAddress(
+		return SrcAddress::Ptr(new SrcAddress(
 			ip_model == IPAddressModel::IP64Model ? "any4" : "any",
-			SrcAddress4Domain::create_full_range()
+			SrcAddress4Domain::create_full_range())
 		);
 	}
 
 
-	const SrcAddress* SrcAddress::any6(IPAddressModel ip_model)
+	SrcAddress::Ptr SrcAddress::any6(IPAddressModel ip_model)
 	{
-		return new SrcAddress(
+		return SrcAddress::Ptr(new SrcAddress(
 			ip_model == IPAddressModel::IP64Model ? "any6" : "any",
-			SrcAddress6Domain::create_full_range()
+			SrcAddress6Domain::create_full_range())
 		);
-	}
-
-
-	SrcAnyAddressGroup::~SrcAnyAddressGroup()
-	{
-		// delete the "any" address allocated in the child constructor
-		parse([](const SrcAddress* item){ delete item; });
 	}
 
 
@@ -237,20 +260,9 @@ namespace fwm {
 	}
 
 
-	SrcAddressGroup* SrcAny4AddressGroup::clone() const
-	{
-		return new SrcAny4AddressGroup();
-	}
-
-
 	SrcAny6AddressGroup::SrcAny6AddressGroup() :
 		SrcAnyAddressGroup("$src-any6-group", SrcAddress::any6(IPAddressModel::IP6Model))
 	{
-	}
-
-	SrcAddressGroup* SrcAny6AddressGroup::clone() const
-	{
-		return new SrcAny6AddressGroup();
 	}
 
 
@@ -259,12 +271,6 @@ namespace fwm {
 	{
 		add_member(SrcAddress::any4(IPAddressModel::IP64Model));
 		add_member(SrcAddress::any6(IPAddressModel::IP64Model));
-	}
-
-
-	SrcAddressGroup* SrcAny64AddressGroup::clone() const
-	{
-		return new SrcAny64AddressGroup();
 	}
 
 
@@ -309,14 +315,19 @@ namespace fwm {
 	}
 
 
-	const DstAddress* DstAddress::create(const std::string& name, const std::string& addr, IPAddressModel ip_model, bool strict)
+	DstAddress::Ptr DstAddress::create(const std::string& name, const std::string& addr, IPAddressModel ip_model, bool strict)
 	{
 		switch (ip_model) {
 		case IPAddressModel::IP4Model:
 		{
 			// Only IPv4 syntax is accepted.
 			auto range_4{ decode_ipv4_network_address(addr, strict) };
-			return new DstAddress(name, std::get<1>(range_4), std::get<2>(range_4), IPAddressFormat::IP4Format);
+			return DstAddress::Ptr(new DstAddress(
+				name,
+				std::get<1>(range_4),
+				std::get<2>(range_4),
+				IPAddressFormat::IP4Format)
+			);
 		}
 
 		case IPAddressModel::IP6Model:
@@ -324,19 +335,34 @@ namespace fwm {
 			if (strict) {
 				// Only IPv6 syntax is accepted.
 				auto range_6{ decode_ipv6_network_address(addr, strict) };
-				return new DstAddress(name, std::get<1>(range_6), std::get<2>(range_6), IPAddressFormat::IP6Format);
+				return DstAddress::Ptr(new DstAddress(
+					name,
+					std::get<1>(range_6), 
+					std::get<2>(range_6), 
+					IPAddressFormat::IP6Format)
+				);
 			}
 			else {
 				// IPv6 and IPv4 syntax are accepted.
 				try {
 					auto range{ decode_ipv6_network_address(addr, strict) };
-					return new DstAddress(name, std::get<1>(range), std::get<2>(range), IPAddressFormat::IP6Format);
+					return DstAddress::Ptr(new DstAddress(
+						name, 
+						std::get<1>(range), 
+						std::get<2>(range), 
+						IPAddressFormat::IP6Format)
+					);
 				}
 				catch (IPAddressError e) {
 				}
 
 				auto range{ decode_ipv4_network_address(addr, strict) };
-				return new DstAddress(name, uint128_t(std::get<1>(range)), uint128_t(std::get<2>(range)), IPAddressFormat::IP4Format);
+				return DstAddress::Ptr(new DstAddress(
+					name,
+					uint128_t(std::get<1>(range)), 
+					uint128_t(std::get<2>(range)), 
+					IPAddressFormat::IP4Format)
+				);
 			}
 		}
 
@@ -345,40 +371,43 @@ namespace fwm {
 			// IPv6 and IPv4 syntax are accepted.
 			try {
 				auto range{ decode_ipv6_network_address(addr, strict) };
-				return new DstAddress(name, std::get<1>(range), std::get<2>(range), IPAddressFormat::IP6Format);
+				return DstAddress::Ptr(new DstAddress(
+					name,
+					std::get<1>(range),
+					std::get<2>(range),
+					IPAddressFormat::IP6Format)
+				);
 			}
 			catch (IPAddressError e) {
 			}
 
 			auto range{ decode_ipv4_network_address(addr, strict) };
-			return new DstAddress(name, std::get<1>(range), std::get<2>(range), IPAddressFormat::IP4Format);
+			return DstAddress::Ptr(new DstAddress(
+				name,
+				std::get<1>(range), 
+				std::get<2>(range), 
+				IPAddressFormat::IP4Format)
+			);
 		}
 		}
 	}
 
 
-	const DstAddress* DstAddress::any4(IPAddressModel ip_model)
+	DstAddress::Ptr DstAddress::any4(IPAddressModel ip_model)
 	{
-		return new DstAddress(
+		return DstAddress::Ptr(new DstAddress(
 			ip_model == IPAddressModel::IP64Model ? "any4" : "any",
-			DstAddress4Domain::create_full_range()
+			DstAddress4Domain::create_full_range())
 		);
 	}
 
 
-	const DstAddress* DstAddress::any6(IPAddressModel ip_model)
+	DstAddress::Ptr DstAddress::any6(IPAddressModel ip_model)
 	{
-		return new DstAddress(
+		return DstAddress::Ptr(new DstAddress(
 			ip_model == IPAddressModel::IP64Model ? "any6" : "any",
-			DstAddress6Domain::create_full_range()
+			DstAddress6Domain::create_full_range())
 		);
-	}
-
-
-	DstAnyAddressGroup::~DstAnyAddressGroup()
-	{
-		// delete the "any" address allocated in the child constructor
-		parse([](const DstAddress* item){ delete item; });
 	}
 
 
@@ -394,21 +423,9 @@ namespace fwm {
 	}
 
 
-	DstAddressGroup* DstAny4AddressGroup::clone() const
-	{
-		return new DstAny4AddressGroup();
-	}
-
-
 	DstAny6AddressGroup::DstAny6AddressGroup() :
 		DstAnyAddressGroup("$dst-any6-group", DstAddress::any6(IPAddressModel::IP6Model))
 	{
-	}
-
-
-	DstAddressGroup* DstAny6AddressGroup::clone() const
-	{
-		return new DstAny6AddressGroup();
 	}
 
 
@@ -419,10 +436,5 @@ namespace fwm {
 		add_member(DstAddress::any6(IPAddressModel::IP64Model));
 	}
 
-
-	DstAddressGroup* DstAny64AddressGroup::clone() const
-	{
-		return new DstAny64AddressGroup();
-	}
 
 }
