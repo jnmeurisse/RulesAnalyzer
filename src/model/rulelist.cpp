@@ -66,12 +66,12 @@ namespace fwm {
 	}
 
 
-	RuleList RuleList::filter(std::function<bool(const Rule&)> predicate) const
+	RuleList RuleList::filter(std::function<bool(const Rule&)> predicate_fn) const
 	{
 		RuleList rules(this->size());
 
 		for (const Rule* rule : _rules) {
-			if (predicate(*rule))
+			if (predicate_fn(*rule))
 				rules.push_back(rule);
 		}
 

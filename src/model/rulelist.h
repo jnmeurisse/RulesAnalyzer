@@ -67,7 +67,7 @@ namespace fwm {
 
 		/* Returns a list of rules satisfying the given predicate.
 		*/
-		RuleList filter(std::function<bool(const Rule&)> predicate) const;
+		RuleList filter(std::function<bool(const Rule&)> predicate_fn) const;
 
 		/* Returns a list of rules having the specified action.
 		*/
