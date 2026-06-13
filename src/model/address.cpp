@@ -12,103 +12,15 @@
 #include <memory>
 #include <vector>
 
-#include "model/domain.h"
-#include "model/domains.h"
 #include "model/ipv4parser.h"
 #include "model/ipv6parser.h"
+#include "model/domain.h"
+#include "model/domains.h"
 #include "model/moptions.h"
 #include "tools/strutil.h"
 
 
 namespace fwm {
-
-	bool is_ip_address(const std::string& addr, IPAddressModel ip_model, bool strict)
-	{
-		switch (ip_model) {
-		case IPAddressModel::IP4Model:
-			return is_ipv4_network_address(addr, strict);
-
-		case IPAddressModel::IP6Model:
-			if (strict)
-				return is_ipv6_network_address(addr, strict);
-			// When strict parsing is disabled, we allow IPv6 and IPv4 format
-			// [[falltrough]]
-
-		default:
-			return is_ipv6_network_address(addr, strict) || is_ipv4_network_address(addr, strict);
-		}
-	}
-
-
-	IPAddressType get_ip_address_type(const std::string& addr, IPAddressModel ip_model, bool strict)
-	{
-		switch (ip_model) {
-		case IPAddressModel::IP4Model:
-			return std::get<0>(decode_ipv4_network_address(addr, strict));
-
-		case IPAddressModel::IP6Model:
-			if (strict)
-				return std::get<0>(decode_ipv6_network_address(addr, strict));
-
-			// When strict parsing is disabled, we allow IPv6 and IPv4 format
-			// [[falltrough]]
-
-		default:
-			if (is_ipv6_network_address(addr, strict))
-				return std::get<0>(decode_ipv6_network_address(addr, strict));
-			else
-				return std::get<0>(decode_ipv4_network_address(addr, strict));
-		}
-	}
-
-
-	IpAddress::IpAddress(const std::string& name, DomainType dt, const Range* range) :
-		NamedMnode(name , ModelOptions::empty()),
-		_address_value{ std::make_unique<Mvalue>(dt, range) }
-	{
-	}
-
-
-	IPAddressType IpAddress::at() const
-	{
-		const Range& range = _address_value->range();
-		if (range.is_singleton())
-			return IPAddressType::Address;
-		else if (range.is_power_of_2())
-			return IPAddressType::Subnet;
-		else
-			return IPAddressType::Range;
-	}
-
-
-	int IpAddress::version() const
-	{
-		switch (_address_value->range().nbits())
-		{
-		case 32: return 4;
-		case 128: return 6;
-		default:
-			throw std::invalid_argument("internal error : nbits must be 32 or 128");
-		}
-	}
-
-
-	bdd IpAddress::make_bdd() const
-	{
-		return _address_value->make_bdd();
-	}
-
-
-	const Mvalue& IpAddress::value() const
-	{
-		return *_address_value;
-	}
-
-
-	std::string IpAddress::to_string() const
-	{
-		return _address_value->to_string();
-	}
 
 
 	SrcAddress::SrcAddress(const std::string& name, const Range* range) :
