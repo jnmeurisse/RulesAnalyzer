@@ -73,7 +73,7 @@ namespace fwm {
 	}
 
 
-	bool Mnode::overlaps(const Mnode & other) const
+	bool Mnode::overlaps(const Mnode& other) const
 	{
 		return !is_disjoint(other);
 	}
