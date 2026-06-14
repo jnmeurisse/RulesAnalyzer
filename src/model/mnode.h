@@ -247,7 +247,7 @@ namespace fwm {
 		/**
 		 * Sorts the named nodes.
 		 *
-		 * Nodes are compared using `cmp` function that must returns true if the first node is
+		 * Nodes are compared using `cmp` function that must return true if the first node is
 		 * before the second node.
 		 */
 		void sort(const std::function<bool(const T* named_node_1, const T* named_node_2)>& cmp)
