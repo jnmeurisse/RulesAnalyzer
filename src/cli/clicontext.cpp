@@ -102,13 +102,13 @@ namespace cli {
 	}
 
 
-	const SrcZone* CliContext::get_any_src_zone() const
+	SrcZonePtr CliContext::get_any_src_zone() const
 	{
 		return network.get_src_zone("any");
 	}
 
 
-	const DstZone* CliContext::get_any_dst_zone() const
+	DstZonePtr CliContext::get_any_dst_zone() const
 	{
 		return network.get_dst_zone("any");
 	}

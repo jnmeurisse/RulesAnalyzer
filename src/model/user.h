@@ -24,6 +24,8 @@ namespace fwm {
 	class User final : public NamedMnode
 	{
 	public:
+		using Ptr = std::shared_ptr<const User>;
+
 		/**
 		 * Copy constructors.
 		*/
@@ -38,14 +40,14 @@ namespace fwm {
 		 *
 		 * @return A source zone.
 		*/
-		static User* create(const std::string& name, uint16_t user_id, const ModelOptions& options);
+		static Ptr create(const std::string& name, uint16_t user_id, const ModelOptions& options);
 
 		/**
 		 * Allocate a any user.
 		 *
 		 * @return A User representing all users.
 		*/
-		static User* any();
+		static Ptr any();
 
 		/**
 		 * Creates a binary decision diagram from this user.
@@ -80,6 +82,8 @@ namespace fwm {
 		const MvaluePtr _user_value;
 	};
 
+	using UserPtr = User::Ptr;
+
 
 	/**
 	 * An UserList represents a list of Users.
@@ -92,7 +96,7 @@ namespace fwm {
 	 * UserGroup represents a hierarchy of groups of Users.
 	*/
 	using UserGroup = Group<User>;
-	using UserGroupPtr = std::unique_ptr<UserGroup>;
+	using UserGroupPtr = std::shared_ptr<const UserGroup>;
 
 
 	/*
@@ -103,12 +107,6 @@ namespace fwm {
 	{
 	public:
 		AnyUserGroup();
-		~AnyUserGroup();
-
-		/**
-		 * Clones this group.
-		*/
-		virtual UserGroup* clone() const override;
 
 		/**
 		 * Returns a bddtrue decision diagram.

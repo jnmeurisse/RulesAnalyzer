@@ -132,63 +132,63 @@ namespace fwm {
 	}
 
 
-	const SrcZone* Network::get_src_zone(const std::string& name) const
+	SrcZonePtr Network::get_src_zone(const std::string& name) const
 	{
 		return _src_zone_cache.get(name);
 	}
 
 
-	const DstZone* Network::get_dst_zone(const std::string& name) const
+	DstZonePtr Network::get_dst_zone(const std::string& name) const
 	{
 		return _dst_zone_cache.get(name);
 	}
 
 
-	const SrcAddress* Network::get_src_address(const std::string& name) const
+	SrcAddressPtr Network::get_src_address(const std::string& name) const
 	{
 		return _src_addr_cache.get(name);
 	}
 
 
-	const SrcAddressGroup* Network::get_src_address_group(const std::string& name) const
+	SrcAddressGroupPtr Network::get_src_address_group(const std::string& name) const
 	{
 		return _src_addr_group_cache.get(name);
 	}
 
 
-	const DstAddress* Network::get_dst_address(const std::string& name) const
+	DstAddressPtr Network::get_dst_address(const std::string& name) const
 	{
 		return _dst_addr_cache.get(name);
 	}
 
 
-	const DstAddressGroup* Network::get_dst_address_group(const std::string& name) const
+	DstAddressGroupPtr Network::get_dst_address_group(const std::string& name) const
 	{
 		return _dst_addr_group_cache.get(name);
 	}
 
 
-	const Service* Network::get_service(const std::string& name) const
+	ServicePtr Network::get_service(const std::string& name) const
 	{
 		return _svc_cache.get(name);
 	}
 
 
-	const ServiceGroup* Network::get_service_group(const std::string& name) const
+	ServiceGroupPtr Network::get_service_group(const std::string& name) const
 	{
 		return _svc_group_cache.get(name);
 	}
 
 
-	const Application* Network::get_application(const std::string& name, bool use_app_svc) const
+	ApplicationPtr Network::get_application(const std::string& name, bool use_app_svc) const
 	{
 		return _app_cache[use_app_svc].get(name);
 	}
 
 
-	const Application* Network::get_application(const std::string& name) const
+	ApplicationPtr Network::get_application(const std::string& name) const
 	{
-		const Application* application{ get_application(name, true) };
+		ApplicationPtr application{ get_application(name, true) };
 
 		if (application)
 			return application;
@@ -197,15 +197,15 @@ namespace fwm {
 	}
 
 
-	const ApplicationGroup* Network::get_application_group(const std::string& name, bool use_app_svc) const
+	ApplicationGroupPtr Network::get_application_group(const std::string& name, bool use_app_svc) const
 	{
 		return _app_group_cache[use_app_svc].get(name);
 	}
 
 
-	const ApplicationGroup* Network::get_application_group(const std::string& name) const
+	ApplicationGroupPtr Network::get_application_group(const std::string& name) const
 	{
-		const ApplicationGroup* group{ get_application_group(name, true) };
+		ApplicationGroupPtr group{ get_application_group(name, true) };
 
 		if (group)
 			return group;
@@ -214,48 +214,48 @@ namespace fwm {
 	}
 
 
-	const User* Network::get_user(const std::string& name) const
+	UserPtr Network::get_user(const std::string& name) const
 	{
 		return _user_cache.get(name);
 	}
 
 
-	const UserGroup* Network::get_user_group(const std::string& name) const
+	UserGroupPtr Network::get_user_group(const std::string& name) const
 	{
 		return _user_group_cache.get(name);
 	}
 
 
-	const Url* Network::get_url(const std::string& name) const
+	UrlPtr Network::get_url(const std::string& name) const
 	{
 		return _url_cache.get(name);
 	}
 
 
-	const UrlGroup* Network::get_url_group(const std::string& name) const
+	UrlGroupPtr Network::get_url_group(const std::string& name) const
 	{
 		return _url_group_cache.get(name);
 	}
 
 
-	const SrcZone* Network::register_src_zone(const std::string& name)
+	SrcZonePtr Network::register_src_zone(const std::string& name)
 	{
-		const SrcZone* zone{ get_src_zone(name) };
+		SrcZonePtr zone_ptr{ get_src_zone(name) };
 
-		if (!zone) {
+		if (!zone_ptr) {
 			const uint32_t zone_id = _zone_id_gen.get_id(name);
 
 			// Create and register a new source zone
-			zone = _src_zone_cache.set(SrcZone::create(name, zone_id));
+			zone_ptr = _src_zone_cache.set(SrcZone::create(name, zone_id));
 		}
 
-		return zone;
+		return zone_ptr;
 	}
 
 
-	const DstZone* Network::register_dst_zone(const std::string& name)
+	DstZonePtr Network::register_dst_zone(const std::string& name)
 	{
-		const DstZone* zone { get_dst_zone(name) };
+		DstZonePtr zone { get_dst_zone(name) };
 
 		if (!zone) {
 			const uint32_t zone_id = _zone_id_gen.get_id(name);
@@ -268,14 +268,19 @@ namespace fwm {
 	}
 
 
-	const SrcAddress* Network::register_src_address(const std::string& name, const std::string& address)
+	SrcAddressPtr Network::register_src_address(const std::string& name, const std::string& address)
 	{
-		const SrcAddress* src_address{ get_src_address(name) };
+		SrcAddressPtr src_address{ get_src_address(name) };
 
 		if (!src_address) {
 			// Create and register a new source address
 			src_address = _src_addr_cache.set(
-				SrcAddress::create(name, address, _model_config.ip_model, _model_config.strict_ip_parser)
+				SrcAddress::create(
+					name,
+					address,
+					_model_config.ip_model,
+					_model_config.strict_ip_parser
+				)
 			);
 		}
 
@@ -283,14 +288,16 @@ namespace fwm {
 	}
 
 
-	const SrcAddressGroup* Network::register_src_multi_address(const std::string& name, const std::vector<std::string>& addresses)
+	SrcAddressGroupPtr Network::register_src_multi_address(const std::string& name, const std::vector<std::string>& addresses)
 	{
-		const SrcAddressGroup* src_addresses{ get_src_address_group(name) };
+		SrcAddressGroupPtr src_addresses{ get_src_address_group(name) };
 
 		if (!src_addresses) {
-			// Create and register a new address group
+			// Create a new address group
 			SrcAddressGroup* group{ new SrcAddressGroup(name) };
-			src_addresses = _src_addr_group_cache.set(group);
+
+			// Register this new group
+			src_addresses = _src_addr_group_cache.set(SrcAddressGroupPtr(group));
 
 			// Add addresses to this group
 			for (int idx = 0; idx < addresses.size(); idx++) {
@@ -303,44 +310,52 @@ namespace fwm {
 	}
 
 
-	const SrcAddressGroup* Network::register_src_address_group(const std::string& name, const std::vector<std::string>& members)
+	SrcAddressGroupPtr Network::register_src_address_group(const std::string& name, const std::vector<std::string>& members)
 	{
-		const SrcAddressGroup* src_address_group{ get_src_address_group(name) };
+		SrcAddressGroupPtr src_address_group{ get_src_address_group(name) };
 
 		if (!src_address_group) {
-			// Create and register a new address group
+			// Create a new address group
 			SrcAddressGroup* group{ new SrcAddressGroup(name) };
-			src_address_group  = _src_addr_group_cache.set(group);
+
+			// Register this new group
+			src_address_group = _src_addr_group_cache.set(SrcAddressGroupPtr(group));
 
 			// Add all given members to this source address group.  It is assumed
 			// that members have been registered before calling this method.
 			for (const std::string& member : members) {
-				const SrcAddress* address{ get_src_address(member) };
+				SrcAddressPtr address{ get_src_address(member) };
 				if (address) {
 					group->add_member(address);
 				}
 				else {
-					const SrcAddressGroup* sub_group{ get_src_address_group(member) };
+					SrcAddressGroupPtr sub_group{ get_src_address_group(member) };
 					if (sub_group)
 						group->add_member(sub_group);
 					else
 						;  // ignore missing member
 				}
 			}
+
 		}
 
 		return src_address_group;
 	}
 
 
-	const DstAddress* Network::register_dst_address(const std::string& name, const std::string& address)
+	DstAddressPtr Network::register_dst_address(const std::string& name, const std::string& address)
 	{
-		const DstAddress* dst_address{ get_dst_address(name) };
+		DstAddressPtr dst_address{ get_dst_address(name) };
 
 		if (!dst_address) {
 			// Create and register a new destination address
 			dst_address = _dst_addr_cache.set(
-				DstAddress::create(name, address, _model_config.ip_model, _model_config.strict_ip_parser)
+				DstAddress::create(
+					name, 
+					address,
+					_model_config.ip_model,
+					_model_config.strict_ip_parser
+				)
 			);
 		}
 
@@ -348,14 +363,16 @@ namespace fwm {
 	}
 
 
-	const DstAddressGroup* Network::register_dst_multi_address(const std::string& name, const std::vector<std::string>& addresses)
+	DstAddressGroupPtr Network::register_dst_multi_address(const std::string& name, const std::vector<std::string>& addresses)
 	{
-		const DstAddressGroup* dst_addresses{ get_dst_address_group(name) };
+		DstAddressGroupPtr dst_addresses{ get_dst_address_group(name) };
 
 		if (!dst_addresses) {
-			// Create and register a new address group
+			// Create a new address group
 			DstAddressGroup* group{ new DstAddressGroup(name) };
-			dst_addresses= _dst_addr_group_cache.set(group);
+
+			// Register this new group
+			dst_addresses= _dst_addr_group_cache.set(DstAddressGroupPtr(group));
 
 			// Add addresses to this group
 			for (int idx = 0; idx < addresses.size(); idx++) {
@@ -368,24 +385,26 @@ namespace fwm {
 	}
 
 
-	const DstAddressGroup* Network::register_dst_address_group(const std::string& name, const std::vector<std::string>& members)
+	DstAddressGroupPtr Network::register_dst_address_group(const std::string& name, const std::vector<std::string>& members)
 	{
-		const DstAddressGroup* dst_address_group{ get_dst_address_group(name) };
+		DstAddressGroupPtr dst_address_group{ get_dst_address_group(name) };
 
 		if (!dst_address_group) {
-			// Create and register a new address group
+			// Create a new address group
 			DstAddressGroup* group{ new DstAddressGroup(name) };
-			dst_address_group = _dst_addr_group_cache.set(group);
+
+			// Register this new group
+			dst_address_group = _dst_addr_group_cache.set(DstAddressGroupPtr(group));
 
 			// Add all given members to this destination address group.  It is assumed
 			// that members have been registered before calling this method.
 			for (const std::string& member : members) {
-				const DstAddress* address{ get_dst_address(member) };
+				DstAddressPtr address{ get_dst_address(member) };
 				if (address) {
 					group->add_member(address);
 				}
 				else {
-					const DstAddressGroup* sub_group{ get_dst_address_group(member) };
+					DstAddressGroupPtr sub_group{ get_dst_address_group(member) };
 					if (sub_group)
 						group->add_member(sub_group);
 					else
@@ -398,89 +417,100 @@ namespace fwm {
 	}
 
 
-	const Service* Network::register_service(const std::string& name, const std::string& service_definition)
+	ServicePtr Network::register_service(const std::string& name, const std::string& service_definition)
 	{
-		const Service* service{ get_service(name) };
+		ServicePtr service{ get_service(name) };
 
 		if (!service) {
 			// Create and register a new service
-			service = _svc_cache.set(Service::create(name, service_definition));
+			service = _svc_cache.set(
+				Service::create(
+					name,
+					service_definition
+				)
+			);
 		}
 
 		return service;
 	}
 
 
-	const ServiceGroup* Network::register_multi_service(const std::string& name, const std::vector<std::string>& service_definitions)
+	ServiceGroupPtr Network::register_multi_service(const std::string& name, const std::vector<std::string>& service_definitions)
 	{
-		const ServiceGroup* services{ get_service_group(name) };
+		ServiceGroupPtr services{ get_service_group(name) };
 
 		if (!services) {
-			// Create and register a new service group
+			// Create a new service group
 			ServiceGroup* group{ new ServiceGroup(name) };
-			_svc_group_cache.set(group);
+
+			// Register this new group
+			services = _svc_group_cache.set(ServiceGroupPtr(group));
 
 			// Add services to this group
 			for (int idx = 0; idx < service_definitions.size(); idx++) {
 				const std::string indexed_service_name{ fmt::format("{}[{}]", name, idx) };
 				group->add_member(register_service(indexed_service_name, service_definitions[idx]));
 			}
-
-			services = group;
 		}
 
 		return services;
 	}
 
 
-	const ServiceGroup* Network::register_service_group(const std::string& name, const std::vector<std::string>& members)
+	ServiceGroupPtr Network::register_service_group(const std::string& name, const std::vector<std::string>& members)
 	{
-		const ServiceGroup* service_group{ get_service_group(name) };
+		ServiceGroupPtr service_group{ get_service_group(name) };
 
 		if (!service_group) {
-			// Create and register a new service group
+			// Create a new service group
 			ServiceGroup* group{ new ServiceGroup(name) };
-			_svc_group_cache.set(group);
+
+			// Register this new group
+			service_group = _svc_group_cache.set(ServiceGroupPtr(group));
 
 			// Add all given members to this service group.  It is assumed that members
 			// have been registered before calling this method.
 			for (const std::string& member : members) {
-				const Service* service{ get_service(member) };
+				ServicePtr service{ get_service(member) };
 				if (service) {
 					group->add_member(service);
 				}
 				else {
-					const ServiceGroup* sub_group{ get_service_group(member) };
+					ServiceGroupPtr sub_group{ get_service_group(member) };
 					if (sub_group)
 						group->add_member(sub_group);
 					else
 						;  // ignore missing member
 				}
 			}
-
-			service_group = group;
 		}
 
 		return service_group;
 	}
 
 
-	const Application* Network::register_application(const std::string& name, const std::vector<std::string>& service_definitions, bool use_app_svc)
+	ApplicationPtr Network::register_application(const std::string& name, const std::vector<std::string>& service_definitions, bool use_app_svc)
 	{
-		const Application* application{ get_application(name, use_app_svc) };
+		ApplicationPtr application{ get_application(name, use_app_svc) };
 
 		if (!application) {
 			const uint32_t app_id = _app_id_gen.get_id(name);
 
 			// Register all default services for this application.
-			ServiceGroupPtr service_group{ new ServiceGroup("$appsvc") };
+			std::unique_ptr<ServiceGroup> service_group{ new ServiceGroup("$appsvc") };
 			for (const std::string& service : service_definitions) {
 				service_group->add_member(register_appsvc(service, service));
 			}
 
 			// Create and register this new application.
 			application = _app_cache[use_app_svc].set(
-				Application::create(name, app_id, service_group.release(), model_options, use_app_svc)
+				Application::create(
+					name, 
+					app_id, 
+					ServiceGroupPtr(service_group.release()),
+					model_options, 
+					use_app_svc
+				)
 			);
 		}
 
@@ -488,140 +518,155 @@ namespace fwm {
 	}
 
 
-	const ApplicationGroup* Network::register_application_group(const std::string& name, const std::vector<std::string>& members, bool use_app_svc)
+	ApplicationGroupPtr Network::register_application_group(const std::string& name, const std::vector<std::string>& members, bool use_app_svc)
 	{
-		const ApplicationGroup* application_group{ get_application_group(name, use_app_svc) };
+		ApplicationGroupPtr application_group{ get_application_group(name, use_app_svc) };
 
 		if (!application_group) {
-			// This application group is not yet registered.
-
-			// Create a new empty application and register it.
+			// Create a new application group
 			ApplicationGroup* group{ new ApplicationGroup(name) };
-			_app_group_cache[use_app_svc].set(group);
+
+			// Register this new group
+			application_group = _app_group_cache[use_app_svc].set(ApplicationGroupPtr(group));
 
 			// Add all given members to this application group.  It is assumed that members
 			// have been registered before calling this method.
 			for (const std::string& member : members) {
-				const Application* application{ get_application(member, use_app_svc) };
+				ApplicationPtr application{ get_application(member, use_app_svc) };
 				if (application) {
 					group->add_member(application);
 				}
 				else {
-					const ApplicationGroup* sub_group{ get_application_group(member, use_app_svc) };
+					ApplicationGroupPtr sub_group{ get_application_group(member, use_app_svc) };
 					if (sub_group)
 						group->add_member(sub_group);
 					else
 						;  // ignore a missing member
 				}
 			}
-
-			application_group = group;
 		}
 
 		return application_group;
 	}
 
 
-	const User* Network::register_user(const std::string& name)
+	UserPtr Network::register_user(const std::string& name)
 	{
-		const User* user{ get_user(name) };
+		UserPtr user{ get_user(name) };
 
 		if (!user) {
 			const int32_t user_id = _user_id_gen.get_id(name);
 
 			// Create and register a new user
-			user= _user_cache.set(User::create(name, user_id, model_options));
+			user = _user_cache.set(
+				User::create(
+					name,
+					user_id,
+					model_options
+				)
+			);
 		}
 
 		return user;
 	}
 
 
-	const UserGroup* Network::register_user_group(const std::string& name, const std::vector<std::string>& members)
+	UserGroupPtr Network::register_user_group(const std::string& name, const std::vector<std::string>& members)
 	{
-		const UserGroup* user_group{ get_user_group(name) };
+		UserGroupPtr user_group{ get_user_group(name) };
 
 		if (!user_group) {
-			// Create and register a new user group
+			// Create a new user group
 			UserGroup* group{ new UserGroup(name) };
-			_user_group_cache.set(group);
+
+			// Register this new group
+			user_group = _user_group_cache.set(UserGroupPtr(group));
 
 			// Add all given members to this user group.  It is assumed that members
 			// have been registered before calling this method.
 			for (const std::string& member : members) {
-				const User* user{ get_user(member) };
+				UserPtr user{ get_user(member) };
 				if (user) {
 					group->add_member(user);
 				}
 				else {
-					const UserGroup* sub_group{ get_user_group(member) };
+					UserGroupPtr sub_group{ get_user_group(member) };
 					if (sub_group)
 						group->add_member(sub_group);
 					else
 						;  // ignore missing member
 				}
 			}
-
-			user_group = group;
 		}
 
 		return user_group;
 	}
 
 
-	const Url* Network::register_url(const std::string& name)
+	UrlPtr Network::register_url(const std::string& name)
 	{
-		const Url* url{ get_url(name) };
+		UrlPtr url{ get_url(name) };
 
 		if (!url) {
 			const int32_t url_id = _url_id_gen.get_id(name);
 
 			// Create and register a new url
-			url = _url_cache.set(Url::create(name, url_id, model_options));
+			url = _url_cache.set(
+				Url::create(
+					name, 
+					url_id,
+					model_options
+				)
+			);
 		}
 
 		return url;
 	}
 
 
-	const UrlGroup* Network::register_url_group(const std::string& name, const std::vector<std::string>& members)
+	UrlGroupPtr Network::register_url_group(const std::string& name, const std::vector<std::string>& members)
 	{
-		const UrlGroup* url_group{ get_url_group(name) };
+		UrlGroupPtr url_group{ get_url_group(name) };
 
 		if (!url_group) {
-			// Create and register a new url group
+			// Create a new url group
 			UrlGroup* group{ new UrlGroup(name) };
-			_url_group_cache.set(group);
+
+			// Register this new group
+			url_group = _url_group_cache.set(UrlGroupPtr(group));
 
 			// Add all given members to this url group.  It is assumed that members
 			// have been registered before calling this method.
 			for (const std::string& member : members) {
-				const Url* url{ get_url(member) };
+				UrlPtr url{ get_url(member) };
 				if (url) {
 					group->add_member(url);
 				}
 				else {
-					const UrlGroup* sub_group{ get_url_group(member) };
+					UrlGroupPtr sub_group{ get_url_group(member) };
 					if (sub_group)
 						group->add_member(sub_group);
 					else
 						;  // ignore missing member
 				}
 			}
-
-			url_group = group;
 		}
 
 		return url_group;
 	}
 
 
-	const Service* Network::register_appsvc(const std::string& name, const std::string& service_definition)
+	ServicePtr Network::register_appsvc(const std::string& name, const std::string& service_definition)
 	{
-		const Service* service{ _appsvc_cache.get(name) };
+		ServicePtr service{ _appsvc_cache.get(name) };
 
 		if (!service) {
-			service = _appsvc_cache.set(Service::create(name, service_definition));
+			service = _appsvc_cache.set(
+				Service::create(
+					name,
+					service_definition
+				)
+			);
 		}
 
 		return service;

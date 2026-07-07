@@ -59,23 +59,23 @@ namespace cli {
 
 		/* Convenient methods that get source or destination zones from the argument list.
 		*/
-		SrcZoneOptArg get_src_zone(CliArgs& args, bool optional) const;
-		DstZoneOptArg get_dst_zone(CliArgs& args, bool optional) const;
+		SrcZonePtr get_src_zone(CliArgs& args, bool optional) const;
+		DstZonePtr get_dst_zone(CliArgs& args, bool optional) const;
 
 		// Get a list of source addresses from the command line.
-		SrcAddressArgs get_source_addresses_arg(CliArgs& args) const;
+		SrcAddressArgsPtr get_source_addresses_arg(CliArgs& args) const;
 
 		// Get a list of destination addresses from the command line.
-		DstAddressArgs get_destination_addresses(CliArgs& args) const;
+		DstAddressArgsPtr get_destination_addresses(CliArgs& args) const;
 
 		// Get a list of source and destination addresses from the next command line argument.
 		AddressArgs get_addresses_arg(CliArgs& args) const;
 
 		// Get a list of services from the next command line argument.
-		ServiceArgs get_services_arg(CliArgs& args) const;
+		ServiceArgsPtr get_services_arg(CliArgs& args) const;
 
 		// Get a list of applications from the next command line argument.
-		ApplicationArgs get_applications_arg(CliArgs& args) const;
+		ApplicationArgsPtr get_applications_arg(CliArgs& args) const;
 
 		// Return the source and destination zones given by the option -z
 		ZonePairOptArg get_zones_filter(const CliArgs& args) const;
@@ -108,12 +108,12 @@ namespace cli {
 		const std::unique_ptr<CliCommandFlags> _flags;
 
 		// Convenient methods that get source or destination zone by name.
-		SrcZoneOptArg get_src_zone(const std::string& zone, bool optional) const;
-		DstZoneOptArg get_dst_zone(const std::string& zone, bool optional) const;
+		SrcZonePtr get_src_zone(const std::string& zone, bool optional) const;
+		DstZonePtr get_dst_zone(const std::string& zone, bool optional) const;
 
 		// Convenient methods that get source and destination addresses.
-		SrcAddressArgs get_source_addresses(const std::vector<std::string>& addresses) const;
-		DstAddressArgs get_destination_addresses(const std::vector<std::string>& addresses) const;
+		SrcAddressArgsPtr get_source_addresses(const std::vector<std::string>& addresses) const;
+		DstAddressArgsPtr get_destination_addresses(const std::vector<std::string>& addresses) const;
 	};
 
 }

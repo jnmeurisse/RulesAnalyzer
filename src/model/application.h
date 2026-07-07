@@ -24,6 +24,9 @@ namespace fwm {
 	class Application : public NamedMnode
 	{
 	public:
+		using Ptr = std::shared_ptr<const Application>;
+
+
 		/**
 		 * Copy constructor
 		*/
@@ -32,22 +35,21 @@ namespace fwm {
 		/**
 		 * Copy constructor using a specific service group.
 		*/
-		Application(const Application& other, ServiceGroup* services);
+		Application(const Application& other, ServiceGroupPtr services);
 
 		/**
 		 * Allocates an Application.
 		 *
 		 * @param name The name of the application.
 		 * @param app_id The application id.
-		 * @param services A group of default services for this application.  The group must be
-		 *                 dynamically allocated.  The group is owned by this class.
+		 * @param services A group of default services for this application.
 		 * @param options A set of model options.
 		 * @param use_app_svc A flag that indicates whether we are using default services when
 		 *                    calculating the bdd.
 		 *
 		 * @return An application.
 		 */
-		static const Application* create(const std::string& name, uint16_t app_id, ServiceGroup* services,
+		static Ptr create(const std::string& name, uint16_t app_id, ServiceGroupPtr services,
 					const ModelOptions& options, bool use_app_svc);
 
 		/**
@@ -55,7 +57,7 @@ namespace fwm {
 		 *
 		 * @return An Application representing all applications.
 		*/
-		static const Application* any();
+		static Ptr any();
 
 		/**
 		 * Creates a binary decision diagram for this application.
@@ -73,9 +75,9 @@ namespace fwm {
 		virtual std::string to_string() const override;
 
 	protected:
-		Application(const std::string& name, uint16_t app_id, ServiceGroup* services,
+		Application(const std::string& name, uint16_t app_id, ServiceGroupPtr services,
 			const ModelOptions& options, bool use_app_svc);
-		Application(const std::string& name, Range* range, ServiceGroup* services,
+		Application(const std::string& name, Range* range, ServiceGroupPtr services,
 			const ModelOptions& options, bool use_app_svc);
 
 	private:
@@ -85,11 +87,14 @@ namespace fwm {
 	};
 
 
+	using ApplicationPtr = Application::Ptr;
+
+
 	/**
 	 * An ApplicationList represents a list of Applications.
 	*/
 	using ApplicationList = NamedMnodeList<Application>;
-	using ApplicationListPtr = std::unique_ptr<ApplicationList>;
+	using ApplicationListPtr = std::shared_ptr<ApplicationList>;
 
 
 	/**
@@ -100,8 +105,6 @@ namespace fwm {
 	public:
 		using Group<Application>::Group;
 
-		virtual ApplicationGroup* clone() const override;
-
 		/**
 		 * Allocates a group containing all default services allowed by the
 		 * applications of this group.
@@ -109,7 +112,7 @@ namespace fwm {
 		ServiceGroupPtr default_services() const;
 	};
 
-	using ApplicationGroupPtr = std::unique_ptr<fwm::ApplicationGroup>;
+	using ApplicationGroupPtr = std::shared_ptr<const fwm::ApplicationGroup>;
 
 
 	/**
@@ -120,12 +123,6 @@ namespace fwm {
 	{
 	public:
 		AnyApplicationGroup();
-		virtual ~AnyApplicationGroup();
-
-		/**
-		 * Clones this group.
-		*/
-		virtual ApplicationGroup* clone() const override;
 
 		/**
 		 * Returns a bddtrue decision diagram.

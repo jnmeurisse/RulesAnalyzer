@@ -40,18 +40,18 @@ namespace fwm {
 	}
 
 
-	Url* Url::create(const std::string& url, uint16_t url_id, const ModelOptions& options)
+	Url::Ptr Url::create(const std::string& url, uint16_t url_id, const ModelOptions& options)
 	{
 		if (url == "any")
 			return any();
 		else
-			return new Url(url, DomainType::Url, url_id, options);
+			return Url::Ptr(new Url(url, DomainType::Url, url_id, options));
 	}
 
 
-	Url* Url::any()
+	Url::Ptr Url::any()
 	{
-		return new Url("any", UrlDomain::create_full_range(), ModelOptions::empty());
+		return Url::Ptr(new Url("any", UrlDomain::create_full_range(), ModelOptions::empty()));
 	}
 
 
@@ -78,19 +78,6 @@ namespace fwm {
 	AnyUrlGroup::AnyUrlGroup() :
 		UrlGroup("$any-url-group", Url::any())
 	{
-	}
-
-
-	AnyUrlGroup::~AnyUrlGroup()
-	{
-		// delete the "any" Url allocated in the constructor
-		parse([](const Url* url){ delete url; });
-	}
-
-
-	UrlGroup* AnyUrlGroup::clone() const
-	{
-		return new AnyUrlGroup();
 	}
 
 

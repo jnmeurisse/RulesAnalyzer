@@ -102,7 +102,7 @@ namespace fos {
 					if (resolved_address_object) {
 						// Filter the address according to the IP memory model.
 						for (const std::string& address : resolved_address_object->addresses()) {
-							if (is_ip_address(address, ip_model, strict))
+							if (IpAddress::is_valid_ip(address, ip_model, strict))
 								filtered_addresses.push_back(address);
 						}
 					}

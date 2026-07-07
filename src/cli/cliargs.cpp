@@ -116,107 +116,92 @@ namespace cli {
 
 
 	SrcAddressArgs::SrcAddressArgs() :
-		_list{ std::make_unique<SrcAddressGroup>("$root-src-addr-args") },
-		_cache()
+		fwm::SrcAddressGroup("$root-src-addr-args")
 	{
 	}
 
 
-	void SrcAddressArgs::add(const SrcAddressGroup* group)
+	void SrcAddressArgs::add(fwm::SrcAddressPtr address)
 	{
-		_list->add_member(group);
+		add_member(address);
 	}
 
 
-	void SrcAddressArgs::add(const SrcAddress* address)
+	void SrcAddressArgs::add(fwm::SrcAddressGroupPtr group)
 	{
-		_list->add_member(address);
+		add_member(group);
 	}
 
 
 	void SrcAddressArgs::add(const std::string& address, fwm::IPAddressModel ip_model, bool strict_ip_parser)
 	{
-		_cache.push_front(
-			std::unique_ptr<const SrcAddress>(SrcAddress::create("", address, ip_model, strict_ip_parser))
-		);
-
-		add(_cache.front().get());
+		add_member(fwm::SrcAddress::create("", address, ip_model, strict_ip_parser));
 	}
 
 
 	DstAddressArgs::DstAddressArgs() :
-		_list{ std::make_unique<DstAddressGroup>("$root-dst-addr-args") },
-		_cache()
+		fwm::DstAddressGroup( "$root-dst-addr-args")
 	{
 	}
 
 
-	void DstAddressArgs::add(const DstAddressGroup* group)
+	void DstAddressArgs::add(fwm::DstAddressPtr address)
 	{
-		_list->add_member(group);
+		add_member(address);
 	}
 
 
-	void DstAddressArgs::add(const DstAddress* address)
+	void DstAddressArgs::add(fwm::DstAddressGroupPtr group)
 	{
-		_list->add_member(address);
+		add_member(group);
 	}
 
 
 	void DstAddressArgs::add(const std::string& address, fwm::IPAddressModel ip_model, bool strict_ip_parser)
 	{
-		_cache.push_front(
-			std::unique_ptr<const DstAddress>(DstAddress::create("", address, ip_model, strict_ip_parser))
-		);
-
-		add(_cache.front().get());
+		add_member(fwm::DstAddress::create("", address, ip_model, strict_ip_parser));
 	}
 
 
 	ServiceArgs::ServiceArgs() :
-		_list{ std::make_unique<ServiceGroup>("$root-svc-args") },
-		_cache()
+		fwm::ServiceGroup("$root-svc-args")
 	{
 	}
 
 
-	void ServiceArgs::add(const ServiceGroup* group)
+	void ServiceArgs::add(fwm::ServicePtr service)
 	{
-		_list->add_member(group);
+		add_member(service);
 	}
 
 
-	void ServiceArgs::add(const Service* service)
+	void ServiceArgs::add(fwm::ServiceGroupPtr group)
 	{
-		_list->add_member(service);
+		add_member(group);
 	}
 
 
 	void ServiceArgs::add(const std::string& service)
 	{
-		_cache.push_front(
-			std::unique_ptr<const Service>(Service::create("", service))
-		);
-
-		add(_cache.front().get());
+		add_member(fwm::Service::create("", service));
 	}
 
 
 	ApplicationArgs::ApplicationArgs() :
-		_list{ std::make_unique<ApplicationGroup>("$root-app-args") }
+		fwm::ApplicationGroup("$root-app-args")
 	{
 	}
 
 
-	void ApplicationArgs::add(const ApplicationGroup* group)
+	void ApplicationArgs::add(fwm::ApplicationPtr application)
 	{
-		_list->add_member(group);
+		add_member(application);
 	}
 
 
-	void ApplicationArgs::add(const Application* application)
+	void ApplicationArgs::add(fwm::ApplicationGroupPtr group)
 	{
-		_list->add_member(application);
+		add_member(group);
 	}
 
 }

@@ -66,34 +66,21 @@ namespace fwm {
 	}
 
 
-	SrcZone* SrcZone::create(const std::string& name, uint16_t zone_id)
+	SrcZone::Ptr SrcZone::create(const std::string& name, uint16_t zone_id)
 	{
-		return new SrcZone(name, zone_id);
+		return SrcZone::Ptr(new SrcZone(name, zone_id));
 	}
 
 
-	SrcZone* SrcZone::any()
+	SrcZone::Ptr SrcZone::any()
 	{
-		return new SrcZone("any", SrcZoneDomain::create_full_range());
+		return SrcZone::Ptr(new SrcZone("any", SrcZoneDomain::create_full_range()));
 	}
 
 
 	SrcAnyZoneGroup::SrcAnyZoneGroup() :
 		SrcZoneGroup("$src-any-zone-group", SrcZone::any())
 	{
-	}
-
-
-	SrcAnyZoneGroup::~SrcAnyZoneGroup()
-	{
-		// delete the "any" zone allocated in the constructor
-		parse([](const SrcZone* zone){ delete zone; });
-	}
-
-
-	SrcZoneGroup* SrcAnyZoneGroup::clone() const
-	{
-		return new SrcAnyZoneGroup();
 	}
 
 
@@ -127,34 +114,21 @@ namespace fwm {
 	}
 
 
-	DstZone* DstZone::create(const std::string& name, uint16_t zone_id)
+	DstZone::Ptr DstZone::create(const std::string& name, uint16_t zone_id)
 	{
-		return new DstZone(name, zone_id);
+		return DstZone::Ptr(new DstZone(name, zone_id));
 	}
 
 
-	DstZone* DstZone::any()
+	DstZone::Ptr DstZone::any()
 	{
-		return new DstZone("any", DstZoneDomain::create_full_range());
+		return DstZone::Ptr(new DstZone("any", DstZoneDomain::create_full_range()));
 	}
 
 
 	DstAnyZoneGroup::DstAnyZoneGroup() :
 		DstZoneGroup("$dst-any-zone-group", DstZone::any())
 	{
-	}
-
-
-	DstAnyZoneGroup::~DstAnyZoneGroup()
-	{
-		// delete the "any" zone allocated in the constructor
-		parse([](const DstZone* zone){ delete zone; });
-	}
-
-
-	DstZoneGroup* DstAnyZoneGroup::clone() const
-	{
-		return new DstAnyZoneGroup();
 	}
 
 

@@ -26,21 +26,22 @@ namespace fwm {
 	{
 	}
 
+
 	User::User(const User& user) :
 		User(user.name(), user.value().range().clone(), user.options())
 	{
 	}
 
 
-	User* User::create(const std::string& name, uint16_t user_id, const ModelOptions& options)
+	User::Ptr User::create(const std::string& name, uint16_t user_id, const ModelOptions& options)
 	{
-		return new User(name, DomainType::User, user_id, options);
+		return User::Ptr(new User(name, DomainType::User, user_id, options));
 	}
 
 
-	User* User::any()
+	User::Ptr User::any()
 	{
-		return new User("any", UserDomain::create_full_range(), ModelOptions::empty());
+		return User::Ptr(new User("any", UserDomain::create_full_range(), ModelOptions::empty()));
 	}
 
 
@@ -67,19 +68,6 @@ namespace fwm {
 	AnyUserGroup::AnyUserGroup() :
 		UserGroup("$any-usr-group", User::any())
 	{
-	}
-
-
-	AnyUserGroup::~AnyUserGroup()
-	{
-		// delete the "any" user allocated in the constructor
-		parse([](const User* user){ delete user; });
-	}
-
-
-	UserGroup* AnyUserGroup::clone() const
-	{
-		return new AnyUserGroup();
 	}
 
 

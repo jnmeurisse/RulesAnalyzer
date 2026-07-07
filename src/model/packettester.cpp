@@ -21,14 +21,14 @@ namespace fwm {
 	}
 
 	std::pair<bool, const Rule*> PacketTester::is_packet_allowed(
-		const SrcZone* src_zone,
-		const SrcAddressGroup& src_addr_grp,
-		const DstZone* dst_zone,
-		const DstAddressGroup& dst_addr_grp,
-		const ServiceGroup& svc_grp,
-		const ApplicationGroup* app_grp,
-		const UserGroup* usr_grp,
-		const UrlGroup* url_grp
+		const SrcZonePtr src_zone,
+		const SrcAddressGroupPtr src_addr_grp,
+		const DstZonePtr dst_zone,
+		const DstAddressGroupPtr dst_addr_grp,
+		const ServiceGroupPtr svc_grp,
+		const ApplicationGroupPtr app_grp,
+		const UserGroupPtr usr_grp,
+		const UrlGroupPtr url_grp
 
 	) const
 	{
@@ -47,48 +47,26 @@ namespace fwm {
 
 		// Prepare source definitions
 		Sources sources{
-			src_zone ? new SrcZoneGroup("", src_zone) : new SrcAnyZoneGroup(),
-			src_addr_grp.clone(),
+			std::make_shared<SrcZoneGroup>("", src_zone),
+			src_addr_grp, 
 			false
 		};
 
 		// Prepare destination definitions
 		Destinations destinations{
-			dst_zone ? new DstZoneGroup("", dst_zone) : new DstAnyZoneGroup(),
-			dst_addr_grp.clone(),
+			std::make_shared<DstZoneGroup>("", dst_zone),
+			dst_addr_grp,
 			false
-		};
-
-		// Prepare the services
-		ServiceGroup* services{ svc_grp.clone() };
-
-		// Prepare the applications
-		ApplicationGroup* applications{ app_grp
-			? app_grp->clone()
-			: new AnyApplicationGroup()
-		};
-
-		// Prepare the users
-		UserGroup* users{ usr_grp
-			? usr_grp->clone()
-			: new AnyUserGroup()
-		};
-
-
-		// Prepare the urls
-		UrlGroup* urls{ url_grp
-			? url_grp->clone()
-			: new AnyUrlGroup()
 		};
 
 		// Create the test predicate
 		Predicate test_predicate{
 			sources,
 			destinations,
-			services,
-			applications,
-			users,
-			urls
+			svc_grp,
+			app_grp,
+			usr_grp,
+			url_grp
 		};
 
 		Bddnode test_bdd{ test_predicate.make_bdd(bdd_options) };

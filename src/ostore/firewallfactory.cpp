@@ -76,10 +76,10 @@ namespace fos {
 
 	SrcAddressGroupPtr FirewallFactory::build_src_address_group(Network& nw, const fos::RuleObject& rule, LoaderStatus& status)
 	{
-		SrcAddressGroupPtr src_address_group{ std::make_unique<SrcAddressGroup>("$root") };
+		std::unique_ptr<SrcAddressGroup> src_address_group { std::make_unique<SrcAddressGroup>("$root") };
 
 		for (const std::string& src_address : rule.source_addresses) {
-			if (is_ip_address(src_address, nw.config().ip_model, nw.config().strict_ip_parser)) {
+			if (IpAddress::is_valid_ip(src_address, nw.config().ip_model, nw.config().strict_ip_parser)) {
 				src_address_group->add_member(nw.register_src_address(src_address, src_address));
 			}
 			else {
@@ -126,10 +126,10 @@ namespace fos {
 
 	DstAddressGroupPtr FirewallFactory::build_dst_address_group(Network& nw, const fos::RuleObject& rule, LoaderStatus& status)
 	{
-		DstAddressGroupPtr dst_address_group{ std::make_unique<DstAddressGroup>("$root") };
+		std::unique_ptr<DstAddressGroup> dst_address_group{ std::make_unique<DstAddressGroup>("$root") };
 
 		for (const std::string& dst_address : rule.destination_addresses) {
-			if (is_ip_address(dst_address, nw.config().ip_model, nw.config().strict_ip_parser)) {
+			if (IpAddress::is_valid_ip(dst_address, nw.config().ip_model, nw.config().strict_ip_parser)) {
 				dst_address_group->add_member(nw.register_dst_address(dst_address, dst_address));
 			}
 			else {
@@ -176,7 +176,7 @@ namespace fos {
 
 	ServiceGroupPtr FirewallFactory::build_service_group(Network& nw, const fos::RuleObject& rule, LoaderStatus& status)
 	{
-		ServiceGroupPtr service_group{ std::make_unique<ServiceGroup>("$root") };
+		std::unique_ptr<ServiceGroup> service_group{ std::make_unique<ServiceGroup>("$root") };
 
 		if (rule.default_app_services()) {
 			service_group->add_member(nw.register_service("any", "any"));
@@ -229,7 +229,7 @@ namespace fos {
 
 	ApplicationGroupPtr FirewallFactory::build_application_group(Network& nw, const fos::RuleObject& rule, LoaderStatus& status) const
 	{
-		ApplicationGroupPtr application_group{ std::make_unique<ApplicationGroup>("$root") };
+		std::unique_ptr<ApplicationGroup> application_group{ std::make_unique<ApplicationGroup>("$root") };
 
 		for (const std::string& application : rule.applications) {
 			const ApplicationObject* application_object{ _object_store.get_application(application) };
@@ -280,7 +280,7 @@ namespace fos {
 
 	SrcZoneGroupPtr FirewallFactory::build_src_zone_group(Network& nw, const fos::RuleObject& rule, LoaderStatus& status) const
 	{
-		SrcZoneGroupPtr src_zone_group{ std::make_unique<SrcZoneGroup>("$root") };
+		std::unique_ptr<SrcZoneGroup> src_zone_group{ std::make_unique<SrcZoneGroup>("$root") };
 
 		for (const std::string& zone : rule.source_zones) {
 			src_zone_group->add_member(nw.register_src_zone(zone));
@@ -292,7 +292,7 @@ namespace fos {
 
 	DstZoneGroupPtr FirewallFactory::build_dst_zone_group(Network& nw, const fos::RuleObject& rule, LoaderStatus& status) const
 	{
-		DstZoneGroupPtr dst_zone_group{ std::make_unique<DstZoneGroup>("$root") };
+		std::unique_ptr<DstZoneGroup> dst_zone_group{ std::make_unique<DstZoneGroup>("$root") };
 
 		for (const std::string& zone : rule.destination_zones) {
 			dst_zone_group->add_member(nw.register_dst_zone(zone));
@@ -304,7 +304,7 @@ namespace fos {
 
 	UserGroupPtr FirewallFactory::build_user_group(Network& nw, const fos::RuleObject& rule, LoaderStatus& status) const
 	{
-		UserGroupPtr user_group{ std::make_unique<UserGroup>("$root") };
+		std::unique_ptr<UserGroup> user_group{ std::make_unique<UserGroup>("$root") };
 
 		for (const std::string& user : rule.users) {
 			const UserObject* user_object{ _object_store.get_user(user) };
@@ -339,7 +339,7 @@ namespace fos {
 
 	UrlGroupPtr FirewallFactory::build_url_group(Network& nw, const fos::RuleObject& rule, LoaderStatus& status) const
 	{
-		UrlGroupPtr url_group{ std::make_unique<UrlGroup>("$root") };
+		std::unique_ptr<UrlGroup> url_group{ std::make_unique<UrlGroup>("$root") };
 
 		for (const std::string& url : rule.urls) {
 			if (is_url(url)) {
@@ -480,12 +480,12 @@ namespace fos {
 			// into the object caches.  The lifetime of the cache must
 			// be greater than the predicate lifetime.
 			PredicatePtr predicate = std::make_unique<Predicate>(
-				Sources{ src_zone_list.release(), src_address_group.release(), rule.negate_source_addresses },
-				Destinations{ dst_zone_list.release(), dst_address_group.release(), rule.negate_destination_addresses },
-				service_group.release(),
-				application_group.release(),
-				user_group.release(),
-				url_group.release()
+				Sources{ src_zone_list, src_address_group, rule.negate_source_addresses },
+				Destinations{ dst_zone_list, dst_address_group, rule.negate_destination_addresses },
+				service_group,
+				application_group,
+				user_group,
+				url_group
 			);
 
 			// Add an new rule to the firewall Access Control List.

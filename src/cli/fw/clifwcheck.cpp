@@ -67,15 +67,17 @@ namespace cli {
 		}
 
 		// define what is an "any" destination address
-		DstAddressArgs destinations;
+		DstAddressArgsPtr destinations;
 		if (args.size() == 0) {
+			destinations = std::make_unique<DstAddressArgs>();
+
 			// this is the definition when there is no parameter on the command line.
 			if (context.network.config().ip_model == IPAddressModel::IP64Model) {
-				destinations.add(context.network.get_dst_address("any4"));
-				destinations.add(context.network.get_dst_address("any6"));
+				destinations->add(context.network.get_dst_address("any4"));
+				destinations->add(context.network.get_dst_address("any6"));
 			}
 			else {
-				destinations.add(context.network.get_dst_address("any"));
+				destinations->add(context.network.get_dst_address("any"));
 			}
 		}
 		else {
@@ -93,7 +95,7 @@ namespace cli {
 		const Analyzer analyzer{ filtered_rules, context.network.config().ip_model };
 
 		// search for any/any rules
-		const RuleList any_any_rules{ analyzer.check_any(destinations.list()) };
+		const RuleList any_any_rules{ analyzer.check_any(*destinations) };
 
 		if (any_any_rules.size() == 0) {
 			context.logger->info("any/any rule not found");
@@ -378,8 +380,8 @@ namespace cli {
 		// The "any" source and destination zones are excluded from the table.
 		ZoneListPtr all_zones = acl.all_zones(
 			{
-				context.get_any_src_zone(),
-				context.get_any_dst_zone()
+				context.get_any_src_zone().get(),
+				context.get_any_dst_zone().get()
 			}
 		);
 
@@ -390,8 +392,8 @@ namespace cli {
 			)
 		);
 
-		SrcZoneListPtr all_src_zones = acl.all_src_zones({context.get_any_src_zone()});
-		DstZoneListPtr all_dst_zones = acl.all_dst_zones({context.get_any_dst_zone()});
+		SrcZoneListPtr all_src_zones = acl.all_src_zones({context.get_any_src_zone().get()});
+		DstZoneListPtr all_dst_zones = acl.all_dst_zones({context.get_any_dst_zone().get()});
 
 		for (const SrcZone* src_zone : *all_src_zones) {
 			Row& row = zones_table.add_row();
@@ -445,8 +447,8 @@ namespace cli {
 
 		// keep rules allowing the specified addresses
 		bool include_any = args.has_option(CliCommandFlag::IncludeAny)
-			|| addresses.src_addr_args.list().is_any()
-			|| addresses.dst_addr_args.list().is_any();
+			|| addresses.src_addr_args->is_any()
+			|| addresses.dst_addr_args->is_any();
 
 		const RuleList address_filtered_rules{
 			// select Allow rules
@@ -460,17 +462,17 @@ namespace cli {
 					const bool is_src_any = src_addresses.is_any();
 					const bool is_dst_any = dst_addresses.is_any();
 					return
-						(addresses.src_addr_args.list().size() > 0 && (
+						(addresses.src_addr_args->size() > 0 && (
 							(include_any && is_src_any) ||
 							(!include_any && !is_src_any
-								&& addresses.src_addr_args.list().is_subset(src_addresses.negate_if(predicate.negate_src_addresses())))
+								&& addresses.src_addr_args->is_subset(src_addresses.negate_if(predicate.negate_src_addresses())))
 							)
 						)
 						||
-						(addresses.dst_addr_args.list().size() > 0 && (
+						(addresses.dst_addr_args->size() > 0 && (
 							(include_any && is_dst_any) ||
 							(!include_any && !is_dst_any
-								&& addresses.dst_addr_args.list().is_subset(dst_addresses.negate_if(predicate.negate_dst_addresses())))
+								&& addresses.dst_addr_args->is_subset(dst_addresses.negate_if(predicate.negate_dst_addresses())))
 							)
 						);
 				})
@@ -520,20 +522,20 @@ namespace cli {
 		}
 
 		// get the services from the command line
-		ServiceArgs services = get_services_arg(args);
-		if (services.list().empty())
+		ServiceArgsPtr services = get_services_arg(args);
+		if (services->empty())
 			throw std::runtime_error("service not specified");
 
 		// get the rules filtered using the optional zones filter
 		const RuleList zone_filtered_rules = get_zone_filtered_rules(args, acl);
 
-		const bool include_any = args.has_option(CliCommandFlag::IncludeAny) || services.list().is_any();
+		const bool include_any = args.has_option(CliCommandFlag::IncludeAny) || services->is_any();
 
 		const RuleList service_filtered_rules{
 			// select Allow rules
 			zone_filtered_rules.filter(RuleAction::ALLOW)
 			// filter rules that allow the specified services
-			.filter(services.list())
+			.filter(*services)
 			// Remove rules that allow only "any services" unless -any is on the command line
 			// (-any is assumed if the filter criteria is "any services")
 			.filter(
@@ -588,21 +590,21 @@ namespace cli {
 			throw std::runtime_error("application model is disabled");
 
 		// get the application from the command line
-		const ApplicationArgs applications{ get_applications_arg(args) };
+		const ApplicationArgsPtr applications{ get_applications_arg(args) };
 
 		// get the services from the command line if specified
-		const ServiceArgs services{ get_services_arg(args) };
+		const ServiceArgsPtr services{ get_services_arg(args) };
 
 		// get the rules filtered using the optional zones filter
 		const RuleList zone_filtered_rules = get_zone_filtered_rules(args, acl);
 
 		// Filter the rules by applications and optionally by services
-		const bool include_any = args.has_option(CliCommandFlag::IncludeAny) || applications.list().is_any();
+		const bool include_any = args.has_option(CliCommandFlag::IncludeAny) || applications->is_any();
 		const RuleList application_filtered_rules {
 			// select Allow rules
 			zone_filtered_rules.filter(RuleAction::ALLOW)
 			// select rules by applications and optionally by services
-			.filter(applications.list(), services.list())
+			.filter(*applications, *services)
 			// Remove rules that allow only "any applications" unless -any is on the command line
 			// (-any is assumed if the filter criteria is "any applications")
 			.filter(
@@ -650,30 +652,28 @@ namespace cli {
 		}
 
 		// Get the source zone (optional, can be replaced by _ or an empty string)
-		SrcZoneOptArg src_zone_arg = get_src_zone(args, true);
-		std::unique_ptr<const SrcZone> src_zone = std::unique_ptr<const SrcZone>(src_zone_arg ? &src_zone_arg.value() : nullptr);
+		SrcZonePtr src_zone_arg = get_src_zone(args, true);
 
 		// Decode the source addresses
-		const SrcAddressArgs sources = get_source_addresses_arg(args);
+		SrcAddressArgsPtr sources = get_source_addresses_arg(args);
 
 		// Get the destination zone (optional, can be replaced by _ or an empty string)
-		DstZoneOptArg dst_zone_arg = get_dst_zone(args, true);
-		std::unique_ptr<const DstZone> dst_zone = std::unique_ptr<const DstZone>(dst_zone_arg ? &dst_zone_arg.value() : nullptr);
+		DstZonePtr dst_zone_arg = get_dst_zone(args, true);
 
 		// Decode the destination addresses
-		const DstAddressArgs destinations = get_destination_addresses(args);
+		DstAddressArgsPtr destinations = get_destination_addresses(args);
 
 		// Decode the services
-		const ServiceArgs services = get_services_arg(args);
+		ServiceArgsPtr services = get_services_arg(args);
 
 		// Check if the packet is allowed
 		fwm::PacketTester packet_tester{ acl };
 		auto result = packet_tester.is_packet_allowed(
-			src_zone.release(),
-			sources.list(),
-			dst_zone.release(),
-			destinations.list(),
-			services.list(),
+			src_zone_arg,
+			sources,
+			dst_zone_arg,
+			destinations,
+			services,
 			nullptr,
 			nullptr,
 			nullptr

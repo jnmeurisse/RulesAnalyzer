@@ -29,6 +29,9 @@ namespace fwm {
 	class Url final : public NamedMnode
 	{
 	public:
+		using Ptr = std::shared_ptr<const Url>;
+
+
 		/**
 		 * Copy constructors.
 		*/
@@ -43,14 +46,14 @@ namespace fwm {
 		 *
 		 * @return A source zone.
 		*/
-		static Url* create(const std::string& url, uint16_t url_id, const ModelOptions& options);
+		static Ptr create(const std::string& url, uint16_t url_id, const ModelOptions& options);
 
 		/**
 		 * Allocate a any Url.
 		 *
 		 * @return A Url representing all Urls.
 		*/
-		static Url* any();
+		static Ptr any();
 
 		/**
 		 * Creates a binary decision diagram from this url.
@@ -85,6 +88,8 @@ namespace fwm {
 		const MvaluePtr _url_value;
 	};
 
+	using UrlPtr = Url::Ptr;
+
 
 	/**
 	 * An UrlList represents a list of Urls.
@@ -97,7 +102,7 @@ namespace fwm {
 	 * UrlGroup represents a hierarchy of groups of Urls.
 	*/
 	using UrlGroup = Group<Url>;
-	using UrlGroupPtr = std::unique_ptr<UrlGroup>;
+	using UrlGroupPtr = std::shared_ptr<const UrlGroup>;
 
 
 	/*
@@ -108,12 +113,6 @@ namespace fwm {
 	{
 	public:
 		AnyUrlGroup();
-		~AnyUrlGroup();
-
-		/**
-		 * Clones this group.
-		*/
-		virtual UrlGroup* clone() const override;
 
 		/**
 		 * Returns a bddtrue decision diagram.

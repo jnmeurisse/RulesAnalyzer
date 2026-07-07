@@ -25,10 +25,10 @@ namespace fwm {
 			Predicate(
 				any_sources(),
 				any_destinations(),
-				new AnyServiceGroup(),
-				new AnyApplicationGroup(),
-				new AnyUserGroup(),
-				new AnyUrlGroup()
+				std::make_shared<AnyServiceGroup>(),
+				std::make_shared<AnyApplicationGroup>(),
+				std::make_shared<AnyUserGroup>(),
+				std::make_shared<AnyUrlGroup>()
 			)
 		{}
 
@@ -38,11 +38,11 @@ namespace fwm {
 		}
 
 		static Sources any_sources() {
-			return Sources{ new SrcAnyZoneGroup(), new SrcAny4AddressGroup(), false };
+			return Sources{ std::make_shared<SrcAnyZoneGroup>(), std::make_shared<SrcAny4AddressGroup>(), false };
 		}
 
 		static Destinations any_destinations() {
-			return Destinations{ new DstAnyZoneGroup(), new DstAny4AddressGroup, false };
+			return Destinations{ std::make_shared<DstAnyZoneGroup>(), std::make_shared <DstAny4AddressGroup>(), false};
 		}
 	};
 
@@ -54,10 +54,10 @@ namespace fwm {
 			Predicate(
 				any_sources(),
 				any_destinations(),
-				new AnyServiceGroup(),
-				new AnyApplicationGroup(),
-				new AnyUserGroup(),
-				new AnyUrlGroup()
+				std::make_shared<AnyServiceGroup>(),
+				std::make_shared<AnyApplicationGroup>(),
+				std::make_shared<AnyUserGroup>(),
+				std::make_shared<AnyUrlGroup>()
 			)
 		{}
 
@@ -67,11 +67,11 @@ namespace fwm {
 		}
 
 		static Sources any_sources() {
-			return Sources{ new SrcAnyZoneGroup(), new SrcAny6AddressGroup(), false };
+			return Sources{ std::make_shared<SrcAnyZoneGroup>(), std::make_shared<SrcAny6AddressGroup>(), false };
 		}
 
 		static Destinations any_destinations() {
-			return Destinations{ new DstAnyZoneGroup(), new DstAny6AddressGroup(), false };
+			return Destinations{ std::make_shared<DstAnyZoneGroup>(), std::make_shared <DstAny6AddressGroup>(), false };
 		}
 	};
 
@@ -83,10 +83,10 @@ namespace fwm {
 			Predicate(
 				any_sources(),
 				any_destinations(),
-				new AnyServiceGroup(),
-				new AnyApplicationGroup(),
-				new AnyUserGroup(),
-				new AnyUrlGroup()
+				std::make_shared<AnyServiceGroup>(),
+				std::make_shared<AnyApplicationGroup>(),
+				std::make_shared<AnyUserGroup>(),
+				std::make_shared<AnyUrlGroup>()
 			)
 		{}
 
@@ -96,11 +96,11 @@ namespace fwm {
 		}
 
 		static Sources any_sources() {
-			return Sources{ new SrcAnyZoneGroup(), new SrcAny64AddressGroup(), false };
+			return Sources{ std::make_shared<SrcAnyZoneGroup>(), std::make_shared<SrcAny64AddressGroup>(), false };
 		}
 
 		static Destinations any_destinations() {
-			return Destinations{ new DstAnyZoneGroup(), new DstAny64AddressGroup(), false };
+			return Destinations{ std::make_shared<DstAnyZoneGroup>(), std::make_shared <DstAny64AddressGroup>(), false };
 		}
 	};
 
@@ -116,135 +116,71 @@ namespace fwm {
 		// referenced in list of unique pointers to guarantee their destruction.
 	public:
 		SymmetricalPredicateCreator(const Predicate& predicate) :
-			_predicate{predicate},
-			_src_zones{},
-			_dst_zones{},
-			_src_addresses{},
-			_dst_addresses{}
+			_predicate{predicate}
 		{}
 
-		SrcZoneGroup* create_src_zones()
+		SrcZoneGroupPtr create_src_zones()
 		{
 			// Compute symmetrical source zones.
 			SrcZoneGroup* sym_src_zones{ new SrcZoneGroup("") };
 			for (const DstZone* dz : _predicate.dst_zones().items())
 				sym_src_zones->add_member(create(*dz));
 
-			return sym_src_zones;
+			return SrcZoneGroupPtr(sym_src_zones);
 		}
 
-		SrcAddressGroup* create_src_addr()
+		SrcAddressGroupPtr create_src_addr()
 		{
 			// Compute symmetrical source addresses.
 			SrcAddressGroup* sym_src_addr{ new SrcAddressGroup("") };
 			for (const DstAddress* da : _predicate.dst_addresses().items())
 				sym_src_addr->add_member(create(*da));
 
-			return sym_src_addr;
+			return SrcAddressGroupPtr(sym_src_addr);
 		}
 
-		DstZoneGroup* create_dst_zones()
+		DstZoneGroupPtr create_dst_zones()
 		{
 			// Compute symmetrical destination zones.
 			DstZoneGroup* sym_dst_zones{ new DstZoneGroup("") };
 			for (const SrcZone* sz : _predicate.src_zones().items())
 				sym_dst_zones->add_member(create(*sz));
 
-			return sym_dst_zones;
+			return DstZoneGroupPtr(sym_dst_zones);
 		}
 
-		DstAddressGroup* create_dst_addr()
+		DstAddressGroupPtr create_dst_addr()
 		{
 			// Compute symmetrical destination addresses.
 			DstAddressGroup* sym_dst_addr{ new DstAddressGroup("") };
 			for (const SrcAddress* sa : _predicate.src_addresses().items())
 				sym_dst_addr->add_member(create(*sa));
 
-			return sym_dst_addr;
+			return DstAddressGroupPtr(sym_dst_addr);
 		}
-
-		ServiceGroup* create_services() const
-		{
-			return _predicate.services().clone();
-		}
-
-		ApplicationGroup* create_applications() const
-		{
-			return _predicate.applications().clone();
-		}
-
-		UserGroup* create_users() const
-		{
-			return _predicate.users().clone();
-		}
-
-		UrlGroup* create_urls() const
-		{
-			return _predicate.urls().clone();
-		}
-
-		inline const Predicate& predicate() const {return _predicate; }
 
 	private:
 		const Predicate& _predicate;
-		std::list<std::unique_ptr<SrcZone>> _src_zones;
-		std::list<std::unique_ptr<DstZone>> _dst_zones;
-		std::list<std::unique_ptr<SrcAddress>> _src_addresses;
-		std::list<std::unique_ptr<DstAddress>> _dst_addresses;
 
-		const SrcZone* create(const DstZone& zone)
+		static SrcZonePtr create(const DstZone& zone)
 		{
-			_src_zones.push_back(std::make_unique<SrcZone>("", zone));
-			return _src_zones.back().get();
+			return SrcZonePtr(new SrcZone(zone.name(), zone));
 		}
 
-		const DstZone* create(const SrcZone& zone)
+		static DstZonePtr create(const SrcZone& zone)
 		{
-			_dst_zones.push_back(std::make_unique<DstZone>(zone.name(), zone));
-			return _dst_zones.back().get();
+			return DstZonePtr(new DstZone(zone.name(), zone));
 		}
 
-		const SrcAddress* create(const DstAddress& addr)
+		static SrcAddressPtr create(const DstAddress& addr)
 		{
-			_src_addresses.push_back(std::make_unique<SrcAddress>(addr.name(), addr));
-			return _src_addresses.back().get();
+			return SrcAddressPtr(new SrcAddress(addr.name(), addr));
 		}
 
-		const DstAddress* create(const SrcAddress& addr)
+		static DstAddressPtr create(const SrcAddress& addr)
 		{
-			_dst_addresses.push_back(std::make_unique<DstAddress>(addr.name(), addr));
-			return _dst_addresses.back().get();
+			return DstAddressPtr(new DstAddress(addr.name(), addr));
 		}
-
-	};
-
-
-	class SymmetricalPredicate final : public Predicate
-	{
-	public:
-		SymmetricalPredicate(SymmetricalPredicateCreator* creator) :
-			_creator{creator},
-			Predicate(
-				Sources{
-					creator->create_src_zones(),
-					creator->create_src_addr(),
-					creator->predicate().negate_src_addresses()
-				},
-				Destinations{
-					creator->create_dst_zones(),
-					creator->create_dst_addr(),
-					creator->predicate().negate_dst_addresses()
-				},
-				creator->create_services(),
-				creator->create_applications(),
-				creator->create_users(),
-				creator->create_urls()
-			)
-		{
-		}
-
-	private:
-		std::unique_ptr<SymmetricalPredicateCreator> _creator;
 
 	};
 
@@ -252,10 +188,10 @@ namespace fwm {
 	Predicate::Predicate(
 		const Sources& sources,
 		const Destinations& destinations,
-		ServiceGroup* services,
-		ApplicationGroup* applications,
-		UserGroup* users,
-		UrlGroup* urls
+		ServiceGroupPtr services,
+		ApplicationGroupPtr applications,
+		UserGroupPtr users,
+		UrlGroupPtr urls
 	) :
 		_src_zones{ sources.src_zones },
 		_dst_zones{ destinations.dst_zones },
@@ -268,20 +204,22 @@ namespace fwm {
 		_users{ users },
 		_urls{ urls }
 	{
+		assert(_src_zones && _dst_zones && _src_addresses && _dst_addresses && _services &&
+			_applications && _users && _urls);
 	}
 
 
 	Predicate::Predicate(const Predicate& other) :
-		_src_zones{ other._src_zones->clone() },
-		_dst_zones{ other._dst_zones->clone() },
-		_src_addresses{ other._src_addresses->clone() },
+		_src_zones{ other._src_zones },
+		_dst_zones{ other._dst_zones },
+		_src_addresses{ other._src_addresses },
 		_negate_src_addresses{ other._negate_src_addresses },
-		_dst_addresses{ other._dst_addresses->clone() },
+		_dst_addresses{ other._dst_addresses },
 		_negate_dst_addresses{ other._negate_dst_addresses },
-		_services{ other._services->clone() },
-		_applications{ other._applications->clone() },
-		_users{ other._users->clone() },
-		_urls{ other._urls->clone() }
+		_services{ other._services },
+		_applications{ other._applications },
+		_users{ other._users },
+		_urls{ other._urls }
 	{
 	}
 
@@ -341,7 +279,25 @@ namespace fwm {
 
 	Predicate* Predicate::symmetrical() const
 	{
-		return new SymmetricalPredicate(new SymmetricalPredicateCreator(*this));
+		SymmetricalPredicateCreator creator(*this);
+
+		return new Predicate(
+			Sources{
+				creator.create_src_zones(),
+				creator.create_src_addr(),
+				negate_dst_addresses()
+			},
+			Destinations{
+				creator.create_dst_zones(),
+				creator.create_dst_addr(),
+				negate_src_addresses()
+			},
+			_services,
+			_applications,
+			_users,
+			_urls
+		);
+
 	}
 
 
@@ -358,9 +314,5 @@ namespace fwm {
 			return new Any64Predicate();
 		}
 	};
-
-
-
-
 
 }

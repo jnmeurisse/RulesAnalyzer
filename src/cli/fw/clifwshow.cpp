@@ -58,13 +58,13 @@ namespace cli {
 		std::cout << "    =================================" << std::endl;
 
 		// Get all source and destination zones sorted by name and move "any" at the end of the list.
-		const SrcZone* any_src_zone = context.get_any_src_zone();
-		const DstZone* any_dst_zone = context.get_any_dst_zone();
+		SrcZonePtr any_src_zone = context.get_any_src_zone();
+		DstZonePtr any_dst_zone = context.get_any_dst_zone();
 
-		SrcZoneListPtr all_src_zones = acl.all_src_zones({any_src_zone});
-		DstZoneListPtr all_dst_zones = acl.all_dst_zones({any_dst_zone});
-		all_src_zones->push_back(any_src_zone);
-		all_dst_zones->push_back(any_dst_zone);
+		SrcZoneListPtr all_src_zones = acl.all_src_zones({any_src_zone.get()});
+		DstZoneListPtr all_dst_zones = acl.all_dst_zones({any_dst_zone.get()});
+		all_src_zones->push_back(any_src_zone.get());
+		all_dst_zones->push_back(any_dst_zone.get());
 
 		// Initialize and fill the table
 		Table zones_table(
@@ -343,14 +343,14 @@ namespace cli {
 				row.cell(0).append(address->name());
 				row.cell(1).append(address->to_string());
 
-				const SrcAddress* src_address{ context.network.get_src_address(address->name()) };
+				SrcAddressPtr src_address{ context.network.get_src_address(address->name()) };
 				if (src_address) {
-					row.cell(2).append(rules.filter(src_address).id_list());
+					row.cell(2).append(rules.filter(src_address.get()).id_list());
 				}
 
-				const DstAddress* dst_address{ context.network.get_dst_address(address->name()) };
+				DstAddressPtr dst_address{ context.network.get_dst_address(address->name()) };
 				if (dst_address) {
-					row.cell(3).append(rules.filter(dst_address).id_list());
+					row.cell(3).append(rules.filter(dst_address.get()).id_list());
 				}
 			}
 		}

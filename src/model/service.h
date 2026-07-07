@@ -22,6 +22,8 @@ namespace fwm {
 	class Service abstract : public NamedMnode
 	{
 	public:
+		using Ptr = std::shared_ptr<const Service>;
+
 		/**
 		 * no copy constructor for this abstract class
 		 */
@@ -37,21 +39,14 @@ namespace fwm {
 		 * @throws ServiceError if the protocol and port has an invalid syntax.
 		 *
 		*/
-		static const Service* create(const std::string& name, const std::string& proto_port);
+		static Ptr create(const std::string& name, const std::string& proto_port);
 
 		/**
 		 * Creates an any service.
 		 *
 		 * @return A service representing all protocols and ports.
 		*/
-		static const Service* any();
-
-		/**
-		 * Creates a clone of this service.
-		 *
-		 * @return a service
-		*/
-		virtual const Service* clone() const = 0;
+		static Ptr any();
 
 		/**
 		 * Creates a binary decision diagram from this service.
@@ -87,6 +82,8 @@ namespace fwm {
 		const std::unique_ptr<const Ports> _ports;
 	};
 
+	using ServicePtr = Service::Ptr;
+
 
 	/**
 	 * An UserList represents a list of Users.
@@ -115,17 +112,12 @@ namespace fwm {
 		using Group<Service>::Group;
 
 		/**
-		 * Clones this group.
-		*/
-		virtual ServiceGroup* clone() const override;
-
-		/**
 		 * Returns true when a service group contains the default services of an application.
 		*/
 		virtual bool is_app_services() const;
 	};
 
-	using ServiceGroupPtr = std::unique_ptr<ServiceGroup>;
+	using ServiceGroupPtr = std::shared_ptr<const ServiceGroup>;
 
 
 	/*
@@ -136,12 +128,6 @@ namespace fwm {
 	{
 	public:
 		AnyServiceGroup();
-		virtual ~AnyServiceGroup();
-
-		/**
-		 * Clones this group.
-		*/
-		virtual ServiceGroup* clone() const override;
 
 		/**
 		 * Returns a bddtrue decision diagram.
@@ -153,7 +139,6 @@ namespace fwm {
 	class TcpService final : public Service {
 	public:
 		TcpService(const std::string& name, uint16_t lower_port, uint16_t upper_port);
-		virtual const Service* clone() const override;
 
 	private:
 		TcpService(const std::string& name, const Ports* ports);
@@ -163,7 +148,6 @@ namespace fwm {
 	class UdpService final : public Service {
 	public:
 		UdpService(const std::string& name, uint16_t lower_port, uint16_t upper_port);
-		virtual const Service* clone() const override;
 
 	private:
 		UdpService(const std::string& name, const Ports* ports);
@@ -174,8 +158,6 @@ namespace fwm {
 	public:
 		IcmpService(const std::string& name, uint16_t type);
 		IcmpService(const std::string& name, uint16_t lower_port, uint16_t upper_port);
-
-		virtual const Service* clone() const override;
 
 	private:
 		IcmpService(const std::string& name, const Ports* ports);

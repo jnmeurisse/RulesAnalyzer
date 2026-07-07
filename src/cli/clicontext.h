@@ -98,14 +98,14 @@ namespace cli {
 		 *
 		 * @return A pointer to the "any" source zone named node.
 		 */
-		const SrcZone* get_any_src_zone() const;
+		SrcZonePtr get_any_src_zone() const;
 
 		/**
 		 * Returns a reference to the "any" destination zone object stored in the network cache.
 		 *
 		 * @return A pointer to the "any" destination zone named node.
 		 */
-		const DstZone* get_any_dst_zone() const;
+		DstZonePtr get_any_dst_zone() const;
 
 		// The CtrlC interrupt handler
 		CliCtrlcHandler ctrlc_handler;

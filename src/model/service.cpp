@@ -23,15 +23,12 @@ namespace fwm {
 			Service("any", Protocol::any(), Ports::any())
 		{}
 
-		virtual const Service* clone() const override
-		{
-			return new ServiceAny();
-		}
 
 		virtual bdd make_bdd() const override
 		{
 			return bddtrue;
 		}
+
 
 		virtual std::string to_string() const override
 		{
@@ -40,7 +37,7 @@ namespace fwm {
 	};
 
 
-	const Service* Service::create(const std::string& name, const std::string& proto_port)
+	Service::Ptr Service::create(const std::string& name, const std::string& proto_port)
 	{
 		Service* service{ nullptr };
 
@@ -62,13 +59,13 @@ namespace fwm {
 			throw ServiceError(proto_port);
 		}
 
-		return service;
+		return Service::Ptr(service);
 	}
 
 
-	const Service* Service::any()
+	Service::Ptr Service::any()
 	{
-		return new ServiceAny();
+		return Service::Ptr(new ServiceAny());
 	}
 
 
@@ -120,13 +117,6 @@ namespace fwm {
 	}
 
 
-
-	ServiceGroup* ServiceGroup::clone() const
-	{
-		return new ServiceGroup(*this);
-	}
-
-
 	bool ServiceGroup::is_app_services() const
 	{
 		return false;
@@ -138,16 +128,6 @@ namespace fwm {
 	{
 	}
 
-	AnyServiceGroup::~AnyServiceGroup()
-	{
-		// delete the "any" service allocated in the constructor
-		parse([](const Service* service){ delete service; });
-	}
-
-	ServiceGroup* AnyServiceGroup::clone() const
-	{
-		return new AnyServiceGroup();
-	}
 
 	bdd AnyServiceGroup::make_bdd() const
 	{
@@ -167,13 +147,6 @@ namespace fwm {
 	}
 
 
-	const Service* TcpService::clone() const
-	{
-		return new TcpService(name(), ports().clone());
-	}
-
-
-
 	UdpService::UdpService(const std::string& name, const Ports* ports) :
 		Service(name, new UdpProtocol(), ports)
 	{
@@ -183,12 +156,6 @@ namespace fwm {
 	UdpService::UdpService(const std::string& name, uint16_t lower_port, uint16_t upper_port) :
 		UdpService(name, new UdpPorts(lower_port, upper_port))
 	{
-	}
-
-
-	const Service* UdpService::clone() const
-	{
-		return new UdpService(name(), ports().clone());
 	}
 
 
@@ -207,12 +174,6 @@ namespace fwm {
 	IcmpService::IcmpService(const std::string& name, uint16_t type) :
 		IcmpService(name, type, type)
 	{
-	}
-
-
-	const Service* IcmpService::clone() const
-	{
-		return new IcmpService(name(), ports().clone());
 	}
 
 }

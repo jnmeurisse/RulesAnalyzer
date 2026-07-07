@@ -125,7 +125,7 @@ namespace fwm {
 
 		/* Returns all zones sorted by name except those defined in the exclude_set parameter.
 		*/
-		ZoneListPtr all_zones(const std::set<const Zone*> excluded_set = {}) const;
+		ZoneListPtr all_zones(const std::set<const Zone*>& excluded_set = {}) const;
 
 		/* Returns all source zones sorted by name except those defined in the exclude_set parameter.
 		*/

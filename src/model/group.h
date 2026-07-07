@@ -18,17 +18,78 @@ namespace fwm {
 	template<typename T>
 	class Group;
 
+
 	/**
-	 * Represents a group hierarchy of items of pointer to type T.
-	 *
-	 * Items of type T are dynamically allocated outside this class. The class
-	 * is not responsible of deleting object of type T or Group<T> added to this group.
-	 *
-	 * A virtual destructor is available if a child class needs to destroy members.
+	 * Represents a group hierarchy of items of shared pointer to type T.
 	*/
 	template<typename T>
 	class Group : public NamedMnode {
 		static_assert(std::is_base_of<NamedMnode, T>::value, "invalid Group<T> template usage");
+	
+	public:
+		using fn_parser_cb = std::function<void(const T*)>;
+
+	private:
+		// A member of a group can be an item or another group
+		class Member abstract {
+		public:
+			virtual bdd make_bdd() const = 0;
+			virtual bool contains(const T* item) const = 0;
+			virtual void parse(fn_parser_cb& parser_callback) const = 0;
+			virtual size_t size() const = 0;
+			virtual std::list<std::string> names() const = 0;
+		};
+
+		class ItemMember : public Member {
+		public:
+			ItemMember(const std::shared_ptr<const T> item) : _item(item) {}
+
+			virtual bdd make_bdd() const { return _item->make_bdd(); }
+
+			virtual bool contains(const T* item) const override { return item == _item.get(); }
+
+			virtual void parse(fn_parser_cb& parser_callback) const override
+			{
+				parser_callback(_item->get());
+			}
+
+			virtual size_t size() const override { return 1; }
+
+			virtual std::list<std::string> names() const override
+			{
+				return std::list<std::string>(_item->name());
+			}
+
+		private:
+			const std::shared_ptr<const T> _item;
+		};
+
+		class GroupMember : public Member {
+		public:
+			GroupMember(const std::shared_ptr<Group<T>> group) : _group(group) {}
+
+			virtual bdd make_bdd() const { return _group->make_bdd(); }
+
+			virtual bool contains(const T* item) const override { return _group->contains(item); }
+
+			virtual void parse(fn_parser_cb& parser_callback) const override
+			{
+				_group->parse(parser_callback);
+			}
+
+			virtual size_t size() const override
+			{
+				return _group->size();
+			}
+
+			virtual std::list<std::string> names() const override
+			{
+				return _group->names();
+			}
+
+		private:
+			const std::shared_ptr<const Group<T>> _group;
+		};
 
 	public:
 		Group() = delete;
@@ -41,6 +102,7 @@ namespace fwm {
 		/**
 		 * Allocates and initializes a group with a unique member.
 		*/
+		Group(const std::string& name, const std::shared_ptr<const T> item);
 		Group(const std::string& name, const T* item);
 
 		/**
@@ -48,38 +110,16 @@ namespace fwm {
 		*/
 		virtual ~Group() {}
 
-		// A member of the group can be an item or another group
-		struct Member {
-			const bool is_group;
-			const union {
-				const T* item;
-				const Group<T>* group;
-			};
-
-			Member(const T* item) :
-				is_group{ false },
-				item{ item }
-			{}
-
-			Member(const Group<T>* group) :
-				is_group{ true },
-				group{ group }
-			{}
-		};
-
-		/**
-		 * Clones this group and sub-groups.
-		 */
-		virtual Group<T>* clone() const;
-
 		/**
 		 * Adds an item to this group.
 		*/
+		void add_member(const std::shared_ptr<const T> item);
 		void add_member(const T* item);
 
 		/**
 		 * Adds a sub-group to this group.
 		*/
+		void add_member(const std::shared_ptr<const Group<T>> group);
 		void add_member(const Group<T>* group);
 
 		/**
@@ -93,7 +133,7 @@ namespace fwm {
 		bool contains(const Group<T>* group) const;
 
 		/**
-		 * Returns the name of direct members.
+		 * Returns all unique names in this group and sub-groups.
 		*/
 		std::vector<std::string> names() const;
 
@@ -105,7 +145,7 @@ namespace fwm {
 		/**
 		 * Parses this group.
 		*/
-		void parse(std::function<void(const T*)> parser_callback) const;
+		void parse(fn_parser_cb& parser_callback) const;
 
 		/**
 		 * Appends all items in this group to the given table cell.
@@ -133,24 +173,9 @@ namespace fwm {
 		*/
 		size_t size() const;
 
-	protected:
-		/**
-		 * Copy constructor.
-		*/
-		Group(const Group& other);
-
-		/**
-		 * A convenient method that copy the members of the other group to this group.
-		*/
-		void assign(const Group<T>& other);
-
 	private:
 		// All members in this group
-		std::list<Member> _members;
-
-		// Sets of direct members
-		std::set<const T*> _items;
-		std::set<const Group<T>*> _groups;
+		std::list<std::unique_ptr<const Member>> _members;
 	};
 
 
@@ -162,7 +187,7 @@ namespace fwm {
 
 
 	template<typename T>
-	inline Group<T>::Group(const std::string& name, const T* item) :
+	inline Group<T>::Group(const std::string& name, const std::shared_ptr<const T> item) :
 		Group(name)
 	{
 		add_member(item);
@@ -170,32 +195,9 @@ namespace fwm {
 
 
 	template<typename T>
-	inline Group<T>::Group(const Group& other) :
-		Group(other.name())
+	inline Group<T>::Group(const std::string& name, const T* item) :
+		Group(name, std::shared_ptr<const T>(item))
 	{
-		assign(other);
-	}
-
-
-	template<typename T>
-	inline Group<T>* Group<T>::clone() const
-	{
-		return new Group<T>(*this);
-	}
-
-
-	template<typename T>
-	inline void Group<T>::assign(const Group<T>& other)
-	{
-		for (const Member& member : other._members) {
-			if (member.is_group) {
-				add_member(member.group->clone());
-			}
-			else
-				add_member(member.item);
-		}
-
-		return;
 	}
 
 
@@ -211,12 +213,8 @@ namespace fwm {
 	{
 		bdd condition{ bddfalse };
 
-		for (const Member& member : _members) {
-			if (member.is_group)
-				condition = condition | member.group->make_bdd();
-			else
-				condition = condition | member.item->make_bdd();
-		}
+		for (const auto& member : _members)
+			condition = condition | member->make_bdd();
 
 		return condition;
 	}
@@ -227,24 +225,28 @@ namespace fwm {
 	{
 		size_t size = 0;
 
-		for (const Member& member : _members) {
-			if (member.is_group)
-				size += member.group->size();
-			else
-				size += 1;
-		}
+		for (const auto& member : _members)
+			size += member->size();
 
 		return size;
 	}
 
 
 	template<typename T>
+	inline void Group<T>::add_member(const std::shared_ptr<const T> item)
+	{
+		assert(item.get() != nullptr);
+
+		//TOFIX
+		//if (_items.insert(item.get()).second)
+		//	_members.emplace_back(item);
+	}
+
+
+	template<typename T>
 	inline void Group<T>::add_member(const T* item)
 	{
-		assert(item != nullptr);
-
-		if (_items.insert(item).second)
-			_members.push_back(Member{ item });
+		add_member(std::shared_ptr<const T>(item));
 	}
 
 
@@ -253,22 +255,24 @@ namespace fwm {
 	{
 		assert(group != nullptr);
 
-		if (_groups.insert(group).second)
-			_members.push_back(Member{ group });
+		//TOFIX
+		//if (_groups.insert(group).second)
+		//	_members.emplace_back(group);
 	}
 
 
 	template<typename T>
 	inline bool Group<T>::contains(const T* item) const
 	{
-		bool found = _items.find(item) != _items.end();
+		bool found = false;
+		//bool found = _members.find(item) != _members.end();
 
-		if (!found) {
-			for (auto it = _members.cbegin(); !found && it != _members.end(); it++) {
-				if (it->is_group)
-					found = it->group->contains(item);
-			}
-		}
+		//if (!found) {
+			//for (auto it = _members.cbegin(); !found && it != _members.end(); it++) {
+			//	if (it->is_group)
+			//		found = it->group->contains(item);
+			//}
+		//}
 
 		return found;
 	}
@@ -277,14 +281,15 @@ namespace fwm {
 	template<typename T>
 	inline bool Group<T>::contains(const Group<T>* group) const
 	{
-		bool found = _groups.find(group) != _groups.end();
+		bool found = false;
+		//bool found = _groups.find(group) != _groups.end();
 
-		if (!found) {
-			for (auto it = _members.cbegin(); !found && it != _members.end(); it++) {
-				if (it->is_group)
-					found = it->group->contains(group);
-			}
-		}
+		//if (!found) {
+			//for (auto it = _members.cbegin(); !found && it != _members.end(); it++) {
+			//	if (it->is_group)
+			//		found = it->group->contains(group);
+			//}
+		//}
 
 		return found;
 	}
@@ -293,45 +298,38 @@ namespace fwm {
 	template<typename T>
 	inline std::vector<std::string> Group<T>::names() const
 	{
-		std::vector<std::string> names;
+		std::set<std::string> item_set;
 
-		for (const Member& member : _members) {
-			if (member.is_group)
-				names.push_back(member.group->name());
-			else
-				names.push_back(member.item->name());
-		}
+		fn_parser_cb resolver_callback = [&](const T* item) -> void {
+			item_set.insert(item->name());
+			};
 
-		return names;
+		parse(resolver_callback);
+
+		return std::vector<std::string>(item_set.begin(), item_set.end());
 	}
 
 
 	template<typename T>
 	inline std::vector<const T*> Group<T>::items() const
 	{
-		std::vector<const T*> items;
 		std::set<const T*> item_set;
 
-		auto resolver_callback = [&](const T* item) -> void{
-			if (item_set.insert(item).second)
-				items.push_back(item);
+		fn_parser_cb resolver_callback = [&](const T* item) -> void {
+			item_set.insert(item);
 		};
 
 		parse(resolver_callback);
 
-		return items;
+		return std::vector<const T*>(item_set.begin(), item_set.end());
 	}
 
 
 	template<typename T>
-	inline void Group<T>::parse(std::function<void(const T*)> parser_callback) const
+	inline void Group<T>::parse(fn_parser_cb& parser_callback) const
 	{
-		for (const Member& member : _members) {
-			if (member.is_group)
-				member.group->parse(parser_callback);
-			else
-				parser_callback(member.item);
-		}
+		for (const auto& member : _members)
+			member->parse(parser_callback);
 	}
 
 

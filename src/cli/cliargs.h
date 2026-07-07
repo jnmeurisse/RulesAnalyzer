@@ -101,76 +101,58 @@ namespace cli {
 	};
 
 
-	using namespace fwm;
+	using ZonePairOptArg = std::optional<const fwm::ZonePair>;
 
-	using SrcZoneOptArg = std::optional<const SrcZone&>;
-	using DstZoneOptArg = std::optional<const DstZone&>;
-	using ZonePairOptArg = std::optional<const ZonePair>;
-
-	class SrcAddressArgs {
+	class SrcAddressArgs : public fwm::SrcAddressGroup {
 	public:
 		SrcAddressArgs();
 
-		void add(const SrcAddressGroup* group);
-		void add(const SrcAddress* address);
-		void add(const std::string& address, IPAddressModel ip_model, bool strict_ip_parser);
-
-		inline const SrcAddressGroup& list() const noexcept {return *_list;}
-
-	private:
-		SrcAddressGroupPtr _list;
-		std::forward_list<std::unique_ptr<const SrcAddress>> _cache;
+		void add(fwm::SrcAddressPtr address);
+		void add(fwm::SrcAddressGroupPtr group);
+		void add(const std::string& address, fwm::IPAddressModel ip_model, bool strict_ip_parser);
 	};
 
-	class DstAddressArgs {
+	using SrcAddressArgsPtr = std::unique_ptr<SrcAddressArgs>;
+
+
+	class DstAddressArgs : public fwm::DstAddressGroup {
 	public:
 		DstAddressArgs();
 
-		void add(const DstAddressGroup* group);
-		void add(const DstAddress* address);
-		void add(const std::string& address, IPAddressModel ip_model, bool strict_ip_parser);
-
-		inline const DstAddressGroup& list() const noexcept {return *_list;}
-
-	private:
-		DstAddressGroupPtr _list;
-		std::forward_list<std::unique_ptr<const DstAddress>> _cache;
+		void add(fwm::DstAddressPtr address);
+		void add(fwm::DstAddressGroupPtr group);
+		void add(const std::string& address, fwm::IPAddressModel ip_model, bool strict_ip_parser);
 	};
+
+	using DstAddressArgsPtr = std::unique_ptr<DstAddressArgs>;
 
 
 	struct AddressArgs {
-		SrcAddressArgs src_addr_args;
-		DstAddressArgs dst_addr_args;
+		SrcAddressArgsPtr src_addr_args;
+		DstAddressArgsPtr dst_addr_args;
 	};
 
 
-	class ServiceArgs {
+	class ServiceArgs : public fwm::ServiceGroup {
 	public:
 		ServiceArgs();
 
-		void add(const ServiceGroup* group);
-		void add(const Service* service);
+		void add(fwm::ServicePtr service);
+		void add(fwm::ServiceGroupPtr group);
 		void add(const std::string& service);
-
-		inline const ServiceGroup& list() const noexcept {return *_list;}
-
-	private:
-		ServiceGroupPtr _list;
-		std::forward_list<std::unique_ptr<const Service>> _cache;
 	};
 
+	using ServiceArgsPtr = std::unique_ptr<ServiceArgs>;
 
-	class ApplicationArgs {
+
+	class ApplicationArgs : public fwm::ApplicationGroup {
 	public:
 		ApplicationArgs();
 
-		void add(const ApplicationGroup* group);
-		void add(const Application* application);
-
-		inline const ApplicationGroup& list() const noexcept {return *_list;}
-
-	private:
-		ApplicationGroupPtr _list;
+		void add(fwm::ApplicationPtr application);
+		void add(fwm::ApplicationGroupPtr group);
 	};
+
+	using ApplicationArgsPtr = std::unique_ptr<ApplicationArgs>;
 
 }

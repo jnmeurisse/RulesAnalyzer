@@ -71,6 +71,8 @@ namespace fwm {
 	class SrcZone final : public Zone
 	{
 	public:
+		using Ptr = std::shared_ptr<const SrcZone>;
+
 		/**
 		 * Copy constructors.
 		*/
@@ -85,14 +87,14 @@ namespace fwm {
 		 *
 		 * @return A source zone.
 		*/
-		static SrcZone* create(const std::string& name, uint16_t zone_id);
+		static Ptr create(const std::string& name, uint16_t zone_id);
 
 		/*
 		 * Allocate a any source zone.
 		 *
 		 * @return A SrcZone representing all source zones.
 		*/
-		static SrcZone* any();
+		static Ptr any();
 
 	private:
 		/*
@@ -107,6 +109,9 @@ namespace fwm {
 	};
 
 
+	using SrcZonePtr = SrcZone::Ptr;
+
+
 	/**
 	 * A SrcZoneList represents a list of source.
 	*/
@@ -118,7 +123,7 @@ namespace fwm {
 	 * SrcZoneGroup represents a hierarchy of groups of source zones.
 	*/
 	using SrcZoneGroup = Group<SrcZone>;
-	using SrcZoneGroupPtr = std::unique_ptr<SrcZoneGroup>;
+	using SrcZoneGroupPtr = std::shared_ptr<const SrcZoneGroup>;
 
 
 	/**
@@ -130,12 +135,6 @@ namespace fwm {
 	{
 	public:
 		SrcAnyZoneGroup();
-		virtual ~SrcAnyZoneGroup();
-
-		/**
-		 * Clones this group.
-		*/
-		virtual SrcZoneGroup* clone() const override;
 
 		/**
 		 * Returns a bddtrue decision diagram.
@@ -150,6 +149,8 @@ namespace fwm {
 	class DstZone final : public Zone
 	{
 	public:
+		using Ptr = std::shared_ptr<const DstZone>;
+
 		/**
 		 * Copy constructors.
 		*/
@@ -164,14 +165,14 @@ namespace fwm {
 		 *
 		 * @return A destination zone.
 		*/
-		static DstZone* create(const std::string& name, uint16_t zone_id);
+		static Ptr create(const std::string& name, uint16_t zone_id);
 
 		/**
 		 * Allocates a any destination zone.
 		 *
 		 * @return A DstZone representing all destination zones.
 		*/
-		static DstZone* any();
+		static Ptr any();
 
 	protected:
 		/**
@@ -186,6 +187,9 @@ namespace fwm {
 	};
 
 
+	using DstZonePtr = DstZone::Ptr;
+
+
 	/**
 	 * A DstZoneList represents a list of source.
 	*/
@@ -197,7 +201,7 @@ namespace fwm {
 	 * DstZoneGroup represents a hierarchy of groups of destination zones.
 	*/
 	using DstZoneGroup = Group<DstZone>;
-	using DstZoneGroupPtr = std::unique_ptr<DstZoneGroup>;
+	using DstZoneGroupPtr = std::shared_ptr<const DstZoneGroup>;
 
 
 	/**
@@ -209,12 +213,6 @@ namespace fwm {
 	{
 	public:
 		DstAnyZoneGroup();
-		virtual ~DstAnyZoneGroup();
-
-		/**
-		 * Clones this group.
-		*/
-		virtual DstZoneGroup* clone() const override;
 
 		/**
 		 * Returns a bddtrue decision diagram.
@@ -227,8 +225,8 @@ namespace fwm {
 	 * A pair of source and destination zones.
 	*/
 	struct ZonePair {
-		const SrcZone& src_zone;
-		const DstZone& dst_zone;
+		SrcZonePtr src_zone;
+		DstZonePtr dst_zone;
 	};
 
 }

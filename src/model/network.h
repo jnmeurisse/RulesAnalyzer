@@ -56,52 +56,52 @@ namespace fwm {
 		*/
 		Table create_info_table() const;
 
-		const SrcZone* get_src_zone(const std::string& name) const;
-		const DstZone* get_dst_zone(const std::string& name) const;
+		SrcZonePtr get_src_zone(const std::string& name) const;
+		DstZonePtr get_dst_zone(const std::string& name) const;
 
-		const SrcAddress* get_src_address(const std::string& name) const;
-		const SrcAddressGroup* get_src_address_group(const std::string& name) const;
+		SrcAddressPtr get_src_address(const std::string& name) const;
+		SrcAddressGroupPtr get_src_address_group(const std::string& name) const;
 
-		const DstAddress* get_dst_address(const std::string& name) const;
-		const DstAddressGroup* get_dst_address_group(const std::string& name) const;
+		DstAddressPtr get_dst_address(const std::string& name) const;
+		DstAddressGroupPtr get_dst_address_group(const std::string& name) const;
 
-		const Service* get_service(const std::string& name) const;
-		const ServiceGroup* get_service_group(const std::string& name) const;
+		ServicePtr get_service(const std::string& name) const;
+		ServiceGroupPtr get_service_group(const std::string& name) const;
 
-		const Application* get_application(const std::string& name, bool use_app_svc) const;
-		const Application* get_application(const std::string& name) const;
-		const ApplicationGroup* get_application_group(const std::string& name, bool use_app_svc) const;
-		const ApplicationGroup* get_application_group(const std::string& name) const;
+		ApplicationPtr get_application(const std::string& name, bool use_app_svc) const;
+		ApplicationPtr get_application(const std::string& name) const;
+		ApplicationGroupPtr get_application_group(const std::string& name, bool use_app_svc) const;
+		ApplicationGroupPtr get_application_group(const std::string& name) const;
 
-		const User* get_user(const std::string& name) const;
-		const UserGroup* get_user_group(const std::string& name) const;
+		UserPtr get_user(const std::string& name) const;
+		UserGroupPtr get_user_group(const std::string& name) const;
 
-		const Url* get_url(const std::string& name) const;
-		const UrlGroup* get_url_group(const std::string& name) const;
+		UrlPtr get_url(const std::string& name) const;
+		UrlGroupPtr get_url_group(const std::string& name) const;
 
-		const SrcZone* register_src_zone(const std::string& name);
-		const DstZone* register_dst_zone(const std::string& name);
+		SrcZonePtr register_src_zone(const std::string& name);
+		DstZonePtr register_dst_zone(const std::string& name);
 
-		const SrcAddress* register_src_address(const std::string& name, const std::string& address);
-		const SrcAddressGroup* register_src_multi_address(const std::string& name, const std::vector<std::string>& addresses);
-		const SrcAddressGroup* register_src_address_group(const std::string& name, const std::vector<std::string>& members);
+		SrcAddressPtr register_src_address(const std::string& name, const std::string& address);
+		SrcAddressGroupPtr register_src_multi_address(const std::string& name, const std::vector<std::string>& addresses);
+		SrcAddressGroupPtr register_src_address_group(const std::string& name, const std::vector<std::string>& members);
 
-		const DstAddress* register_dst_address(const std::string& name, const std::string& address);
-		const DstAddressGroup* register_dst_multi_address(const std::string& name, const std::vector<std::string>& addresses);
-		const DstAddressGroup* register_dst_address_group(const std::string& name, const std::vector<std::string>& members);
+		DstAddressPtr register_dst_address(const std::string& name, const std::string& address);
+		DstAddressGroupPtr register_dst_multi_address(const std::string& name, const std::vector<std::string>& addresses);
+		DstAddressGroupPtr register_dst_address_group(const std::string& name, const std::vector<std::string>& members);
 
-		const Service* register_service(const std::string& name, const std::string& service_definition);
-		const ServiceGroup* register_multi_service(const std::string& name, const std::vector<std::string>& service_definitions);
-		const ServiceGroup* register_service_group(const std::string& name, const std::vector<std::string>& members);
+		ServicePtr register_service(const std::string& name, const std::string& service_definition);
+		ServiceGroupPtr register_multi_service(const std::string& name, const std::vector<std::string>& service_definitions);
+		ServiceGroupPtr register_service_group(const std::string& name, const std::vector<std::string>& members);
 
-		const Application* register_application(const std::string& name, const std::vector<std::string>& service_definitions, bool use_app_svc);
-		const ApplicationGroup* register_application_group(const std::string& name, const std::vector<std::string>& members, bool use_app_svc);
+		ApplicationPtr register_application(const std::string& name, const std::vector<std::string>& service_definitions, bool use_app_svc);
+		ApplicationGroupPtr register_application_group(const std::string& name, const std::vector<std::string>& members, bool use_app_svc);
 
-		const User* register_user(const std::string& name);
-		const UserGroup* register_user_group(const std::string& name, const std::vector<std::string>& members);
+		UserPtr register_user(const std::string& name);
+		UserGroupPtr register_user_group(const std::string& name, const std::vector<std::string>& members);
 
-		const Url* register_url(const std::string& name);
-		const UrlGroup* register_url_group(const std::string& name, const std::vector<std::string>& members);
+		UrlPtr register_url(const std::string& name);
+		UrlGroupPtr register_url_group(const std::string& name, const std::vector<std::string>& members);
 
 		ModelOptions model_options;
 
@@ -154,7 +154,7 @@ namespace fwm {
 		IdGenerator _user_id_gen;
 		IdGenerator _url_id_gen;
 
-		const Service* register_appsvc(const std::string& name, const std::string& service_definition);
+		ServicePtr register_appsvc(const std::string& name, const std::string& service_definition);
 	};
 
 }

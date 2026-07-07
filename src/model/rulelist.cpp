@@ -113,7 +113,7 @@ namespace fwm {
 
 	RuleList RuleList::filter(const ZonePair& zones) const
 	{
-		return filter(zones.src_zone, zones.dst_zone);
+		return filter(*zones.src_zone, *zones.dst_zone);
 	}
 
 
@@ -216,14 +216,16 @@ namespace fwm {
 						application_list.end(),
 						[&predicate, &services](const Application* application) -> bool {
 							// Copy of the services.
-							ServiceGroupPtr svc_group{ new ServiceGroup("") };
+							ServiceGroup* svc_group{ new ServiceGroup("") };
 							for (const Service* service : services.items())
 								svc_group->add_member(service);
 
 							// Create a copy of the application that combines the given services.
-							std::unique_ptr<const Application> app{ new Application(
-								*application,
-								svc_group.release())
+							std::unique_ptr<const Application> app{ 
+								new Application(
+									*application,
+									ServiceGroupPtr(svc_group)
+								)
 							};
 
 							// Check if this (application, service) pair is a subset of the
@@ -262,7 +264,7 @@ namespace fwm {
 	}
 
 
-	ZoneListPtr RuleList::all_zones(const std::set<const Zone*> excluded_set) const
+	ZoneListPtr RuleList::all_zones(const std::set<const Zone*>& excluded_set) const
 	{
 		ZoneListPtr zones = std::make_unique<ZoneList>();
 

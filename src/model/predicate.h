@@ -25,15 +25,15 @@ namespace fwm {
 
 	class Sources {
 	public:
-		SrcZoneGroup* src_zones;
-		SrcAddressGroup* src_addresses;
+		SrcZoneGroupPtr src_zones;
+		SrcAddressGroupPtr src_addresses;
 		bool negate_src_addresses;
 	};
 
 
 	struct Destinations {
-		DstZoneGroup* dst_zones;
-		DstAddressGroup* dst_addresses;
+		DstZoneGroupPtr dst_zones;
+		DstAddressGroupPtr dst_addresses;
 		bool negate_dst_addresses;
 	};
 
@@ -60,15 +60,14 @@ namespace fwm {
 		/**
 		 * Allocates a predicate.
 		 *
-		 * The object becomes the owner of all objects.
 		*/
 		Predicate(
 			const Sources& sources,
 			const Destinations& destinations,
-			ServiceGroup* services,
-			ApplicationGroup* applications,
-			UserGroup* users,
-			UrlGroup* urls);
+			ServiceGroupPtr services,
+			ApplicationGroupPtr applications,
+			UserGroupPtr users,
+			UrlGroupPtr urls);
 
 		/**
 		 * Copy constructor.
@@ -165,7 +164,7 @@ namespace fwm {
 		inline const ApplicationGroup& applications() const noexcept { return *_applications; }
 
 		/**
-		 * Returns a reference to all uses configured on a rule.
+		 * Returns a reference to all users configured on a rule.
 		*/
 		inline const UserGroup& users() const noexcept { return *_users; }
 

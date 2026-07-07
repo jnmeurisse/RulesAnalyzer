@@ -26,14 +26,14 @@ namespace fwm {
 		PacketTester(const RuleList& acl);
 
 		std::pair<bool, const Rule*> is_packet_allowed(
-			const SrcZone* src_zone,
-			const SrcAddressGroup& src_addr_grp,
-			const DstZone* dst_zone,
-			const DstAddressGroup& dst_addr_grp,
-			const ServiceGroup& svc_grp,
-			const ApplicationGroup* app_grp,
-			const UserGroup* usr_grp,
-			const UrlGroup* url_grp
+			SrcZonePtr src_zone,
+			SrcAddressGroupPtr src_addr_grp,
+			DstZonePtr dst_zone,
+			DstAddressGroupPtr dst_addr_grp,
+			ServiceGroupPtr svc_grp,
+			ApplicationGroupPtr app_grp,
+			UserGroupPtr usr_grp,
+			UrlGroupPtr url_grp
 		) const;
 
 	private:

@@ -26,17 +26,19 @@ namespace fwm {
 			Application(
 				"any",
 				ApplicationDomain::create_full_range(),
-				new AnyServiceGroup(),
+				ServiceGroupPtr(new AnyServiceGroup()),
 				ModelOptions::empty(),
 				true
 			)
 		{
 		}
 
+
 		virtual bdd make_bdd() const override
 		{
 			return bddtrue;
 		}
+
 
 		virtual std::string to_string() const override
 		{
@@ -45,7 +47,7 @@ namespace fwm {
 	};
 
 
-	Application::Application(const std::string& name, Range* range, ServiceGroup* services,
+	Application::Application(const std::string& name, Range* range, ServiceGroupPtr services,
 				const ModelOptions& options, bool use_app_svc) :
 		NamedMnode(name, options),
 		_app_value{ std::make_unique<Mvalue>(DomainType::Application, range) },
@@ -55,7 +57,7 @@ namespace fwm {
 	}
 
 
-	Application::Application(const std::string& name, uint16_t app_id, ServiceGroup* services,
+	Application::Application(const std::string& name, uint16_t app_id, ServiceGroupPtr services,
 				const ModelOptions& options, bool use_app_svc) :
 		Application(name, ApplicationDomain::create_singleton(app_id), services, options, use_app_svc)
 	{
@@ -63,27 +65,27 @@ namespace fwm {
 
 
 	Application::Application(const Application& other) :
-		Application(other.name(), other._app_value->range().clone(), other._services->clone(), other.options(), other._use_app_svc)
+		Application(other.name(), other._app_value->range().clone(), other._services, other.options(), other._use_app_svc)
 	{
 	}
 
 
-	Application::Application(const Application& other, ServiceGroup* services) :
+	Application::Application(const Application& other, ServiceGroupPtr services) :
 		Application(other.name(), other._app_value->range().clone(), services, other.options(), true)
 	{
 	}
 
 
-	const Application* Application::create(const std::string& name, uint16_t app_id, ServiceGroup* services,
+	Application::Ptr Application::create(const std::string& name, uint16_t app_id, ServiceGroupPtr services,
 		const ModelOptions& options, bool use_app_svc)
 	{
-		return new Application(name, app_id, services, options, use_app_svc);
+		return Application::Ptr(new Application(name, app_id, services, options, use_app_svc));
 	}
 
 
-	const Application* Application::any()
+	Application::Ptr Application::any()
 	{
-		return new AnyApplication();
+		return Application::Ptr(new AnyApplication());
 	}
 
 
@@ -108,12 +110,6 @@ namespace fwm {
 	std::string Application::to_string() const
 	{
 		return _app_value->to_string();
-	}
-
-
-	ApplicationGroup* ApplicationGroup::clone() const
-	{
-		return new ApplicationGroup(*this);
 	}
 
 
@@ -153,7 +149,7 @@ namespace fwm {
 
 	ServiceGroupPtr ApplicationGroup::default_services() const
 	{
-		ServiceGroupPtr services{ std::make_unique<AppDefaultServiceGroup>() };
+		ServiceGroup* services = new AppDefaultServiceGroup();
 
 		for (const Application* application : items()) {
 			for (const Service* service : application->services().items()) {
@@ -161,26 +157,13 @@ namespace fwm {
 			}
 		}
 
-		return services;
+		return ServiceGroupPtr(services);
 	}
 
 
 	AnyApplicationGroup::AnyApplicationGroup() :
 		ApplicationGroup("$any-app-group", Application::any())
 	{
-	}
-
-
-	AnyApplicationGroup::~AnyApplicationGroup()
-	{
-		// delete the "any" application allocated in the constructor
-		parse([](const Application* application){ delete application; });
-	}
-
-
-	ApplicationGroup* AnyApplicationGroup::clone() const
-	{
-		return new AnyApplicationGroup();
 	}
 
 

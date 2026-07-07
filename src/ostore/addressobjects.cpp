@@ -265,7 +265,7 @@ namespace fos {
 
 	bool AddressObjects::is_ip_address(const std::string& addr) const
 	{
-		return fwm::is_ip_address(addr, _ip_model, _strict_ip_parser);
+		return fwm::IpAddress::is_valid_ip(addr, _ip_model, _strict_ip_parser);
 	}
 
 
